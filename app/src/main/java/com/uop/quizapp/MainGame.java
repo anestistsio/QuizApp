@@ -15,7 +15,7 @@ import java.util.Random;
 public class MainGame extends AppCompatActivity {
 
     private TextView question_tv, selected_category_tv, answer_tv;
-    private ImageButton correct_bt, incorrect_bt;
+    private ImageButton correct_bt;
     private List<QuestionsList> questionsLists = new ArrayList<>();
     private String which_button,playing_team,t1n,t2n;
     private int t1s,t2s;
@@ -28,7 +28,6 @@ public class MainGame extends AppCompatActivity {
         question_tv = findViewById(R.id.question_tv);
         answer_tv = findViewById(R.id.answer_tv);
         correct_bt = findViewById(R.id.correct_bt);
-        incorrect_bt = findViewById(R.id.incorrect_bt);
 
         //pass selected category from SelecteCategory.class 2 to MainGame.class
         String selectedCategory = getIntent().getExtras().getString("selectedCategory");
@@ -66,14 +65,30 @@ public class MainGame extends AppCompatActivity {
         if (which_button.equals(String.valueOf(correct_bt.getId()))){
             //if correct button clicked then raise the score to the winning team and play correct_sound
             correct_sound.start();
+
+           //wait 1 s to play sound properly
+            try {
+                Thread.sleep(500); // wait for 1000 milliseconds (1 second)
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             if (playing_team.equals(t1n)){
                 t1s++;
             }else {
                 t2s++;
             }
         }else{
-            //if the incorret button clicked then change playing team and play incorrect sound
+            //if the incorrect button clicked then change playing team and play incorrect sound
             incorrect_sound.start();
+
+            //wait 1 s to play sound properly
+            try {
+                Thread.sleep(500); // wait for 1000 milliseconds (1 second)
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             Toast.makeText(this, "the phone now is changing hands because " + playing_team + " lost", Toast.LENGTH_LONG).show();
             //intent.putExtra("playing_team", playing_team);
             if (playing_team.equals(t1n)){
