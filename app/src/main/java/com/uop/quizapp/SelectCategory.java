@@ -2,6 +2,7 @@ package com.uop.quizapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -52,6 +53,8 @@ public class SelectCategory extends AppCompatActivity {
     }
     //by clicking any of image buttons this starts this method
     public void Startgame(View view) {
+        //initialize click sound
+        final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
         //check which button user clicked
         switch (view.getId())
         {
@@ -68,6 +71,7 @@ public class SelectCategory extends AppCompatActivity {
                 selectedCategory= "Geography";
                 break;
         }
+        click_sound.start();
         //pass selected category to MainGame.class
         Intent intent = new Intent(SelectCategory.this, MainGame.class);
         intent.putExtra("selectedCategory", selectedCategory);

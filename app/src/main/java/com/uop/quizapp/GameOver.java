@@ -3,6 +3,7 @@ package com.uop.quizapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -42,10 +43,14 @@ public class GameOver extends AppCompatActivity {
     }
 
     public void exit(View view) {
+        final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
+        click_sound.start();
         finishAffinity();
         finish();
     }
     public void restart(View view) {
+        final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
+        click_sound.start();
         Intent intent = new Intent(GameOver.this, MainActivity.class);
         startActivity(intent);
         finish();

@@ -1,6 +1,7 @@
 package com.uop.quizapp;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -22,11 +23,14 @@ public class MainActivity extends AppCompatActivity{
 
     }
         public void select_category(View view) {
+            //initialize click sound
+            final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
                 //Check if both team names entered
             if (TextUtils.isEmpty(team1_et.getText()) || TextUtils.isEmpty(team2_et.getText())){
                     //error message
                     Toast.makeText(MainActivity.this,"Please enter team names", Toast.LENGTH_SHORT).show();
             }else {
+                    click_sound.start();
                     Intent intent = new Intent(MainActivity.this, SelectCategory.class);
                     //pass team names and scores and playing team to SelectedCategory.class
                     t1n = team1_et.getText().toString();
