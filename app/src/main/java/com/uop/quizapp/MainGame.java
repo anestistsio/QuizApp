@@ -46,7 +46,7 @@ public class MainGame extends AppCompatActivity {
         int index;
         //random number generator
         Random rand = new Random();
-        index = rand.nextInt(2);
+        index = rand.nextInt(3);
 
         question_tv.setText(questionsLists.get(index).getQuestion());
         answer_tv.setText(questionsLists.get(index).getAnswer());
