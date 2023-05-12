@@ -29,7 +29,7 @@ public class MainGame extends AppCompatActivity {
         answer_tv = findViewById(R.id.answer_tv);
         correct_bt = findViewById(R.id.correct_bt);
 
-        //pass selected category from SelecteCategory.class 2 to MainGame.class
+        //pass selected category from SelectedCategory.class 2 to MainGame.class
         String selectedCategory = getIntent().getExtras().getString("selectedCategory");
         selected_category_tv.setText(selectedCategory);
 
