@@ -45,7 +45,7 @@ public class MainGame extends AppCompatActivity {
     }
     public void fill_arraylist(String selectedCategory){
         DBHelper dbHelper = new DBHelper(this);
-        ArrayList<Questions> questions = new ArrayList<>();
+        ArrayList<Questions> questions = null;
 
         switch (selectedCategory)
         {

@@ -17,7 +17,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Questions_db.db";
 
     // Database Version
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private SQLiteDatabase db;
 
     public DBHelper(Context context) {
@@ -128,49 +128,49 @@ public class DBHelper extends SQLiteOpenHelper {
 //these 4 methods are called in on create to fill up the tables using the add-//- methods
     private void fillScienceTable(){
 
-        Questions q11 = new Questions(1, "What is the largest organ in the human body?", "Skin", false);
+        Questions q11 = new Questions(11, "What is the largest organ in the human body?", "Skin", false);
         addScience(q11);
-        Questions q12 = new Questions(2, "What is the atomic number of carbon?", "6",  false);
+        Questions q12 = new Questions(12, "What is the atomic number of carbon?", "6",  false);
         addScience(q12);
-        Questions q13 = new Questions(3, "What is the name of the force that opposes motion?", "Friction", false);
+        Questions q13 = new Questions(13, "What is the name of the force that opposes motion?", "Friction", false);
         addScience(q13);
-        Questions q14 = new Questions(4, "What is the name of the process by which plants make their own food?", "Photosynthesis", false);
+        Questions q14 = new Questions(14, "What is the name of the process by which plants make their own food?", "Photosynthesis", false);
         addScience(q14);
-        Questions q15 = new Questions(5, "What is the name of the smallest particle in an element?", "Atom", false);
+        Questions q15 = new Questions(15, "What is the name of the smallest particle in an element?", "Atom", false);
         addScience(q15);
-        Questions q16 = new Questions(6, "What is the name of the process by which water turns into vapor?", "Evaporation", false);
+        Questions q16 = new Questions(16, "What is the name of the process by which water turns into vapor?", "Evaporation", false);
         addScience(q16);
-        Questions q17 = new Questions(7, "What is the name of the first man to walk on the moon?", "Neil Armstrong",  false);
+        Questions q17 = new Questions(17, "What is the name of the first man to walk on the moon?", "Neil Armstrong",  false);
         addScience(q17);
-        Questions q18 = new Questions(8, "What is the largest planet in our solar system?", "Jupiter",  false);
+        Questions q18 = new Questions(18, "What is the largest planet in our solar system?", "Jupiter",  false);
         addScience(q18);
-        Questions q19 = new Questions(9, "What is the name of the force that holds atoms together in a molecule?", "Chemical bond",  false);
+        Questions q19 = new Questions(19, "What is the name of the force that holds atoms together in a molecule?", "Chemical bond",  false);
         addScience(q19);
-        Questions q20 = new Questions(10, "What is the name of the phenomenon that causes a moving object to follow a curved path?", "Centrifugal force",  false);
+        Questions q20 = new Questions(20, "What is the name of the phenomenon that causes a moving object to follow a curved path?", "Centrifugal force",  false);
         addScience(q20);
 
     }
     private void fillGeographyTable(){
 
-        Questions q31 = new Questions(1, "What is the smallest country in the world?", "Vatican City",  false);
+        Questions q31 = new Questions(31, "What is the smallest country in the world?", "Vatican City",  false);
         addGeography(q31);
-        Questions q32 = new Questions(2, "What is the largest desert in the world?", "Sahara",  false);
+        Questions q32 = new Questions(32, "What is the largest desert in the world?", "Sahara",  false);
         addGeography(q32);
-        Questions q33 = new Questions(3, "What is the highest waterfall in the world?", "Angel Falls",  false);
+        Questions q33 = new Questions(33, "What is the highest waterfall in the world?", "Angel Falls",  false);
         addGeography(q33);
-        Questions q34 = new Questions(4, "What is the longest river in Africa?", "Nile",  false);
+        Questions q34 = new Questions(34, "What is the longest river in Africa?", "Nile",  false);
         addGeography(q34);
-        Questions q35 = new Questions(5, "What is the deepest ocean trench?", "Mariana Trench",  false);
+        Questions q35 = new Questions(35, "What is the deepest ocean trench?", "Mariana Trench",  false);
         addGeography(q35);
-        Questions q36 = new Questions(6, "What is the capital of Brazil?", "Brasília",  false);
+        Questions q36 = new Questions(36, "What is the capital of Brazil?", "Brasília",  false);
         addGeography(q36);
-        Questions q37 = new Questions(7, "What is the world's largest archipelago?", "Indonesia",  false);
+        Questions q37 = new Questions(37, "What is the world's largest archipelago?", "Indonesia",  false);
         addGeography(q37);
-        Questions q38 = new Questions(8, "What is the highest mountain range in South America?", "Andes", false);
+        Questions q38 = new Questions(38, "What is the highest mountain range in South America?", "Andes", false);
         addGeography(q38);
-        Questions q39 = new Questions(9, "What is the southernmost point of Africa called?", "Cape Agulhas", false);
+        Questions q39 = new Questions(39, "What is the southernmost point of Africa called?", "Cape Agulhas", false);
         addGeography(q39);
-        Questions q40 = new Questions(10, "What is the only continent that exists entirely in the Southern Hemisphere?", "Antarctica", false);
+        Questions q40 = new Questions(40, "What is the only continent that exists entirely in the Southern Hemisphere?", "Antarctica", false);
         addGeography(q40);
     }
     private void fillGeneralTable(){
@@ -199,25 +199,25 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void fillSportsTable(){
 
-        Questions q21 = new Questions(1, "Which country has won the most Olympic gold medals?", "United States", false);
+        Questions q21 = new Questions(21, "Which country has won the most Olympic gold medals?", "United States", false);
         addSports(q21);
-        Questions q22 = new Questions(2, "Who is the fastest man in the world?", "Usain Bolt", false);
+        Questions q22 = new Questions(22, "Who is the fastest man in the world?", "Usain Bolt", false);
         addSports(q22);
-        Questions q23 = new Questions(3, "Which country has won the most World Cups in football?", "Brazil",  false);
+        Questions q23 = new Questions(23, "Which country has won the most World Cups in football?", "Brazil",  false);
         addSports(q23);
-        Questions q24 = new Questions(4, "Which sport is played at Wimbledon?", "Tennis", false);
+        Questions q24 = new Questions(24, "Which sport is played at Wimbledon?", "Tennis", false);
         addSports(q24);
-        Questions q25 = new Questions(5, "Who was the first African American to win a gold medal at the Olympics?", "Jesse Owens",  false);
+        Questions q25 = new Questions(25, "Who was the first African American to win a gold medal at the Olympics?", "Jesse Owens",  false);
         addSports(q25);
-        Questions q26 = new Questions(6, "Which country hosted the first modern Olympic Games?", "Greece",  false);
+        Questions q26 = new Questions(26, "Which country hosted the first modern Olympic Games?", "Greece",  false);
         addSports(q26);
-        Questions q27 = new Questions(7, "Who won the men's singles title at the 2021 Australian Open?", "Novak Djokovic", false);
+        Questions q27 = new Questions(27, "Who won the men's singles title at the 2021 Australian Open?", "Novak Djokovic", false);
         addSports(q27);
-        Questions q28 = new Questions(8, "Who won the FIFA Women's World Cup in 2019?", "United States",  false);
+        Questions q28 = new Questions(28, "Who won the FIFA Women's World Cup in 2019?", "United States",  false);
         addSports(q28);
-        Questions q29 = new Questions(9, "Who won the Tour de France in 2020?", "Tadej Pogacar",  false);
+        Questions q29 = new Questions(29, "Who won the Tour de France in 2020?", "Tadej Pogacar",  false);
         addSports(q29);
-        Questions q30 = new Questions(10, "Which country hosted the 2018 Winter Olympics?", "South Korea", false);
+        Questions q30 = new Questions(30, "Which country hosted the 2018 Winter Olympics?", "South Korea", false);
         addSports(q30);
 
     }
@@ -373,7 +373,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(question.get_id())}
         );
     }
-// this method is called in MainActivity to reset the displayed values from the DataBase to false  when the game starts
+// this method is called in MainActivity to reset the displayed values to false  when the game starts
     public void resetAllDisplayedValues() {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
