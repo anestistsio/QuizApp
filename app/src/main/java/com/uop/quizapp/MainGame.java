@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +18,6 @@ public class MainGame extends AppCompatActivity {
 
     private TextView question_tv, selected_category_tv, answer_tv;
     private ImageButton correct_bt;
-    private List<QuestionsList> questionsLists = new ArrayList<>();
     private String which_button,playing_team,t1n,t2n;
     private int t1s,t2s;
     @Override
@@ -29,7 +30,7 @@ public class MainGame extends AppCompatActivity {
         answer_tv = findViewById(R.id.answer_tv);
         correct_bt = findViewById(R.id.correct_bt);
 
-        //pass selected category from SelectedCategory.class 2 to MainGame.class
+        //pass selected category from SelectedCategory.class to MainGame.class
         String selectedCategory = getIntent().getExtras().getString("selectedCategory");
         selected_category_tv.setText(selectedCategory);
 
@@ -40,19 +41,50 @@ public class MainGame extends AppCompatActivity {
         t1s = getIntent().getExtras().getInt("team1Score");
         t2s = getIntent().getExtras().getInt("team2Score");
 
-        questionsLists = QuestionsBank.getQuestions(selectedCategory);
-        Startgame();
+        fill_arraylist(selectedCategory);
     }
-    public void Startgame() {
-        int index;
-        //random number generator
-        Random rand = new Random();
-        index = rand.nextInt(questionsLists.size());
+    public void fill_arraylist(String selectedCategory){
+        DBHelper dbHelper = new DBHelper(this);
+        ArrayList<Questions> questions = new ArrayList<>();
 
-        question_tv.setText(questionsLists.get(index).getQuestion());
-        answer_tv.setText(questionsLists.get(index).getAnswer());
-
+        switch (selectedCategory)
+        {
+            case "Science":
+                questions = (ArrayList<Questions>) dbHelper.getAllScience();
+                break;
+            case "Sports":
+                questions = (ArrayList<Questions>) dbHelper.getAllSports();
+                break;
+            case "Geography":
+                questions = (ArrayList<Questions>) dbHelper.getAllGeography();
+                break;
+            case "General":
+                questions = (ArrayList<Questions>) dbHelper.getAllGeneral();
+                break;
+        }
+        Startgame(questions);
     }
+    public void Startgame(ArrayList<Questions> questions) {
+        if (questions.isEmpty()) {
+            // Handle the case where the list is empty
+            Toast.makeText(this, "No questions available for this category", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        DBHelper dbHelper = new DBHelper(this);
+        // Select a random question from the list
+        Random random = new Random();
+        Questions randomQuestion = questions.get(random.nextInt(questions.size()));
+
+        // Update the displayed value to true in the database
+        randomQuestion.setDisplayed(true);
+        dbHelper.updateQuestion(randomQuestion);
+
+        // Display the question
+        question_tv.setText(randomQuestion.getQuestion());
+        answer_tv.setText(randomQuestion.getAnswer());
+    }
+
     //questions_end method starts when either correct or incorrect button is clicked
     public void question_end (View view) {
         //initialize correct and incorrect sounds

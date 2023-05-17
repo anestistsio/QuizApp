@@ -18,6 +18,10 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //reset all the displayed values to false in DB
+        DBHelper dbHelper = new DBHelper(this);
+        dbHelper.resetAllDisplayedValues();
+
         team1_et = findViewById(R.id.team1_et);
         team2_et = findViewById(R.id.team2_et);
 

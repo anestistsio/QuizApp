@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 public class SelectCategory extends AppCompatActivity {
     private TextView  teamplay_tv,team1_name_tv,team2_name_tv,team1_score_tv,team2_score_tv;
-    private ImageButton general_bt, geography_bt, sport_bt, science_bt;
     private String selectedCategory,playing_team,t1n,t2n;//t1n = team1name and t1s = team2score
     private int t1s,t2s;
 
@@ -20,10 +19,6 @@ public class SelectCategory extends AppCompatActivity {
         setContentView(R.layout.activity_select_category);
 
         teamplay_tv = findViewById(R.id.teamplay_tv);
-        general_bt = (ImageButton) findViewById(R.id.general_bt);
-        geography_bt = (ImageButton) findViewById(R.id.geography_bt);
-        sport_bt = (ImageButton) findViewById(R.id.sport_bt);
-        science_bt = (ImageButton) findViewById(R.id.science_bt);
         team1_name_tv = findViewById(R.id.team1_name_tv);
         team2_name_tv = findViewById(R.id.team2_name_tv);
         team1_score_tv =findViewById(R.id.team1_score_tv);
