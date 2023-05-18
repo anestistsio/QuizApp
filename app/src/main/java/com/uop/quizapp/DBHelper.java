@@ -17,7 +17,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Questions_db.db";
 
     // Database Version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     private SQLiteDatabase db;
 
     public DBHelper(Context context) {
@@ -93,6 +93,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(ScienceTable.COLUMN_QUESTION, science_questions.getQuestion());
         cv.put(ScienceTable.COLUMN_ANSWER, science_questions.getAnswer());
+        cv.put(ScienceTable.COLUMN_ID, science_questions.get_id());
         cv.put(ScienceTable.COLUMN_DISPLAYED, false);
         db.insert(ScienceTable.TABLE_NAME, null, cv);
         cv.clear();
@@ -102,6 +103,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(GeneralTable.COLUMN_QUESTION, general_questions.getQuestion());
         cv.put(GeneralTable.COLUMN_ANSWER, general_questions.getAnswer());
+        cv.put(GeneralTable.COLUMN_ID, general_questions.get_id());
         cv.put(GeneralTable.COLUMN_DISPLAYED, false);
         db.insert(GeneralTable.TABLE_NAME, null, cv);
         cv.clear();
@@ -111,6 +113,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(GeographyTable.COLUMN_QUESTION, geography_questions.getQuestion());
         cv.put(GeographyTable.COLUMN_ANSWER, geography_questions.getAnswer());
+        cv.put(GeographyTable.COLUMN_ID, geography_questions.get_id());
         cv.put(GeographyTable.COLUMN_DISPLAYED, false);
         db.insert(GeographyTable.TABLE_NAME, null, cv);
         cv.clear();
@@ -120,6 +123,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(SportsTable.COLUMN_QUESTION, sports_questions.getQuestion());
         cv.put(SportsTable.COLUMN_ANSWER, sports_questions.getAnswer());
+        cv.put(SportsTable.COLUMN_ID, sports_questions.get_id());
         cv.put(SportsTable.COLUMN_DISPLAYED, false);
         db.insert(SportsTable.TABLE_NAME, null, cv);
         cv.clear();
