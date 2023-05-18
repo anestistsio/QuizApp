@@ -56,4 +56,8 @@ public class GameOver extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+    @Override
+    public void onBackPressed() {
+
+    }
 }

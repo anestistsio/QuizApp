@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class SelectCategory extends AppCompatActivity {
@@ -31,7 +30,7 @@ public class SelectCategory extends AppCompatActivity {
         t2s = getIntent().getExtras().getInt("team2Score");
         playing_team = getIntent().getExtras().getString("playing_team");
 
-        if ((t1s == 12||t2s == 12)){
+        if ((t1s >= 12||t2s >= 12)){
             Intent intent = new Intent(SelectCategory.this, GameOver.class);
             intent.putExtra("team1Name",t1n);
             intent.putExtra("team2Name",t2n);
