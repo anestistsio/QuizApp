@@ -41,7 +41,10 @@ public class MainActivity extends AppCompatActivity{
             if (TextUtils.isEmpty(team1_et.getText()) || TextUtils.isEmpty(team2_et.getText())){
                     //error message
                     Toast.makeText(MainActivity.this,"Please enter team names", Toast.LENGTH_SHORT).show();
-            }else {
+            }else if (TextUtils.equals(team1_et.getText(),team2_et.getText())) {
+                //error same name handler
+                Toast.makeText(MainActivity.this, "Please enter different team names", Toast.LENGTH_SHORT).show();
+            }else{
                     click_sound.start();
                     Intent intent = new Intent(MainActivity.this, SelectCategory.class);
                     //pass team names and scores and playing team to SelectedCategory.class
