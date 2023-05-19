@@ -21,6 +21,9 @@ public class GameOver extends AppCompatActivity {
 
     }
     private void initializing(){
+
+        final MediaPlayer win_sound = MediaPlayer.create(this,R.raw.win_sound);
+        win_sound.start();
         winning_tv = findViewById(R.id.winning_tv);
         team1Name_tv = findViewById(R.id.team1Name_tv);
         team2Name_tv = findViewById(R.id.team2Name_tv);
