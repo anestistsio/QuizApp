@@ -20,23 +20,25 @@
         android:id="@+id/team1_et"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:layout_below="@+id/quizapp_tv"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
         android:ems="10"
         android:hint="Team 1 Name"
-        android:inputType="text"
-        android:layout_centerHorizontal="true" />
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/team2_et"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:layout_below="@+id/team1_et"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
         android:ems="10"
         android:hint="Team 2 Name"
-        android:inputType="text"
-        android:layout_centerHorizontal="true" />
+        android:inputType="text" />
 
     <ImageButton
         android:id="@+id/start_bt"
@@ -54,5 +56,46 @@
         android:onClick="select_category"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/start_bt" />
+
+    <ImageButton
+        android:id="@+id/team1_im"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/quizapp_tv"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="47dp"
+        android:background="#00FFFFFF"
+        android:onClick="TakePicture"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
+    <ImageView
+        android:id="@+id/team1_iv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/quizapp_tv"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="47dp"
+         />
+    <ImageButton
+        android:id="@+id/team2_im"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/quizapp_tv"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="140dp"
+        android:background="#00FFFFFF"
+        android:onClick="TakePicture"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
+    <ImageView
+        android:id="@+id/team2_iv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/quizapp_tv"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="140dp"
+        />
 
 </RelativeLayout>

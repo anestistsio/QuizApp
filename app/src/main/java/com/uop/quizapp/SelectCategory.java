@@ -72,6 +72,8 @@ public class SelectCategory extends AppCompatActivity {
 
         startActivity(intent);
     }
+
+    //TODO take the images from previews page and use it also here and pass it to next
     private void initializing(){
         teamplay_tv = findViewById(R.id.teamplay_tv);
         team1_name_tv = findViewById(R.id.team1_name_tv);
