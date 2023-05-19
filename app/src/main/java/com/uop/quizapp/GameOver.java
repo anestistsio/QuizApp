@@ -16,7 +16,11 @@ public class GameOver extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_over);
+        // call this method to initialize the start values
+        initializing();
 
+    }
+    private void initializing(){
         winning_tv = findViewById(R.id.winning_tv);
         team1Name_tv = findViewById(R.id.team1Name_tv);
         team2Name_tv = findViewById(R.id.team2Name_tv);
