@@ -1,33 +1,29 @@
 package com.uop.quizapp;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class MainGame extends AppCompatActivity {
 
     private TextView question_tv, selected_category_tv, answer_tv;
-    private ImageButton correct_bt;
+    private ImageButton correct_bt,incorrect_bt;
     private String which_button,playing_team,t1n,t2n,selectedCategory;
-    private int t1s,t2s;
-    private int team1ScienceCorrectAnswers;
-    private int team2ScienceCorrectAnswers;
-    private int team1SportsCorrectAnswers;
-    private int team2SportsCorrectAnswers;
-    private int team1GeographyCorrectAnswers;
-    private int team2GeographyCorrectAnswers;
-    private int team1GeneralCorrectAnswers;
-    private int team2GeneralCorrectAnswers;
+    private int t1s,t2s,team1ScienceCorrectAnswers,team2ScienceCorrectAnswers,team1SportsCorrectAnswers,team2SportsCorrectAnswers,team1GeographyCorrectAnswers,team2GeographyCorrectAnswers,team1GeneralCorrectAnswers,team2GeneralCorrectAnswers;
+    Bitmap team2bitmap,team1bitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +34,7 @@ public class MainGame extends AppCompatActivity {
         fill_arraylist(selectedCategory);
 
     }
+
     public void fill_arraylist(String selectedCategory){
         DBHelper dbHelper = new DBHelper(this);
         ArrayList<Questions> questions = null;
@@ -59,6 +56,7 @@ public class MainGame extends AppCompatActivity {
         }
         Startgame(questions);
     }
+
     public void Startgame(ArrayList<Questions> questions) {
         if (questions.isEmpty()) {
             // Handle the case where the list is empty
@@ -82,6 +80,9 @@ public class MainGame extends AppCompatActivity {
 
     //questions_end method starts when either correct or incorrect button is clicked
     public void question_end (View view) {
+        //set buttons not visible to avoid double clicking
+        incorrect_bt.setVisibility(View.GONE);
+        correct_bt.setVisibility(View.GONE);
         //initialize correct and incorrect sounds
         final MediaPlayer correct_sound = MediaPlayer.create(this,R.raw.correct_sound);
         final MediaPlayer incorrect_sound = MediaPlayer.create(this,R.raw.incorrect_sound);
@@ -95,7 +96,7 @@ public class MainGame extends AppCompatActivity {
 
            //wait 0.5 s to play sound properly
             try {
-                Thread.sleep(500); // wait for 1000 milliseconds (1 second)
+                Thread.sleep(600);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -136,22 +137,22 @@ public class MainGame extends AppCompatActivity {
         }else{
             //if the incorrect button clicked then change playing team and play incorrect sound
             incorrect_sound.start();
-
             //wait 0.5 s to play sound properly
             try {
-                Thread.sleep(500); // wait for 1000 milliseconds (1 second)
+                Thread.sleep(600);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
             Toast.makeText(this, "the phone now is changing hands because " + playing_team + " lost", Toast.LENGTH_LONG).show();
-            //intent.putExtra("playing_team", playing_team);
+
+            //initialize the playing_team
             if (playing_team.equals(t1n)){
                 playing_team = t2n;
             }else {
                 playing_team = t1n;
             }
         }
+
         //pass those things back to SelectCategory.class
         intent.putExtra("playing_team", playing_team);
         intent.putExtra("team1Name", t1n);
@@ -167,15 +168,36 @@ public class MainGame extends AppCompatActivity {
         intent.putExtra("team2GeographyCorrectAnswers", team2GeographyCorrectAnswers);
         intent.putExtra("team1GeneralCorrectAnswers", team1GeneralCorrectAnswers);
         intent.putExtra("team2GeneralCorrectAnswers", team2GeneralCorrectAnswers);
+        //passing the images back to SelectedCategory.class
+        if (team1bitmap != null){
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
+            byte[] team1byte = bytes.toByteArray();
+            intent.putExtra("team1byte",team1byte);
+        }else {
+            intent.putExtra("team1byte", (byte[]) null);
+        }
+        if (team2bitmap != null){
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
+            byte[] team2byte = bytes.toByteArray();
+            intent.putExtra("team2byte",team2byte);
+        }else {
+            intent.putExtra("team2byte", (byte[]) null);
+        }
 
         startActivity(intent);
 
     }
+
+    //this method is called in the onCreate method to initialize things
     private void initializing(){
         selected_category_tv = findViewById(R.id.selected_category_tv);
         question_tv = findViewById(R.id.question_tv);
         answer_tv = findViewById(R.id.answer_tv);
         correct_bt = findViewById(R.id.correct_bt);
+        incorrect_bt = findViewById(R.id.incorrect_bt);
+        ImageView playing_team_image = findViewById(R.id.playing_team_image);
 
         //pass selected category from SelectedCategory.class to MainGame.class
         selectedCategory = getIntent().getExtras().getString("selectedCategory");
@@ -188,6 +210,7 @@ public class MainGame extends AppCompatActivity {
         t1s = getIntent().getExtras().getInt("team1Score");
         t2s = getIntent().getExtras().getInt("team2Score");
         t1n = getIntent().getExtras().getString("team1Name");
+
         //retrieving the values for correct answered counters for each category for each team
         team1ScienceCorrectAnswers =  getIntent().getExtras().getInt("team1ScienceCorrectAnswers");
         team2ScienceCorrectAnswers =  getIntent().getExtras().getInt("team2ScienceCorrectAnswers");
@@ -197,5 +220,32 @@ public class MainGame extends AppCompatActivity {
         team2GeographyCorrectAnswers =  getIntent().getExtras().getInt("team2GeographyCorrectAnswers");
         team1GeneralCorrectAnswers =  getIntent().getExtras().getInt("team1GeneralCorrectAnswers");
         team2GeneralCorrectAnswers =  getIntent().getExtras().getInt("team2GeneralCorrectAnswers");
+
+        //getting the images for the teams
+        Bundle ex = getIntent().getExtras();
+
+        byte[] team1byte = ex.getByteArray("team1byte");
+        if (team1byte != null) {
+            team1bitmap = BitmapFactory.decodeByteArray(team1byte, 0, team1byte.length);
+        }
+        byte[] team2byte = ex.getByteArray("team2byte");
+        if (team2byte != null) {
+            team2bitmap = BitmapFactory.decodeByteArray(team2byte, 0, team2byte.length);
+
+        }
+        if ( playing_team.equals(t1n)) {
+            if (team1bitmap != null){
+                playing_team_image.setImageBitmap(team1bitmap);
+            }else {
+                playing_team_image.setVisibility(View.GONE);
+            }
+        }else {
+            if (team2bitmap != null){
+                playing_team_image.setImageBitmap(team2bitmap);
+            }else {
+                playing_team_image.setVisibility(View.GONE);
+            }
+
+        }
     }
 }

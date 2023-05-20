@@ -20,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import java.io.ByteArrayOutputStream;
+
 public class MainActivity extends AppCompatActivity{
     private EditText team1_et,team2_et;
     private String t1n,t2n; //team 1 name and team 2 name
@@ -31,15 +33,19 @@ public class MainActivity extends AppCompatActivity{
     private int team2GeographyCorrectAnswers = 0;
     private int team1GeneralCorrectAnswers = 0;
     private int team2GeneralCorrectAnswers = 0;
-    Bitmap team1bitmap,team2bitmap,bitmap;
-    ImageView team1_iv,team2_iv;
-    ImageButton team1_im,team2_im;
-    int id;
+    private Bitmap team1bitmap,team2bitmap,bitmap;
+    private ImageView team1_iv,team2_iv;
+    private ImageButton team1_im,team2_im;
+    private int id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // call this method to initialize all necessary things
+        initializing();
 
+    }
+    private void initializing(){
         //reset all the displayed values to false in DB
         DBHelper dbHelper = new DBHelper(this);
         dbHelper.resetAllDisplayedValues();
@@ -82,9 +88,25 @@ public class MainActivity extends AppCompatActivity{
                     intent.putExtra("team2GeographyCorrectAnswers", team2GeographyCorrectAnswers);
                     intent.putExtra("team1GeneralCorrectAnswers", team1GeneralCorrectAnswers);
                     intent.putExtra("team2GeneralCorrectAnswers", team2GeneralCorrectAnswers);
-                    //passing the two images to next screens
-                    intent.putExtra("team1bitmap", team1bitmap);
-                    intent.putExtra("team2bitmap", team2bitmap);
+
+                    //passing the images of the teams to SelectedCategory.class
+                    if (team1bitmap != null){
+                        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                        team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
+                        byte[] team1byte = bytes.toByteArray();
+                        intent.putExtra("team1byte",team1byte);
+                    }else {
+                        intent.putExtra("team1byte", (byte[]) null);
+                    }
+                    if (team2bitmap != null){
+                        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                        team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
+                        byte[] team2byte = bytes.toByteArray();
+                        intent.putExtra("team2byte",team2byte);
+                    }else {
+                        intent.putExtra("team2byte", (byte[]) null);
+                    }
+
                     startActivity(intent);
                     finish();
             }
@@ -111,7 +133,7 @@ public class MainActivity extends AppCompatActivity{
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100){
              bitmap = (Bitmap) data.getExtras().get("data");
-           //we check wich button is pressed to put the image to the right image view
+           //we check which button is pressed to put the image to the right image view
             switch (id)
             {
                 case R.id.team1_im:

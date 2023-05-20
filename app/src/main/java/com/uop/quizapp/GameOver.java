@@ -3,9 +3,12 @@ package com.uop.quizapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class GameOver extends AppCompatActivity {
@@ -29,11 +32,21 @@ public class GameOver extends AppCompatActivity {
         team2Name_tv = findViewById(R.id.team2Name_tv);
         team1Score_tv = findViewById(R.id.team1Score_tv);
         team2Score_tv = findViewById(R.id.team2Score_tv);
+        ImageView winning_im = findViewById(R.id.winning_im);
 
         t1n = getIntent().getExtras().getString("team1Name");
         t2n = getIntent().getExtras().getString("team2Name");
         t1s = getIntent().getExtras().getInt("team1Score");
         t2s = getIntent().getExtras().getInt("team2Score");
+        //getting the winning team's image
+        Bundle ex = getIntent().getExtras();
+        byte[] winning_byte = ex.getByteArray("winning_byte");
+        if (winning_byte != null) {
+            Bitmap winning_image = BitmapFactory.decodeByteArray(winning_byte, 0, winning_byte.length);
+            winning_im.setImageBitmap(winning_image);
+        }else {
+            winning_im.setVisibility(View.GONE);
+        }
 
         if(t1s>t2s) {
             winning_team = t1n;

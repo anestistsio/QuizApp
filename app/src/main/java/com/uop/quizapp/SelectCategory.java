@@ -2,12 +2,16 @@ package com.uop.quizapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.ByteArrayOutputStream;
 
 public class SelectCategory extends AppCompatActivity {
     private TextView  teamplay_tv,team1_name_tv,team2_name_tv,team1_score_tv,team2_score_tv;
@@ -21,6 +25,7 @@ public class SelectCategory extends AppCompatActivity {
     private int team2GeographyCorrectAnswers;
     private int team1GeneralCorrectAnswers;
     private int team2GeneralCorrectAnswers;
+    private Bitmap team1bitmap,team2bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,25 +74,46 @@ public class SelectCategory extends AppCompatActivity {
         intent.putExtra("team2GeographyCorrectAnswers", team2GeographyCorrectAnswers);
         intent.putExtra("team1GeneralCorrectAnswers", team1GeneralCorrectAnswers);
         intent.putExtra("team2GeneralCorrectAnswers", team2GeneralCorrectAnswers);
+        //passing the images to MainGame.class
+        if (team1bitmap != null){
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
+            byte[] team1byte = bytes.toByteArray();
+            intent.putExtra("team1byte",team1byte);
+        }else {
+            intent.putExtra("team1byte", (byte[]) null);
+        }
+
+        if (team2bitmap != null){
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
+            byte[] team2byte = bytes.toByteArray();
+            intent.putExtra("team2byte",team2byte);
+        }else {
+            intent.putExtra("team2byte", (byte[]) null);
+        }
+
 
         startActivity(intent);
     }
 
-    //TODO take the images from previews page and use it also here and pass it to next
     private void initializing(){
         teamplay_tv = findViewById(R.id.teamplay_tv);
         team1_name_tv = findViewById(R.id.team1_name_tv);
         team2_name_tv = findViewById(R.id.team2_name_tv);
         team1_score_tv =findViewById(R.id.team1_score_tv);
         team2_score_tv = findViewById(R.id.team2_score_tv);
-        ImageButton science_bt = (ImageButton)findViewById(R.id.science_bt);
-        ImageButton general_bt = (ImageButton)findViewById(R.id.general_bt);
-        ImageButton geography_bt = (ImageButton)findViewById(R.id.geography_bt);
-        ImageButton sports_bt = (ImageButton)findViewById(R.id.sport_bt);
+        ImageButton science_bt = findViewById(R.id.science_bt);
+        ImageButton general_bt = findViewById(R.id.general_bt);
+        ImageButton geography_bt = findViewById(R.id.geography_bt);
+        ImageButton sports_bt = findViewById(R.id.sport_bt);
         ImageView science_iv = findViewById(R.id.science_iv);
         ImageView general_iv = findViewById(R.id.general_iv);
         ImageView geography_iv = findViewById(R.id.geography_iv);
         ImageView sports_iv = findViewById(R.id.sport_iv);
+        ImageView team1_im = findViewById(R.id.team1_im);
+        ImageView team2_im = findViewById(R.id.team2_im);
+        //hiding the image views to display only the image buttons
         science_iv.setVisibility(View.GONE);
         general_iv.setVisibility(View.GONE);
         geography_iv.setVisibility(View.GONE);
@@ -109,13 +135,49 @@ public class SelectCategory extends AppCompatActivity {
         team2GeographyCorrectAnswers =  getIntent().getExtras().getInt("team2GeographyCorrectAnswers");
         team1GeneralCorrectAnswers =  getIntent().getExtras().getInt("team1GeneralCorrectAnswers");
         team2GeneralCorrectAnswers =  getIntent().getExtras().getInt("team2GeneralCorrectAnswers");
-
+        //getting the images for two teams
+        Bundle ex = getIntent().getExtras();
+        byte[] team1byte = ex.getByteArray("team1byte");
+        if (team1byte != null) {
+            team1bitmap = BitmapFactory.decodeByteArray(team1byte, 0, team1byte.length);
+            team1_im.setImageBitmap(team1bitmap);
+        }else {
+            team1_im.setVisibility(View.GONE);
+        }
+        byte[] team2byte = ex.getByteArray("team2byte");
+        if (team2byte != null) {
+            team2bitmap = BitmapFactory.decodeByteArray(team2byte, 0, team2byte.length);
+            team2_im.setImageBitmap(team2bitmap);
+        }else {
+            team2_im.setVisibility(View.GONE);
+        }
+        // if the score of any team reach 12 this teams win
         if ((t1s >= 12||t2s >= 12)){
             Intent intent = new Intent(SelectCategory.this, GameOver.class);
             intent.putExtra("team1Name",t1n);
             intent.putExtra("team2Name",t2n);
             intent.putExtra("team1Score",t1s);
             intent.putExtra("team2Score",t2s);
+            //passing the winning team image
+            if (t1s > t2s){
+                if (team1bitmap != null){
+                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                    team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
+                    team1byte = bytes.toByteArray();
+                    intent.putExtra("winning_byte",team1byte);
+                }else {
+                    intent.putExtra("winning_byte", (byte[]) null);
+                }
+            }else {
+                if (team2bitmap != null){
+                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                    team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
+                    team2byte = bytes.toByteArray();
+                    intent.putExtra("winning_byte",team2byte);
+                }else {
+                    intent.putExtra("winning_byte", (byte[]) null);
+                }
+            }
             startActivity(intent);
         }
         //checks if any team answered all 3 questions from any category and if yes it disables the button
