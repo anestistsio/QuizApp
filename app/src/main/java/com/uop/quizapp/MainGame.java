@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,8 +20,9 @@ import java.util.Random;
 
 public class MainGame extends AppCompatActivity {
 
-    private TextView question_tv, selected_category_tv, answer_tv;
+    private TextView question_tv, selected_category_tv, answer_tv,answeris_tv;
     private ImageButton correct_bt,incorrect_bt;
+    private Button show_hide_bt;
     private String which_button,playing_team,t1n,t2n,selectedCategory;
     private int t1s,t2s,team1ScienceCorrectAnswers,team2ScienceCorrectAnswers,team1SportsCorrectAnswers,team2SportsCorrectAnswers,team1GeographyCorrectAnswers,team2GeographyCorrectAnswers,team1GeneralCorrectAnswers,team2GeneralCorrectAnswers;
     Bitmap team2bitmap,team1bitmap;
@@ -198,6 +200,8 @@ public class MainGame extends AppCompatActivity {
         correct_bt = findViewById(R.id.correct_bt);
         incorrect_bt = findViewById(R.id.incorrect_bt);
         ImageView playing_team_image = findViewById(R.id.playing_team_image);
+        show_hide_bt = findViewById(R.id.show_hide_bt);
+        answeris_tv = findViewById(R.id.answeris_tv);
 
         //pass selected category from SelectedCategory.class to MainGame.class
         selectedCategory = getIntent().getExtras().getString("selectedCategory");
@@ -220,6 +224,13 @@ public class MainGame extends AppCompatActivity {
         team2GeographyCorrectAnswers =  getIntent().getExtras().getInt("team2GeographyCorrectAnswers");
         team1GeneralCorrectAnswers =  getIntent().getExtras().getInt("team1GeneralCorrectAnswers");
         team2GeneralCorrectAnswers =  getIntent().getExtras().getInt("team2GeneralCorrectAnswers");
+
+        //by default the 2 buttons and the answer are hidden
+        answer_tv.setVisibility(View.GONE);
+        correct_bt.setVisibility(View.GONE);
+        incorrect_bt.setVisibility(View.GONE);
+        answeris_tv.setVisibility(View.GONE);
+        show_hide_bt.setText("show");
 
         //getting the images for the teams
         Bundle ex = getIntent().getExtras();
@@ -245,6 +256,24 @@ public class MainGame extends AppCompatActivity {
             }else {
                 playing_team_image.setVisibility(View.GONE);
             }
+
+        }
+    }
+    // this method is called by the show_hide_bt
+    public void ShowHide(View view) {
+        if (answer_tv.getVisibility() == View.GONE) {
+            answer_tv.setVisibility(View.VISIBLE);
+            correct_bt.setVisibility(View.VISIBLE);
+            incorrect_bt.setVisibility(View.VISIBLE);
+            answeris_tv.setVisibility(View.VISIBLE);
+            show_hide_bt.setText("hide");
+
+        } else {
+            answer_tv.setVisibility(View.GONE);
+            correct_bt.setVisibility(View.GONE);
+            incorrect_bt.setVisibility(View.GONE);
+            answeris_tv.setVisibility(View.GONE);
+            show_hide_bt.setText("show");
 
         }
     }
