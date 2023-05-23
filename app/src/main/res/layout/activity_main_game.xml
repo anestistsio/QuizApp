@@ -35,8 +35,8 @@
         android:layout_marginStart="25dp"
         android:layout_marginBottom="60dp"
         android:background="#00FFFFFF"
-        android:scaleType="fitCenter"
         android:onClick="question_end"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/correct" />
@@ -48,8 +48,8 @@
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="60dp"
         android:background="#00FFFFFF"
-        android:scaleType="fitCenter"
         android:onClick="question_end"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/incorrect" />
@@ -115,6 +115,11 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_marginTop="20dp"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
+        android:textSize="26sp"
         app:layout_constraintEnd_toStartOf="@+id/timer_iv"
         app:layout_constraintTop_toTopOf="parent" />
 

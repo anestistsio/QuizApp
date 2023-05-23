@@ -41,19 +41,20 @@ public class SelectCategory extends AppCompatActivity {
         //initialize click sound
         final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
         //check which button user clicked
+        //DBContract category = new DBContract();
         switch (view.getId())
         {
             case R.id.science_bt:
-                selectedCategory = "Science";
+                selectedCategory = DBContract.ScienceTable.TABLE_NAME;
                 break;
             case R.id.general_bt:
-                selectedCategory = "General";
+                selectedCategory = DBContract.GeneralTable.TABLE_NAME;
                 break;
             case R.id.sport_bt:
-                selectedCategory = "Sports";
+                selectedCategory = DBContract.SportsTable.TABLE_NAME;
                 break;
             case R.id.geography_bt:
-                selectedCategory= "Geography";
+                selectedCategory= DBContract.GeographyTable.TABLE_NAME;
                 break;
         }
         click_sound.start();

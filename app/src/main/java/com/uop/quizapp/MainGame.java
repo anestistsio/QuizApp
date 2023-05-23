@@ -32,7 +32,7 @@ public class MainGame extends AppCompatActivity {
     private ImageView timer_iv;
     //this flag checks if question ended to prevent startTimer.onFinish run
     private boolean flag = true;
-    private int  totalTimeInMins = 2;
+    private int  totalTimeInMins = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +50,16 @@ public class MainGame extends AppCompatActivity {
         ArrayList<Questions> questions = null;
 
         switch (selectedCategory) {
-            case "Science":
+            case DBContract.ScienceTable.TABLE_NAME:
                 questions = (ArrayList<Questions>) dbHelper.getAllScience();
                 break;
-            case "Sports":
+            case DBContract.SportsTable.TABLE_NAME:
                 questions = (ArrayList<Questions>) dbHelper.getAllSports();
                 break;
-            case "Geography":
+            case DBContract.GeographyTable.TABLE_NAME:
                 questions = (ArrayList<Questions>) dbHelper.getAllGeography();
                 break;
-            case "General":
+            case DBContract.GeneralTable.TABLE_NAME:
                 questions = (ArrayList<Questions>) dbHelper.getAllGeneral();
                 break;
         }
@@ -117,32 +117,32 @@ public class MainGame extends AppCompatActivity {
             if (playing_team.equals(t1n)) {
                 t1s++;
                 switch (selectedCategory) {
-                    case "Science":
+                    case DBContract.ScienceTable.TABLE_NAME:
                         team1ScienceCorrectAnswers++;
                         break;
-                    case "Sports":
+                    case DBContract.SportsTable.TABLE_NAME:
                         team1SportsCorrectAnswers++;
                         break;
-                    case "Geography":
+                    case DBContract.GeographyTable.TABLE_NAME:
                         team1GeographyCorrectAnswers++;
                         break;
-                    case "General":
+                    case DBContract.GeneralTable.TABLE_NAME:
                         team1GeneralCorrectAnswers++;
                         break;
                 }
             } else {
                 t2s++;
                 switch (selectedCategory) {
-                    case "Science":
+                    case DBContract.ScienceTable.TABLE_NAME:
                         team2ScienceCorrectAnswers++;
                         break;
-                    case "Sports":
+                    case DBContract.SportsTable.TABLE_NAME:
                         team2SportsCorrectAnswers++;
                         break;
-                    case "Geography":
+                    case DBContract.GeographyTable.TABLE_NAME:
                         team2GeographyCorrectAnswers++;
                         break;
-                    case "General":
+                    case DBContract.GeneralTable.TABLE_NAME:
                         team2GeneralCorrectAnswers++;
                         break;
                 }
@@ -294,7 +294,6 @@ public class MainGame extends AppCompatActivity {
 
     private void startTimer() {
         //initialize the time end sound
-        final MediaPlayer time_end = MediaPlayer.create(this ,R.raw.time_end);
         final MediaPlayer ticking_sound = MediaPlayer.create(this ,R.raw.ticking_sound);
         CountDownTimer count = new CountDownTimer((totalTimeInMins * 60L) * 1000, 1000) {
             @Override
@@ -309,8 +308,9 @@ public class MainGame extends AppCompatActivity {
                 timer_tv.setText(time);
             if(flag){
                 if (millisUntilFinished < 20000) {
-                    timer_tv.setTextColor(Color.RED);
+                    timer_tv.setTextColor(Color.rgb(186,37,37));
                     ticking_sound.start();
+                    timer_iv.setImageResource(R.drawable.red_timer);
                 }
             }else{
                 ticking_sound.stop();
@@ -321,10 +321,7 @@ public class MainGame extends AppCompatActivity {
             public void onFinish() {
                 //check if question_end called before executing
                 if(flag) {
-                    //play the time_end sound
-                    time_end.start();
-                    timer_tv.setVisibility(View.GONE);
-                    timer_iv.setImageResource(R.drawable.red_timer);
+                    question_end(incorrect_bt);
                 }
 
             }
