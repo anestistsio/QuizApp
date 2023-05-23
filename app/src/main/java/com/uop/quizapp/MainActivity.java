@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100){
+        if (requestCode == 100 && resultCode == RESULT_OK && data != null){
              bitmap = (Bitmap) data.getExtras().get("data");
            //we check which button is pressed to put the image to the right image view
             switch (id)
