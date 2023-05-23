@@ -123,7 +123,9 @@ public class MainActivity extends AppCompatActivity{
             },100);
         }
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent , 100);
+        // Launch the camera intent to capture an image
+        startActivityForResult(intent, 100,null);
+
         //we put the pressed button's id in this variable
         id=view.getId();
 
@@ -149,5 +151,9 @@ public class MainActivity extends AppCompatActivity{
             }
 
         }
+    }
+    @Override
+    public void onBackPressed() {
+
     }
 }
