@@ -1,9 +1,12 @@
 package com.uop.quizapp;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -15,14 +18,20 @@ import android.widget.Toast;
 import android.Manifest;
 
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import java.io.ByteArrayOutputStream;
 
 public class MainActivity extends AppCompatActivity{
+    private static final String CHANNEL_ID = "myFirebaseChannel";
     private EditText team1_et,team2_et;
     private String t1n,t2n; //team 1 name and team 2 name
     private int team1ScienceCorrectAnswers = 0;
@@ -41,8 +50,13 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         // call this method to initialize all necessary things
         initializing();
+        //call this method to create a notification channel
+        createNotificationChannel();
+        //call this method to initialize firebase cloud messaging
+        firebase_initialization();
 
     }
     private void initializing(){
@@ -152,6 +166,36 @@ public class MainActivity extends AppCompatActivity{
 
         }
     }
+    // this method creates a notification channel
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence channelName = "Firebase Channel";
+            String channelDescription = "Channel for Firebase Notifications";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, channelName, importance);
+            channel.setDescription(channelDescription);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+    //this method initialize firebase cloud messaging
+    private void firebase_initialization() {
+        FirebaseMessaging.getInstance().subscribeToTopic("news")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "Done";
+                        if (!task.isSuccessful()) {
+                            msg = "Failed";
+                        }
+
+                    }
+                });
+    }
+
+
     @Override
     public void onBackPressed() {
 
