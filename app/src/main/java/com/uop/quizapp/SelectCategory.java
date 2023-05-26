@@ -15,7 +15,7 @@ import java.io.ByteArrayOutputStream;
 
 public class SelectCategory extends AppCompatActivity {
     private TextView  teamplay_tv,team1_name_tv,team2_name_tv,team1_score_tv,team2_score_tv;
-    private String selectedCategory,playing_team,t1n,t2n;//t1n = team1name and t1s = team2score
+    private String selectedCategory,playing_team,t1n,t2n,language;//t1n = team1name and t1s = team2score
     private int t1s,t2s;
     private int team1ScienceCorrectAnswers;
     private int team2ScienceCorrectAnswers;
@@ -75,6 +75,7 @@ public class SelectCategory extends AppCompatActivity {
         intent.putExtra("team2GeographyCorrectAnswers", team2GeographyCorrectAnswers);
         intent.putExtra("team1GeneralCorrectAnswers", team1GeneralCorrectAnswers);
         intent.putExtra("team2GeneralCorrectAnswers", team2GeneralCorrectAnswers);
+        intent.putExtra("selected_language",language);
         //passing the images to MainGame.class
         if (team1bitmap != null){
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -136,6 +137,8 @@ public class SelectCategory extends AppCompatActivity {
         team2GeographyCorrectAnswers =  getIntent().getExtras().getInt("team2GeographyCorrectAnswers");
         team1GeneralCorrectAnswers =  getIntent().getExtras().getInt("team1GeneralCorrectAnswers");
         team2GeneralCorrectAnswers =  getIntent().getExtras().getInt("team2GeneralCorrectAnswers");
+        //getting the selected_language from MainActivity.java or from MainGame.java
+        language = getIntent().getExtras().getString("selected_language");
         //getting the images for two teams
         Bundle ex = getIntent().getExtras();
         byte[] team1byte = ex.getByteArray("team1byte");
@@ -159,6 +162,8 @@ public class SelectCategory extends AppCompatActivity {
             intent.putExtra("team2Name",t2n);
             intent.putExtra("team1Score",t1s);
             intent.putExtra("team2Score",t2s);
+            //passing selected_language
+            intent.putExtra("selected_language",language);
             //passing the winning team image
             if (t1s > t2s){
                 if (team1bitmap != null){
@@ -220,11 +225,16 @@ public class SelectCategory extends AppCompatActivity {
 
 
         //set team names and scores and playing team to TextViews
-        teamplay_tv.setText("Playing team: " + playing_team);
+        if (!language.equals("English")) {
+            teamplay_tv.setText("Παίζει η ομάδα: " + playing_team);
+        }else {
+            teamplay_tv.setText("Playing team: " + playing_team);
+        }
         team1_name_tv.setText(t1n);
         team2_name_tv.setText(t2n);
         team1_score_tv.setText(String.valueOf(t1s));
         team2_score_tv.setText(String.valueOf(t2s));
+
     }
     @Override
     public void onBackPressed() {

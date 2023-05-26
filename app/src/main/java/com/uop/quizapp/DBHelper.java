@@ -17,7 +17,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Questions_db.db";
 
     // Database Version
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
     private SQLiteDatabase db;
 
     public DBHelper(Context context) {
@@ -56,6 +56,34 @@ public class DBHelper extends SQLiteOpenHelper {
                 SportsTable.COLUMN_ANSWER + " TEXT, " +
                 SportsTable.COLUMN_DISPLAYED + " INTEGER" +
                 ")";
+        final String SQL_CREATE_GREEK_SCIENCE_TABLE = "CREATE TABLE IF NOT EXISTS " +
+                GreekScienceTable.TABLE_NAME + " ( " +
+                GreekScienceTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                GreekScienceTable.COLUMN_QUESTION + " TEXT, " +
+                GreekScienceTable.COLUMN_ANSWER + " TEXT, " +
+                GreekScienceTable.COLUMN_DISPLAYED + " INTEGER" +
+                ")";
+        final String SQL_CREATE_GREEK_GEOGRAPHY_TABLE = "CREATE TABLE IF NOT EXISTS " +
+                GreekGeographyTable.TABLE_NAME + " ( " +
+                GreekGeographyTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                GreekGeographyTable.COLUMN_QUESTION + " TEXT, " +
+                GreekGeographyTable.COLUMN_ANSWER + " TEXT, " +
+                GreekGeographyTable.COLUMN_DISPLAYED + " INTEGER" +
+                ")";
+        final String SQL_CREATE_GREEK_GENERAL_TABLE = "CREATE TABLE IF NOT EXISTS " +
+                GreekGeneralTable.TABLE_NAME + " ( " +
+                GreekGeneralTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                GreekGeneralTable.COLUMN_QUESTION + " TEXT, " +
+                GreekGeneralTable.COLUMN_ANSWER + " TEXT, " +
+                GreekGeneralTable.COLUMN_DISPLAYED + " INTEGER" +
+                ")";
+        final String SQL_CREATE_GREEK_SPORTS_TABLE = "CREATE TABLE IF NOT EXISTS " +
+                GreekSportsTable.TABLE_NAME + " ( " +
+                GreekSportsTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                GreekSportsTable.COLUMN_QUESTION + " TEXT, " +
+                GreekSportsTable.COLUMN_ANSWER + " TEXT, " +
+                GreekSportsTable.COLUMN_DISPLAYED + " INTEGER" +
+                ")";
 
         // create the tables
         db.execSQL(SQL_CREATE_SCIENCE_TABLE);
@@ -66,6 +94,14 @@ public class DBHelper extends SQLiteOpenHelper {
         fillGeneralTable();
         db.execSQL(SQL_CREATE_SPORTS_TABLE);
         fillSportsTable();
+        db.execSQL(SQL_CREATE_GREEK_SCIENCE_TABLE);
+        fillGreekScienceTable();
+        db.execSQL(SQL_CREATE_GREEK_GEOGRAPHY_TABLE);
+        fillGreekGeographyTable();
+        db.execSQL(SQL_CREATE_GREEK_GENERAL_TABLE);
+        fillGreekGeneralTable();
+        db.execSQL(SQL_CREATE_GREEK_SPORTS_TABLE);
+        fillGreekSportsTable();
 
     }
 
@@ -85,6 +121,22 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + GeographyTable.TABLE_NAME);
+        // create fresh table
+        onCreate(db);
+        // Drop older table if existed
+        db.execSQL("DROP TABLE IF EXISTS " + GreekScienceTable.TABLE_NAME);
+        // create fresh table
+        onCreate(db);
+        // Drop older table if existed
+        db.execSQL("DROP TABLE IF EXISTS " + GreekGeneralTable.TABLE_NAME);
+        // create fresh table
+        onCreate(db);
+        // Drop older table if existed
+        db.execSQL("DROP TABLE IF EXISTS " + GreekSportsTable.TABLE_NAME);
+        // create fresh table
+        onCreate(db);
+        // Drop older table if existed
+        db.execSQL("DROP TABLE IF EXISTS " + GreekGeographyTable.TABLE_NAME);
         // create fresh table
         onCreate(db);
     }
@@ -128,8 +180,47 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert(SportsTable.TABLE_NAME, null, cv);
         cv.clear();
     }
+    //this 4 methods called in fill Greek -//-Table and they are adding the the rows in the tables
+    private void addGreekScience(Questions greek_science_questions) {
+        ContentValues cv = new ContentValues();
+        cv.put(GreekScienceTable.COLUMN_QUESTION, greek_science_questions.getQuestion());
+        cv.put(GreekScienceTable.COLUMN_ANSWER, greek_science_questions.getAnswer());
+        cv.put(GreekScienceTable.COLUMN_ID, greek_science_questions.get_id());
+        cv.put(GreekScienceTable.COLUMN_DISPLAYED, false);
+        db.insert(GreekScienceTable.TABLE_NAME, null, cv);
+        cv.clear();
+    }
 
-//these 4 methods are called in MainGame.fill_arraylist method to return the filled up arrays from each category
+    private void addGreekGeneral(Questions greek_general_questions) {
+        ContentValues cv = new ContentValues();
+        cv.put(GreekGeneralTable.COLUMN_QUESTION, greek_general_questions.getQuestion());
+        cv.put(GreekGeneralTable.COLUMN_ANSWER, greek_general_questions.getAnswer());
+        cv.put(GreekGeneralTable.COLUMN_ID, greek_general_questions.get_id());
+        cv.put(GreekGeneralTable.COLUMN_DISPLAYED, false);
+        db.insert(GreekGeneralTable.TABLE_NAME, null, cv);
+        cv.clear();
+    }
+
+    private void addGreekGeography(Questions greek_geography_questions) {
+        ContentValues cv = new ContentValues();
+        cv.put(GreekGeographyTable.COLUMN_QUESTION, greek_geography_questions.getQuestion());
+        cv.put(GreekGeographyTable.COLUMN_ANSWER, greek_geography_questions.getAnswer());
+        cv.put(GreekGeographyTable.COLUMN_ID, greek_geography_questions.get_id());
+        cv.put(GreekGeographyTable.COLUMN_DISPLAYED, false);
+        db.insert(GreekGeographyTable.TABLE_NAME, null, cv);
+        cv.clear();
+    }
+
+    private void addGreekSports(Questions greek_sports_questions) {
+        ContentValues cv = new ContentValues();
+        cv.put(GreekSportsTable.COLUMN_QUESTION, greek_sports_questions.getQuestion());
+        cv.put(GreekSportsTable.COLUMN_ANSWER, greek_sports_questions.getAnswer());
+        cv.put(GreekSportsTable.COLUMN_ID, greek_sports_questions.get_id());
+        cv.put(GreekSportsTable.COLUMN_DISPLAYED, false);
+        db.insert(GreekSportsTable.TABLE_NAME, null, cv);
+        cv.clear();
+    }
+//these 8 methods are called in MainGame.fill_arraylist method to return the filled up arrays from each category for both languages
     public List<Questions> getAllScience() {
         ArrayList<Questions> scienceList = new ArrayList<>();
 
@@ -249,6 +340,127 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         return geographyList;
     }
+    //Greek
+    public List<Questions> getAllGreekScience() {
+        ArrayList<Questions> GreekScienceList = new ArrayList<>();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(
+                GreekScienceTable.TABLE_NAME,
+                new String[]{"_id", "question", "answer", "displayed"},
+                "displayed = 0",  // Fetch only questions where displayed is false
+                null,
+                null,
+                null,
+                null
+        );
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
+                String question = cursor.getString(cursor.getColumnIndexOrThrow("question"));
+                String answer = cursor.getString(cursor.getColumnIndexOrThrow("answer"));
+                boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
+
+                Questions q = new Questions(id,question, answer, displayed);
+                GreekScienceList.add(q);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return GreekScienceList;
+    }
+
+    public List<Questions> getAllGreekSports() {
+        ArrayList<Questions> GreekSportsList = new ArrayList<>();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(
+                GreekSportsTable.TABLE_NAME,
+                new String[]{"_id", "question", "answer", "displayed"},
+                "displayed = 0",  // Fetch only questions where displayed is false
+                null,
+                null,
+                null,
+                null
+        );
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
+                String question = cursor.getString(cursor.getColumnIndexOrThrow("question"));
+                String answer = cursor.getString(cursor.getColumnIndexOrThrow("answer"));
+                boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
+
+                Questions q = new Questions(id,question, answer, displayed);
+                GreekSportsList.add(q);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return GreekSportsList;
+    }
+
+    public List<Questions> getAllGreekGeneral() {
+        ArrayList<Questions> GreekGeneralList = new ArrayList<>();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(
+                GreekGeneralTable.TABLE_NAME,
+                new String[]{"_id", "question", "answer", "displayed"},
+                "displayed = 0",  // Fetch only questions where displayed is false
+                null,
+                null,
+                null,
+                null
+        );
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
+                String question = cursor.getString(cursor.getColumnIndexOrThrow("question"));
+                String answer = cursor.getString(cursor.getColumnIndexOrThrow("answer"));
+                boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
+
+                Questions q = new Questions(id,question, answer, displayed);
+                GreekGeneralList.add(q);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return GreekGeneralList;
+    }
+
+    public List<Questions> getAllGreekGeography() {
+        ArrayList<Questions> GreekGeographyList = new ArrayList<>();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(
+                GreekGeographyTable.TABLE_NAME,
+                new String[]{"_id", "question", "answer", "displayed"},
+                "displayed = 0",  // Fetch only questions where displayed is false
+                null,
+                null,
+                null,
+                null
+        );
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
+                String question = cursor.getString(cursor.getColumnIndexOrThrow("question"));
+                String answer = cursor.getString(cursor.getColumnIndexOrThrow("answer"));
+                boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
+
+                Questions q = new Questions(id,question, answer, displayed);
+                GreekGeographyList.add(q);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return GreekGeographyList;
+    }
+
     public void updateQuestion(Questions question) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -279,6 +491,30 @@ public class DBHelper extends SQLiteOpenHelper {
                 "_id = ?",
                 new String[]{String.valueOf(question.get_id())}
         );
+        db.update(
+                GreekScienceTable.TABLE_NAME,
+                values,
+                "_id = ?",
+                new String[]{String.valueOf(question.get_id())}
+        );
+        db.update(
+                GreekGeneralTable.TABLE_NAME,
+                values,
+                "_id = ?",
+                new String[]{String.valueOf(question.get_id())}
+        );
+        db.update(
+                GreekSportsTable.TABLE_NAME,
+                values,
+                "_id = ?",
+                new String[]{String.valueOf(question.get_id())}
+        );
+        db.update(
+                GreekGeographyTable.TABLE_NAME,
+                values,
+                "_id = ?",
+                new String[]{String.valueOf(question.get_id())}
+        );
     }
 // this method is called in MainActivity to reset the displayed values to false  when the game starts
     public void resetAllDisplayedValues() {
@@ -289,9 +525,13 @@ public class DBHelper extends SQLiteOpenHelper {
         db.update(GeneralTable.TABLE_NAME, values, null, null);
         db.update(GeographyTable.TABLE_NAME, values, null, null);
         db.update(SportsTable.TABLE_NAME, values, null, null);
+        db.update(GreekScienceTable.TABLE_NAME, values, null, null);
+        db.update(GreekGeneralTable.TABLE_NAME, values, null, null);
+        db.update(GreekGeographyTable.TABLE_NAME, values, null, null);
+        db.update(GreekSportsTable.TABLE_NAME, values, null, null);
         db.close();
     }
-
+    // fill all the tables with questions
     private void fillGeneralTable(){
         Questions q1 = new Questions(1, "What is the most spoken language in the world?", "Mandarin", false);
         addGeneral(q1);
@@ -467,6 +707,184 @@ public class DBHelper extends SQLiteOpenHelper {
         addGeography(q3019);
         Questions q3020 = new Questions(3020, "Which country is known for the Pyramids of Giza?", "Egypt", false);
         addGeography(q3020);
+    }
+
+    private void fillGreekGeneralTable(){
+        Questions q5001 = new Questions(5001, "Ποια είναι η πιο ομιλούμενη γλώσσα στον κόσμο;", "Μανδαρινικά", false);
+        addGreekGeneral(q5001);
+        Questions q5002 = new Questions(5002, "Ποιος έγραψε το διάσημο μυθιστόρημα 'Υπερηφάνεια και προκατάληψη';", "Τζέιν Όστεν", false);
+        addGreekGeneral(q5002);
+        Questions q5003 = new Questions(5003, "Ποια είναι η πρωτεύουσα του Καναδά;", "Οττάβα", false);
+        addGreekGeneral(q5003);
+        Questions q5004 = new Questions(5004, "Ποιος ζωγράφισε τη Μόνα Λίζα;", "Λεονάρντο ντα Βίντσι", false);
+        addGreekGeneral(q5004);
+        Questions q5005 = new Questions(5005, "Ποιος πλανήτης είναι γνωστός ως 'Κόκκινος Πλανήτης';", "Άρης", false);
+        addGreekGeneral(q5005);
+        Questions q5006 = new Questions(5006, "Ποιο είναι το μεγαλύτερο όργανο στο ανθρώπινο σώμα;", "Δέρμα", false);
+        addGreekGeneral(q5006);
+        Questions q5007 = new Questions(5007, "Σε ποια χώρα βρίσκεται το Μεγάλο Κοραλλιογενές Ρηχό;", "Αυστραλία", false);
+        addGreekGeneral(q5007);
+        Questions q5008 = new Questions(5008, "Ποιος καλλιτέχνης είναι γνωστός για το γεγονός ότι κόβει ένα μέρος του αυτί του;", "Βίνσεντ βαν Γκογκ", false);
+        addGreekGeneral(q5008);
+        Questions q5009 = new Questions(5009, "Ποιος ήταν ο πρώτος άνθρωπος που περπάτησε στη Σελήνη;", "Νηλ Άρμστρονγκ", false);
+        addGreekGeneral(q5009);
+        Questions q5010 = new Questions(5010, "Ποια είναι η εθνική λουλούδα της Ιαπωνίας;", "Ανθοκρέμα", false);
+        addGreekGeneral(q5010);
+        Questions q5011 = new Questions(5011, "Ποιο ζώο είναι γνωστό ως 'Βασιλιάς της Ζούγκλας';", "Λιοντάρι", false);
+        addGreekGeneral(q5011);
+        Questions q5012 = new Questions(5012, "Ποιος είναι ο συγγραφέας της σειράς βιβλίων Ο Χάρι Πότερ;", "Τζ.Κ. Ρόουλινγκ", false);
+        addGreekGeneral(q5012);
+        Questions q5013 = new Questions(5013, "Ποιο είναι η νόμισμα της Βραζιλίας;", "Βραζιλιάνο ρεάλ", false);
+        addGreekGeneral(q5013);
+        Questions q5014 = new Questions(5014, "Ποιος διάσημος θεατρικός συγγραφέας έγραψε τη Ρωμαίος και Ιουλιέτα;", "Ουίλιαμ Σαίξπηρ", false);
+        addGreekGeneral(q5014);
+        Questions q5015 = new Questions(5015, "Ποιο μουσικό όργανο έχει 88 πλήκτρα;", "Πιάνο", false);
+        addGreekGeneral(q5015);
+        Questions q5016 = new Questions(5016, "Ποια είναι η ψηλότερη βουνοκορφή στον κόσμο;", "Όρος Έβερεστ", false);
+        addGreekGeneral(q5016);
+        Questions q5017 = new Questions(5017, "Ποιο είναι το εθνικό πουλί των Ηνωμένων Πολιτειών;", "Λευκοκεφαλής αετός", false);
+        addGreekGeneral(q5017);
+        Questions q5018 = new Questions(5018, "Ποιος ζωγράφισε την οροφή της Σιξτίνας Καπέλα;", "Μιχαήλ Άγγελος", false);
+        addGreekGeneral(q5018);
+        Questions q5019 = new Questions(5019, "Ποιος είναι ο μεγαλύτερος ωκεανός στον κόσμο;", "Ειρηνικός Ωκεανός", false);
+        addGreekGeneral(q5019);
+        Questions q5020 = new Questions(5020, "Ποιος ήταν ο θεός της μουσικής στην αρχαία Ελλάδα;", "Απόλλωνας", false);
+        addGreekGeneral(q5020);
+
+    }
+
+    private void fillGreekScienceTable(){
+
+        Questions q6001 = new Questions(6001, "Ποιο είναι το μεγαλύτερο όργανο στο ανθρώπινο σώμα;", "Δέρμα", false);
+        addGreekScience(q6001);
+        Questions q6002 = new Questions(6002, "Ποια είναι η διαδικασία με την οποία οι φυτά μετατρέπουν το ηλιακό φως σε ενέργεια;", "Φωτοσύνθεση", false);
+        addGreekScience(q6002);
+        Questions q6003 = new Questions(6003, "Ποιο είναι το χημικό σύμβολο του χρυσού;", "Au", false);
+        addGreekScience(q6003);
+        Questions q6004 = new Questions(6004, "Ποια είναι η μικρότερη μονάδα της ύλης;", "Άτομο", false);
+        addGreekScience(q6004);
+        Questions q6005 = new Questions(6005, "Ποιά είναι η σχέση για τη δύναμη της βαρύτητας;", "F = G * (m1 * m2) / r^2", false);
+        addGreekScience(q6005);
+        Questions q6006 = new Questions(6006, "Ποια είναι η διαδικασία με την οποία το νερό μεταβαίνει από υγρή κατάσταση σε αέρια;", "Ατμοποίηση", false);
+        addGreekScience(q6006);
+        Questions q6007 = new Questions(6007, "Ποιος είναι ο κύριος συστατικός της ατμόσφαιρας της Γης;", "Άζωτο", false);
+        addGreekScience(q6007);
+        Questions q6008 = new Questions(6008, "Ποιος είναι ο μικρότερος πλανήτης στο ηλιακό μας σύστημα;", "Ερμής", false);
+        addGreekScience(q6008);
+        Questions q6009 = new Questions(6009, "Ποια είναι η μονάδα μέτρησης του ηλεκτρικού ρεύματος;", "Αμπέρ", false);
+        addGreekScience(q6009);
+        Questions q6010 = new Questions(6010, "Ποιος είναι ο μεγαλύτερος πλανήτης στο ηλιακό μας σύστημα;", "Δίας", false);
+        addGreekScience(q6010);
+        Questions q6011 = new Questions(6011, "Ποια είναι η διαδικασία με την οποία ένα στερεό ύλη μεταβαίνει άμεσα σε αέρια κατάσταση χωρίς να περνάει από την υγρή κατάσταση;", "Ατμίσματιση", false);
+        addGreekScience(q6011);
+        Questions q6012 = new Questions(6012, "Ποια είναι η μελέτη της κληρονομικότητας και των ποικιλιών στους οργανισμούς;", "Γενετική", false);
+        addGreekScience(q6012);
+        Questions q6013 = new Questions(6013, "Ποια είναι η σχέση για τον υπολογισμό της πυκνότητας;", "Πυκνότητα = Μάζα / Όγκος", false);
+        addGreekScience(q6013);
+        Questions q6014 = new Questions(6014, "Ποιο είναι το μεγαλύτερο οστό στο ανθρώπινο σώμα;", "Μηριαίο", false);
+        addGreekScience(q6014);
+        Questions q6015 = new Questions(6015, "Ποια είναι η διαδικασία με την οποία τα φυτά απελευθερώνουν υδατική ατμόσφαιρα;", "Ατμοσφαιρική απώλεια", false);
+        addGreekScience(q6015);
+        Questions q6016 = new Questions(6016, "Ποια είναι η μονάδα μέτρησης της συχνότητας;", "Χερτζ", false);
+        addGreekScience(q6016);
+        Questions q6017 = new Questions(6017, "Ποια είναι η βασική δομική μονάδα των πρωτεϊνών;", "Αμινοξύ", false);
+        addGreekScience(q6017);
+        Questions q6018 = new Questions(6018, "Ποια είναι η χημική τύπος του νερού;", "Η2Ο", false);
+        addGreekScience(q6018);
+        Questions q6019 = new Questions(6019, "Ποια είναι η μελέτη της φυσικής δομής και ουσίας της Γης;", "Γεωλογία", false);
+        addGreekScience(q6019);
+        Questions q6020 = new Questions(6020, "Ποια είναι η δύναμη που αντιστέκεται στην κίνηση των αντικειμένων μέσα από ένα ρευστό;", "Αντίσταση", false);
+        addGreekScience(q6020);
+
+    }
+
+    private void fillGreekSportsTable(){
+
+        Questions q7001 = new Questions(7001, "Ποια χώρα έχει κερδίσει τα περισσότερα χρυσά Ολυμπιακά μετάλλια;", "Ηνωμένες Πολιτείες", false);
+        addGreekSports(q7001);
+        Questions q7002 = new Questions(7002, "Με ποιο άθλημα συνδέεται ο Cristiano Ronaldo;", "Ποδόσφαιρο (Ποδόσφαιρο)", false);
+        addGreekSports(q7002);
+        Questions q7003 = new Questions(7003, "Σε ποιο άθλημα οι ομάδες ανταγωνίζονται για το Stanley Cup;", "Πάγος Χόκεϊ", false);
+        addGreekSports(q7003);
+        Questions q7004 = new Questions(7004, "Ποιος είναι ο αθλητής με τα περισσότερα βραβεία στους Ολυμπιακούς Αγώνες όλων των εποχών;", "Michael Phelps", false);
+        addGreekSports(q7004);
+        Questions q7005 = new Questions(7005, "Ποια χώρα κέρδισε το Παγκόσμιο Κύπελλο FIFA του 2018;", "Γαλλία", false);
+        addGreekSports(q7005);
+        Questions q7006 = new Questions(7006, "Ποιο είναι το εθνικό άθλημα του Καναδά;", "Πάγος Χόκεϊ", false);
+        addGreekSports(q7006);
+        Questions q7007 = new Questions(7007, "Ποιος τενίστας έχει κερδίσει τα περισσότερα τίτλους Grand Slam στην ιστορία;", "Roger Federer", false);
+        addGreekSports(q7007);
+        Questions q7008 = new Questions(7008, "Σε ποιο άθλημα παίζεται το Wimbledon;", "Τένις", false);
+        addGreekSports(q7008);
+        Questions q7009 = new Questions(7009, "Ποιος κατέχει το ρεκόρ των περισσότερων home runs στο Major League Baseball (MLB);", "Barry Bonds", false);
+        addGreekSports(q7009);
+        Questions q7010 = new Questions(7010, "Σε ποια χώρα διεξήχθησαν οι πρώτοι μοντέρνοι Ολυμπιακοί Αγώνες;", "Ελλάδα", false);
+        addGreekSports(q7010);
+        Questions q7011 = new Questions(7011, "Ποια χώρα κέρδισε το πιο πρόσφατο Παγκόσμιο Κύπελλο Γυναικών FIFA το 2019;", "Ηνωμένες Πολιτείες", false);
+        addGreekSports(q7011);
+        Questions q7012 = new Questions(7012, "Ποιος θεωρείται ο μεγαλύτερος μπασκετμπολίστας όλων των εποχών;", "Michael Jordan", false);
+        addGreekSports(q7012);
+        Questions q7013 = new Questions(7013, "Με ποιο άθλημα συνδέεται το Super Bowl;", "Αμερικανικό Ποδόσφαιρο", false);
+        addGreekSports(q7013);
+        Questions q7014 = new Questions(7014, "Ποια χώρα είναι γνωστή για την κυριαρχία της στο άθλημα του κρίκετ;", "Ινδία", false);
+        addGreekSports(q7014);
+        Questions q7015 = new Questions(7015, "Ποιος γκόλφερ έχει τα περισσότερα πρωταθλήματα μεγάλων τουρνουά στην καριέρα του;", "Jack Nicklaus", false);
+        addGreekSports(q7015);
+        Questions q7016 = new Questions(7016, "Ποια χώρα φιλοξένησε τους Θερινούς Ολυμπιακούς Αγώνες του 2016;", "Βραζιλία", false);
+        addGreekSports(q7016);
+        Questions q7017 = new Questions(7017, "Ποιος είναι ο γρηγορότερος άνθρωπος στην καταγεγραμμένη ιστορία;", "Usain Bolt", false);
+        addGreekSports(q7017);
+        Questions q7018 = new Questions(7018, "Με ποιο άθλημα συνδέεται η σειρά Ashes;", "Κρίκετ", false);
+        addGreekSports(q7018);
+        Questions q7019 = new Questions(7019, "Ποια χώρα κέρδισε το πιο πρόσφατο Παγκόσμιο Κύπελλο Ράγκμπι το 2019;", "Νότια Αφρική", false);
+        addGreekSports(q7019);
+        Questions q7020 = new Questions(7020, "Ποιος είναι ο πιο επιτυχημένος οδηγός της Φόρμουλα 1 όλων των εποχών;", "Lewis Hamilton", false);
+        addGreekSports(q7020);
+
+    }
+    private void fillGreekGeographyTable(){
+
+
+        Questions q8001 = new Questions(8001, "Ποια είναι η μικρότερη χώρα στον κόσμο;", "Πόλη του Βατικανού", false);
+        addGreekGeography(q8001);
+        Questions q8002 = new Questions(8002, "Ποιος ηπειρος είναι ο μεγαλύτερος κατά έκταση;", "Ασία", false);
+        addGreekGeography(q8002);
+        Questions q8003 = new Questions(8003, "Ποια είναι η πρωτεύουσα της Γαλλίας;", "Παρίσι", false);
+        addGreekGeography(q8003);
+        Questions q8004 = new Questions(8004, "Ποιος είναι ο μεγαλύτερος ποταμός στον κόσμο;", "Ποταμός Νείλος", false);
+        addGreekGeography(q8004);
+        Questions q8005 = new Questions(8005, "Ποια χώρα είναι γνωστή ως η 'Χώρα του Ανατολικού Ηλίου';", "Ιαπωνία", false);
+        addGreekGeography(q8005);
+        Questions q8006 = new Questions(8006, "Ποια είναι η μεγαλύτερη έρημος στον κόσμο;", "Έρημος της Σαχάρας", false);
+        addGreekGeography(q8006);
+        Questions q8007 = new Questions(8007, "Ποια είναι η πρωτεύουσα της Βραζιλίας;", "Μπραζίλια", false);
+        addGreekGeography(q8007);
+        Questions q8008 = new Questions(8008, "Ποια οροσειρά βρίσκεται στη Νότια Αμερική;", "Οροσειρά των Άνδεων", false);
+        addGreekGeography(q8008);
+        Questions q8009 = new Questions(8009, "Ποια χώρα είναι γνωστή για τις φιορδ;", "Νορβηγία", false);
+        addGreekGeography(q8009);
+        Questions q8010 = new Questions(8010, "Ποιος είναι ο μεγαλύτερος ωκεανός στον κόσμο;", "Ειρηνικός Ωκεανός", false);
+        addGreekGeography(q8010);
+        Questions q8011 = new Questions(8011, "Ποια πόλη είναι γνωστή ως το 'Μεγάλο Μήλο';", "Νέα Υόρκη", false);
+        addGreekGeography(q8011);
+        Questions q8012 = new Questions(8012, "Ποια είναι η πρωτεύουσα της Αυστραλίας;", "Καμπέρα", false);
+        addGreekGeography(q8012);
+        Questions q8013 = new Questions(8013, "Ποια χώρα είναι γνωστή για τα τουλίπες και τους ανεμόμυλους;", "Ολλανδία", false);
+        addGreekGeography(q8013);
+        Questions q8014 = new Questions(8014, "Ποια είναι η μεγαλύτερη χώρα στη Νότια Αμερική;", "Βραζιλία", false);
+        addGreekGeography(q8014);
+        Questions q8015 = new Questions(8015, "Ποια ηπειρος είναι γνωστή ως το 'Σκοτεινός Ήπειρος';", "Αφρική", false);
+        addGreekGeography(q8015);
+        Questions q8016 = new Questions(8016, "Ποια είναι η πρωτεύουσα της Ρωσίας;", "Μόσχα", false);
+        addGreekGeography(q8016);
+        Questions q8017 = new Questions(8017, "Ποια χώρα είναι γνωστή για το Μεγάλο Εμπόδιο Ρηχού;", "Αυστραλία", false);
+        addGreekGeography(q8017);
+        Questions q8018 = new Questions(8018, "Ποιος ποταμός διασχίζει το Φαράγγι του Κολοράντο;", "Ποταμός Κολοράντο", false);
+        addGreekGeography(q8018);
+        Questions q8019 = new Questions(8019, "Ποιος είναι ο ψηλότερος βουνό στη Βόρεια Αμερική;", "Όρος Ντενάλι", false);
+        addGreekGeography(q8019);
+        Questions q8020 = new Questions(8020, "Ποια χώρα είναι γνωστή για τις Πυραμίδες της Γκίζα;", "Αίγυπτος", false);
+        addGreekGeography(q8020);
     }
 
 

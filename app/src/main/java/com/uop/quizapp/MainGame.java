@@ -26,7 +26,7 @@ public class MainGame extends AppCompatActivity {
     private TextView question_tv, selected_category_tv, answer_tv, answeris_tv, timer_tv;
     private ImageButton correct_bt, incorrect_bt;
     private Button show_hide_bt;
-    private String which_button, playing_team, t1n, t2n, selectedCategory;
+    private String which_button, playing_team, t1n, t2n, selectedCategory,language;
     private int t1s, t2s, team1ScienceCorrectAnswers, team2ScienceCorrectAnswers, team1SportsCorrectAnswers, team2SportsCorrectAnswers, team1GeographyCorrectAnswers, team2GeographyCorrectAnswers, team1GeneralCorrectAnswers, team2GeneralCorrectAnswers;
     Bitmap team2bitmap, team1bitmap;
     private ImageView timer_iv;
@@ -44,23 +44,47 @@ public class MainGame extends AppCompatActivity {
         fill_arraylist(selectedCategory);
 
     }
-
     public void fill_arraylist(String selectedCategory) {
         DBHelper dbHelper = new DBHelper(this);
         ArrayList<Questions> questions = null;
 
+        //checks the language to fill with the right table the arraylist and also set the selected_category_tv with the right language category name
         switch (selectedCategory) {
             case DBContract.ScienceTable.TABLE_NAME:
-                questions = (ArrayList<Questions>) dbHelper.getAllScience();
+                if (language.equals("English")) {
+                    questions = (ArrayList<Questions>) dbHelper.getAllScience();
+                    selected_category_tv.setText(DBContract.ScienceTable.TABLE_NAME);
+                }else {
+                    questions = (ArrayList<Questions>) dbHelper.getAllGreekScience();
+                    selected_category_tv.setText(DBContract.GreekScienceTable.TABLE_NAME);
+                }
                 break;
             case DBContract.SportsTable.TABLE_NAME:
-                questions = (ArrayList<Questions>) dbHelper.getAllSports();
+                if (language.equals("English")) {
+                    questions = (ArrayList<Questions>) dbHelper.getAllSports();
+                    selected_category_tv.setText(DBContract.SportsTable.TABLE_NAME);
+                }else {
+                    questions = (ArrayList<Questions>) dbHelper.getAllGreekSports();
+                    selected_category_tv.setText(DBContract.GreekSportsTable.TABLE_NAME);
+                }
                 break;
             case DBContract.GeographyTable.TABLE_NAME:
-                questions = (ArrayList<Questions>) dbHelper.getAllGeography();
+                if (language.equals("English")) {
+                    questions = (ArrayList<Questions>) dbHelper.getAllGeography();
+                    selected_category_tv.setText(DBContract.GeographyTable.TABLE_NAME);
+                }else {
+                    questions = (ArrayList<Questions>) dbHelper.getAllGreekGeography();
+                    selected_category_tv.setText(DBContract.GreekGeographyTable.TABLE_NAME);
+                }
                 break;
             case DBContract.GeneralTable.TABLE_NAME:
-                questions = (ArrayList<Questions>) dbHelper.getAllGeneral();
+                if (language.equals("English")) {
+                    questions = (ArrayList<Questions>) dbHelper.getAllGeneral();
+                    selected_category_tv.setText(DBContract.GeneralTable.TABLE_NAME);
+                }else {
+                    questions = (ArrayList<Questions>) dbHelper.getAllGreekGeneral();
+                    selected_category_tv.setText(DBContract.GreekGeneralTable.TABLE_NAME);
+                }
                 break;
         }
         Startgame(questions);
@@ -70,7 +94,11 @@ public class MainGame extends AppCompatActivity {
         startTimer();
         if (questions.isEmpty()) {
             // Handle the case where the list is empty
-            Toast.makeText(this, "No questions available for this category", Toast.LENGTH_SHORT).show();
+            if (!language.equals("English")){
+                Toast.makeText(this, "Δεν υπάρχουν άλλες ερωτήσης σε αυτή την κατηγορία", Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(this, "No questions available for this category", Toast.LENGTH_SHORT).show();
+            }
             return;
         }
 
@@ -156,7 +184,12 @@ public class MainGame extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            Toast.makeText(this, "the phone now is changing hands because " + playing_team + " lost", Toast.LENGTH_LONG).show();
+            if (!language.equals("English")){
+                Toast.makeText(this, "Το κινητό αλλάζει χέρια γιατι η ομάδα " + playing_team + " έχασε", Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(this, "the phone now is changing hands because " + playing_team + " lost", Toast.LENGTH_LONG).show();
+            }
+
 
             //initialize the playing_team
             if (playing_team.equals(t1n)) {
@@ -181,6 +214,8 @@ public class MainGame extends AppCompatActivity {
         intent.putExtra("team2GeographyCorrectAnswers", team2GeographyCorrectAnswers);
         intent.putExtra("team1GeneralCorrectAnswers", team1GeneralCorrectAnswers);
         intent.putExtra("team2GeneralCorrectAnswers", team2GeneralCorrectAnswers);
+        //passing selected_language
+        intent.putExtra("selected_language",language);
         //passing the images back to SelectedCategory.class
         if (team1bitmap != null) {
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -218,7 +253,6 @@ public class MainGame extends AppCompatActivity {
 
         //pass selected category from SelectedCategory.class to MainGame.class
         selectedCategory = getIntent().getExtras().getString("selectedCategory");
-        selected_category_tv.setText(selectedCategory);
 
         //playing team ,score and team names are
         playing_team = getIntent().getExtras().getString("playing_team");
@@ -237,14 +271,19 @@ public class MainGame extends AppCompatActivity {
         team2GeographyCorrectAnswers = getIntent().getExtras().getInt("team2GeographyCorrectAnswers");
         team1GeneralCorrectAnswers = getIntent().getExtras().getInt("team1GeneralCorrectAnswers");
         team2GeneralCorrectAnswers = getIntent().getExtras().getInt("team2GeneralCorrectAnswers");
-
+        //getting the selected_language from SelectCategory.java
+        language = getIntent().getExtras().getString("selected_language");
         //by default the 2 buttons and the answer are hidden
         answer_tv.setVisibility(View.GONE);
         correct_bt.setVisibility(View.GONE);
         incorrect_bt.setVisibility(View.GONE);
         answeris_tv.setVisibility(View.GONE);
-        show_hide_bt.setText("show");
-
+        if (!language.equals("English")) {
+            answeris_tv.setText("Σωστή απάντηση");
+            show_hide_bt.setText("Δείξε");
+        }else {
+            show_hide_bt.setText("show");
+        }
         //getting the images for the teams
         Bundle ex = getIntent().getExtras();
 
@@ -280,14 +319,22 @@ public class MainGame extends AppCompatActivity {
             correct_bt.setVisibility(View.VISIBLE);
             incorrect_bt.setVisibility(View.VISIBLE);
             answeris_tv.setVisibility(View.VISIBLE);
-            show_hide_bt.setText("hide");
+            if (!language.equals("English")) {
+                show_hide_bt.setText("Κρύψε");
+            }else {
+                show_hide_bt.setText("hide");
+            }
 
         } else {
             answer_tv.setVisibility(View.GONE);
             correct_bt.setVisibility(View.GONE);
             incorrect_bt.setVisibility(View.GONE);
             answeris_tv.setVisibility(View.GONE);
-            show_hide_bt.setText("show");
+            if (!language.equals("English")) {
+                show_hide_bt.setText("Δείξε");
+            }else {
+                show_hide_bt.setText("show");
+            }
 
         }
     }

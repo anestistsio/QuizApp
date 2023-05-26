@@ -33,7 +33,7 @@ import java.io.ByteArrayOutputStream;
 public class MainActivity extends AppCompatActivity{
     private static final String CHANNEL_ID = "myFirebaseChannel";
     private EditText team1_et,team2_et;
-    private String t1n,t2n; //team 1 name and team 2 name
+    private String t1n,t2n,language; //team 1 name and team 2 name
     private int team1ScienceCorrectAnswers = 0;
     private int team2ScienceCorrectAnswers = 0;
     private int team1SportsCorrectAnswers = 0;
@@ -70,6 +70,12 @@ public class MainActivity extends AppCompatActivity{
         team2_iv = findViewById(R.id.team2_iv);
         team1_im = findViewById(R.id.team1_im);
         team2_im = findViewById(R.id.team2_im);
+        // here we check if language is greek and we change the hints from team1/2_et
+        language = getIntent().getStringExtra("selected_language");
+        if (language != null && language.equals("Ελληνικά")) {
+            team1_et.setHint("Όνομα Ομάδας 1");
+            team2_et.setHint("Όνομα Ομάδας 2");
+        }
     }
         public void select_category(View view) {
             //initialize click sound
@@ -120,6 +126,14 @@ public class MainActivity extends AppCompatActivity{
                     }else {
                         intent.putExtra("team2byte", (byte[]) null);
                     }
+
+                        //here we check if the user selected language from Settings.java
+                        if (language == null){
+                            //English is the default language
+                            intent.putExtra("selected_language","English");
+                        }else {
+                            intent.putExtra("selected_language", language);
+                        }
 
                     startActivity(intent);
                     finish();
@@ -193,6 +207,11 @@ public class MainActivity extends AppCompatActivity{
 
                     }
                 });
+    }
+    //this method goes to Settings activity
+    public void settings(View view){
+        Intent intent = new Intent(MainActivity.this,Settings.class);
+        startActivity(intent);
     }
 
 

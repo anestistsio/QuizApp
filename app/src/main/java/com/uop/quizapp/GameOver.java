@@ -14,7 +14,7 @@ import android.widget.TextView;
 public class GameOver extends AppCompatActivity {
     private TextView winning_tv,team1Name_tv,team2Name_tv,team1Score_tv,team2Score_tv;
     private int t1s,t2s;
-    private String t1n,t2n,winning_team;
+    private String t1n,t2n,winning_team,language;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +38,8 @@ public class GameOver extends AppCompatActivity {
         t2n = getIntent().getExtras().getString("team2Name");
         t1s = getIntent().getExtras().getInt("team1Score");
         t2s = getIntent().getExtras().getInt("team2Score");
+        //getting selected_language from SelectCategory.java
+        language = getIntent().getExtras().getString("selected_language");
         //getting the winning team's image
         Bundle ex = getIntent().getExtras();
         byte[] winning_byte = ex.getByteArray("winning_byte");
@@ -53,7 +55,12 @@ public class GameOver extends AppCompatActivity {
         }else {
             winning_team = t2n;
         }
-        winning_tv.setText(winning_team + " WINS!");
+        if (!language.equals("English")) {
+            winning_tv.setText("Η ομάδα " + winning_team + " νικάει!");
+        }else {
+            winning_tv.setText(winning_team + " WINS!");
+        }
+
         team1Name_tv.setText(t1n);
         team2Name_tv.setText(t2n);
         team1Score_tv.setText(String.valueOf(t1s));
