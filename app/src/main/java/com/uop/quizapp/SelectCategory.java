@@ -16,7 +16,7 @@ import java.io.ByteArrayOutputStream;
 public class SelectCategory extends AppCompatActivity {
     private TextView  teamplay_tv,team1_name_tv,team2_name_tv,team1_score_tv,team2_score_tv;
     private String selectedCategory,playing_team,t1n,t2n,language;//t1n = team1name and t1s = team2score
-    private int t1s,t2s;
+    private int t1s,t2s,timeInSeconds;
     private int team1ScienceCorrectAnswers;
     private int team2ScienceCorrectAnswers;
     private int team1SportsCorrectAnswers;
@@ -75,7 +75,10 @@ public class SelectCategory extends AppCompatActivity {
         intent.putExtra("team2GeographyCorrectAnswers", team2GeographyCorrectAnswers);
         intent.putExtra("team1GeneralCorrectAnswers", team1GeneralCorrectAnswers);
         intent.putExtra("team2GeneralCorrectAnswers", team2GeneralCorrectAnswers);
+        //passing the language
         intent.putExtra("selected_language",language);
+        //passing the time in seconds
+        intent.putExtra("timeInSeconds",timeInSeconds);
         //passing the images to MainGame.class
         if (team1bitmap != null){
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -139,6 +142,8 @@ public class SelectCategory extends AppCompatActivity {
         team2GeneralCorrectAnswers =  getIntent().getExtras().getInt("team2GeneralCorrectAnswers");
         //getting the selected_language from MainActivity.java or from MainGame.java
         language = getIntent().getExtras().getString("selected_language");
+        //getting the time in seconds
+        timeInSeconds = getIntent().getExtras().getInt("timeInSeconds");
         //getting the images for two teams
         Bundle ex = getIntent().getExtras();
         byte[] team1byte = ex.getByteArray("team1byte");

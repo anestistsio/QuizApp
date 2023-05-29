@@ -30,9 +30,9 @@ public class MainGame extends AppCompatActivity {
     private int t1s, t2s, team1ScienceCorrectAnswers, team2ScienceCorrectAnswers, team1SportsCorrectAnswers, team2SportsCorrectAnswers, team1GeographyCorrectAnswers, team2GeographyCorrectAnswers, team1GeneralCorrectAnswers, team2GeneralCorrectAnswers;
     Bitmap team2bitmap, team1bitmap;
     private ImageView timer_iv;
-    //this flag checks if question ended to prevent startTimer.onFinish run
-    private boolean flag = true;
-    private int  totalTimeInMins = 1;
+    //this answers_is_boolean checks if question ended to prevent startTimer.onFinish run
+    private boolean answers_is_boolean = true;
+    private int  timeInSeconds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,8 +118,8 @@ public class MainGame extends AppCompatActivity {
 
     //questions_end method starts when either correct or incorrect button is clicked
     public void question_end(View view) {
-        //turing flag to false because we don't want onFinish run
-        flag = false;
+        //turing answers_is_boolean to false because we don't want onFinish run
+        answers_is_boolean = false;
 
         //set buttons not visible to avoid double clicking
         incorrect_bt.setVisibility(View.GONE);
@@ -214,8 +214,9 @@ public class MainGame extends AppCompatActivity {
         intent.putExtra("team2GeographyCorrectAnswers", team2GeographyCorrectAnswers);
         intent.putExtra("team1GeneralCorrectAnswers", team1GeneralCorrectAnswers);
         intent.putExtra("team2GeneralCorrectAnswers", team2GeneralCorrectAnswers);
-        //passing selected_language
+        //passing selected_language and time in seconds
         intent.putExtra("selected_language",language);
+        intent.putExtra("timeInSeconds", timeInSeconds);
         //passing the images back to SelectedCategory.class
         if (team1bitmap != null) {
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -273,6 +274,8 @@ public class MainGame extends AppCompatActivity {
         team2GeneralCorrectAnswers = getIntent().getExtras().getInt("team2GeneralCorrectAnswers");
         //getting the selected_language from SelectCategory.java
         language = getIntent().getExtras().getString("selected_language");
+        //getting the time in seconds
+        timeInSeconds =  getIntent().getExtras().getInt("timeInSeconds");
         //by default the 2 buttons and the answer are hidden
         answer_tv.setVisibility(View.GONE);
         correct_bt.setVisibility(View.GONE);
@@ -342,7 +345,7 @@ public class MainGame extends AppCompatActivity {
     private void startTimer() {
         //initialize the time end sound
         final MediaPlayer ticking_sound = MediaPlayer.create(this ,R.raw.ticking_sound);
-        CountDownTimer count = new CountDownTimer((totalTimeInMins * 60L) * 1000, 1000) {
+        CountDownTimer count = new CountDownTimer((timeInSeconds * 1000), 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 //making the time into the right format
@@ -353,8 +356,8 @@ public class MainGame extends AppCompatActivity {
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
                 //set the time in the timer_tv
                 timer_tv.setText(time);
-            if(flag){
-                if (millisUntilFinished < 20000) {
+            if(answers_is_boolean){
+                if (millisUntilFinished < 10000) {
                     timer_tv.setTextColor(Color.rgb(186,37,37));
                     ticking_sound.start();
                     timer_iv.setImageResource(R.drawable.red_timer);
@@ -367,7 +370,8 @@ public class MainGame extends AppCompatActivity {
             @Override
             public void onFinish() {
                 //check if question_end called before executing
-                if(flag) {
+                if(answers_is_boolean) {
+                    ticking_sound.stop();
                     question_end(incorrect_bt);
                 }
 

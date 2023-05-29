@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity{
     private Bitmap team1bitmap,team2bitmap,bitmap;
     private ImageView team1_iv,team2_iv;
     private ImageButton team1_im,team2_im;
-    private int id;
+    private int id , timeInSeconds = 60;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,12 +73,13 @@ public class MainActivity extends AppCompatActivity{
         // here we check if language is greek and we change the hints from team1/2_et
         language = getIntent().getStringExtra("selected_language");
         if (language != null && language.equals("Ελληνικά")) {
+            //getting the time in seconds
+            timeInSeconds = getIntent().getExtras().getInt("timeInSeconds");
             team1_et.setHint("Όνομα Ομάδας 1");
             team2_et.setHint("Όνομα Ομάδας 2");
         }
     }
         public void select_category(View view) {
-            //initialize click sound
             final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
                 //Check if both team names entered
             if (TextUtils.isEmpty(team1_et.getText()) || TextUtils.isEmpty(team2_et.getText())){
@@ -108,6 +109,9 @@ public class MainActivity extends AppCompatActivity{
                     intent.putExtra("team2GeographyCorrectAnswers", team2GeographyCorrectAnswers);
                     intent.putExtra("team1GeneralCorrectAnswers", team1GeneralCorrectAnswers);
                     intent.putExtra("team2GeneralCorrectAnswers", team2GeneralCorrectAnswers);
+                    //pass the time in seconds
+                    intent.putExtra("timeInSeconds",timeInSeconds);
+
 
                     //passing the images of the teams to SelectedCategory.class
                     if (team1bitmap != null){
@@ -210,6 +214,8 @@ public class MainActivity extends AppCompatActivity{
     }
     //this method goes to Settings activity
     public void settings(View view){
+        final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
+        click_sound.start();
         Intent intent = new Intent(MainActivity.this,Settings.class);
         startActivity(intent);
     }
