@@ -3,6 +3,7 @@ package com.uop.quizapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -23,13 +24,15 @@ public class Settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        //set orientation portrait locked
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         language_sp = findViewById(R.id.language_sp);
         ArrayAdapter<CharSequence> language_adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,languages);
         language_sp.setAdapter(language_adapter);
         TimePerQuestion_sb = findViewById(R.id.TimePerQuestion_sb);
         TimeInSeconds_tv = findViewById(R.id.TimeInSeconds_tv);
-        TimeInSeconds_tv.setText(String.valueOf(timeInSeconds) + "s");
+        TimeInSeconds_tv.setText(timeInSeconds + "s");
 
         //seekBar listener
         TimePerQuestion_sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
