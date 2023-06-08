@@ -36,56 +36,56 @@ public class DBHelper extends SQLiteOpenHelper {
         this.db = db;
         final String SQL_CREATE_SCIENCE_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 ScienceTable.TABLE_NAME + " ( " +
-                ScienceTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                ScienceTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 ScienceTable.COLUMN_QUESTION + " TEXT, " +
                 ScienceTable.COLUMN_ANSWER + " TEXT, " +
                 ScienceTable.COLUMN_DISPLAYED + " INTEGER" +
                 ")";
         final String SQL_CREATE_GEOGRAPHY_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 GeographyTable.TABLE_NAME + " ( " +
-                GeographyTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                GeographyTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 GeographyTable.COLUMN_QUESTION + " TEXT, " +
                 GeographyTable.COLUMN_ANSWER + " TEXT, " +
                 GeographyTable.COLUMN_DISPLAYED + " INTEGER" +
                 ")";
         final String SQL_CREATE_GENERAL_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 GeneralTable.TABLE_NAME + " ( " +
-                GeneralTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                GeneralTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 GeneralTable.COLUMN_QUESTION + " TEXT, " +
                 GeneralTable.COLUMN_ANSWER + " TEXT, " +
                 GeneralTable.COLUMN_DISPLAYED + " INTEGER" +
                 ")";
         final String SQL_CREATE_SPORTS_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 SportsTable.TABLE_NAME + " ( " +
-                SportsTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                SportsTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 SportsTable.COLUMN_QUESTION + " TEXT, " +
                 SportsTable.COLUMN_ANSWER + " TEXT, " +
                 SportsTable.COLUMN_DISPLAYED + " INTEGER" +
                 ")";
         final String SQL_CREATE_GREEK_SCIENCE_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 GreekScienceTable.TABLE_NAME + " ( " +
-                GreekScienceTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                GreekScienceTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 GreekScienceTable.COLUMN_QUESTION + " TEXT, " +
                 GreekScienceTable.COLUMN_ANSWER + " TEXT, " +
                 GreekScienceTable.COLUMN_DISPLAYED + " INTEGER" +
                 ")";
         final String SQL_CREATE_GREEK_GEOGRAPHY_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 GreekGeographyTable.TABLE_NAME + " ( " +
-                GreekGeographyTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                GreekGeographyTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 GreekGeographyTable.COLUMN_QUESTION + " TEXT, " +
                 GreekGeographyTable.COLUMN_ANSWER + " TEXT, " +
                 GreekGeographyTable.COLUMN_DISPLAYED + " INTEGER" +
                 ")";
         final String SQL_CREATE_GREEK_GENERAL_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 GreekGeneralTable.TABLE_NAME + " ( " +
-                GreekGeneralTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                GreekGeneralTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 GreekGeneralTable.COLUMN_QUESTION + " TEXT, " +
                 GreekGeneralTable.COLUMN_ANSWER + " TEXT, " +
                 GreekGeneralTable.COLUMN_DISPLAYED + " INTEGER" +
                 ")";
         final String SQL_CREATE_GREEK_SPORTS_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 GreekSportsTable.TABLE_NAME + " ( " +
-                GreekSportsTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                GreekSportsTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 GreekSportsTable.COLUMN_QUESTION + " TEXT, " +
                 GreekSportsTable.COLUMN_ANSWER + " TEXT, " +
                 GreekSportsTable.COLUMN_DISPLAYED + " INTEGER" +
@@ -233,7 +233,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(
                 ScienceTable.TABLE_NAME,
-                new String[]{"_id", "question", "answer", "displayed"},
+                new String[]{"id", "question", "answer", "displayed"},
                 "displayed = 0",  // Fetch only questions where displayed is false
                 null,
                 null,
@@ -243,7 +243,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                 String question = cursor.getString(cursor.getColumnIndexOrThrow("question"));
                 String answer = cursor.getString(cursor.getColumnIndexOrThrow("answer"));
                 boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
@@ -263,7 +263,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(
                 SportsTable.TABLE_NAME,
-                new String[]{"_id", "question", "answer", "displayed"},
+                new String[]{"id", "question", "answer", "displayed"},
                 "displayed = 0",  // Fetch only questions where displayed is false
                 null,
                 null,
@@ -273,7 +273,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                 String question = cursor.getString(cursor.getColumnIndexOrThrow("question"));
                 String answer = cursor.getString(cursor.getColumnIndexOrThrow("answer"));
                 boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
@@ -293,7 +293,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(
                 GeneralTable.TABLE_NAME,
-                new String[]{"_id", "question", "answer", "displayed"},
+                new String[]{"id", "question", "answer", "displayed"},
                 "displayed = 0",  // Fetch only questions where displayed is false
                 null,
                 null,
@@ -303,7 +303,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                 String question = cursor.getString(cursor.getColumnIndexOrThrow("question"));
                 String answer = cursor.getString(cursor.getColumnIndexOrThrow("answer"));
                 boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
@@ -323,7 +323,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(
                 GeographyTable.TABLE_NAME,
-                new String[]{"_id", "question", "answer", "displayed"},
+                new String[]{"id", "question", "answer", "displayed"},
                 "displayed = 0",  // Fetch only questions where displayed is false
                 null,
                 null,
@@ -333,7 +333,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                 String question = cursor.getString(cursor.getColumnIndexOrThrow("question"));
                 String answer = cursor.getString(cursor.getColumnIndexOrThrow("answer"));
                 boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
@@ -353,7 +353,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(
                 GreekScienceTable.TABLE_NAME,
-                new String[]{"_id", "question", "answer", "displayed"},
+                new String[]{"id", "question", "answer", "displayed"},
                 "displayed = 0",  // Fetch only questions where displayed is false
                 null,
                 null,
@@ -363,7 +363,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                 String question = cursor.getString(cursor.getColumnIndexOrThrow("question"));
                 String answer = cursor.getString(cursor.getColumnIndexOrThrow("answer"));
                 boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
@@ -383,7 +383,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(
                 GreekSportsTable.TABLE_NAME,
-                new String[]{"_id", "question", "answer", "displayed"},
+                new String[]{"id", "question", "answer", "displayed"},
                 "displayed = 0",  // Fetch only questions where displayed is false
                 null,
                 null,
@@ -393,7 +393,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                 String question = cursor.getString(cursor.getColumnIndexOrThrow("question"));
                 String answer = cursor.getString(cursor.getColumnIndexOrThrow("answer"));
                 boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
@@ -413,7 +413,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(
                 GreekGeneralTable.TABLE_NAME,
-                new String[]{"_id", "question", "answer", "displayed"},
+                new String[]{"id", "question", "answer", "displayed"},
                 "displayed = 0",  // Fetch only questions where displayed is false
                 null,
                 null,
@@ -423,7 +423,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                 String question = cursor.getString(cursor.getColumnIndexOrThrow("question"));
                 String answer = cursor.getString(cursor.getColumnIndexOrThrow("answer"));
                 boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
@@ -443,7 +443,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(
                 GreekGeographyTable.TABLE_NAME,
-                new String[]{"_id", "question", "answer", "displayed"},
+                new String[]{"id", "question", "answer", "displayed"},
                 "displayed = 0",  // Fetch only questions where displayed is false
                 null,
                 null,
@@ -453,7 +453,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                 String question = cursor.getString(cursor.getColumnIndexOrThrow("question"));
                 String answer = cursor.getString(cursor.getColumnIndexOrThrow("answer"));
                 boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
@@ -476,49 +476,49 @@ public class DBHelper extends SQLiteOpenHelper {
         db.update(
                 ScienceTable.TABLE_NAME,
                 values,
-                "_id = ?",
+                "id = ?",
                 new String[]{String.valueOf(question.get_id())}
         );
         db.update(
                 GeneralTable.TABLE_NAME,
                 values,
-                "_id = ?",
+                "id = ?",
                 new String[]{String.valueOf(question.get_id())}
         );
         db.update(
                 SportsTable.TABLE_NAME,
                 values,
-                "_id = ?",
+                "id = ?",
                 new String[]{String.valueOf(question.get_id())}
         );
         db.update(
                 GeographyTable.TABLE_NAME,
                 values,
-                "_id = ?",
+                "id = ?",
                 new String[]{String.valueOf(question.get_id())}
         );
         db.update(
                 GreekScienceTable.TABLE_NAME,
                 values,
-                "_id = ?",
+                "id = ?",
                 new String[]{String.valueOf(question.get_id())}
         );
         db.update(
                 GreekGeneralTable.TABLE_NAME,
                 values,
-                "_id = ?",
+                "id = ?",
                 new String[]{String.valueOf(question.get_id())}
         );
         db.update(
                 GreekSportsTable.TABLE_NAME,
                 values,
-                "_id = ?",
+                "id = ?",
                 new String[]{String.valueOf(question.get_id())}
         );
         db.update(
                 GreekGeographyTable.TABLE_NAME,
                 values,
-                "_id = ?",
+                "id = ?",
                 new String[]{String.valueOf(question.get_id())}
         );
     }
