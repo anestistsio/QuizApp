@@ -1,0 +1,20 @@
+1001|What is the largest organ in the human body?|Skin|false
+1002|What is the process by which plants convert sunlight into energy?|Photosynthesis|false
+1003|What is the chemical symbol for gold?|Au|false
+1004|What is the smallest unit of matter?|Atom|false
+1005|What is the formula for the force of gravity?|F = G * (m1 * m2) / r^2|false
+1006|What is the process by which water changes from a liquid to a gas?|Evaporation|false
+1007|What is the main component of Earth's atmosphere?|Nitrogen|false
+1008|What is the smallest planet in our solar system?|Mercury|false
+1009|What is the unit of measurement for electric current?|Ampere|false
+1010|What is the largest planet in our solar system?|Jupiter|false
+1011|What is the process by which a solid changes directly into a gas without passing through the liquid state?|Sublimation|false
+1012|What is the study of heredity and variation in organisms?|Genetics|false
+1013|What is the formula for calculating density?|Density = Mass / Volume|false
+1014|What is the largest bone in the human body?|Femur|false
+1015|What is the process by which plants release water vapor into the atmosphere?|Transpiration|false
+1016|What is the unit of measurement for frequency?|Hertz|false
+1017|What is the basic building block of proteins?|Amino acid|false
+1018|What is the chemical formula for water?|H2O|false
+1019|What is the study of the Earth's physical structure and substance?|Geology|false
+1020|What is the force that opposes the motion of objects through a fluid?|Drag|false

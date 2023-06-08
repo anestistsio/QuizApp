@@ -1,0 +1,20 @@
+2001|Which country has won the most Olympic gold medals?|United States|false
+2002|Which sport is Cristiano Ronaldo associated with?|Football (Soccer)|false
+2003|In which sport do teams compete for the Stanley Cup?|Ice Hockey|false
+2004|Who is the most decorated Olympian of all time?|Michael Phelps|false
+2005|Which country won the 2018 FIFA World Cup?|France|false
+2006|What is the national sport of Canada?|Ice Hockey|false
+2007|Which tennis player has won the most Grand Slam titles in history?|Roger Federer|false
+2008|Which sport is played at Wimbledon?|Tennis|false
+2009|Who holds the record for the most home runs in Major League Baseball (MLB)?|Barry Bonds|false
+2010|In which country were the first modern Olympic Games held?|Greece|false
+2011|Which country won the most recent FIFA Women's World Cup in 2019?|United States|false
+2012|Who is considered the greatest basketball player of all time?|Michael Jordan|false
+2013|Which sport is associated with the Super Bowl?|American Football|false
+2014|Which country is known for its dominance in the sport of cricket?|India|false
+2015|Which golfer has the most career major championships?|Jack Nicklaus|false
+2016|Which country hosted the 2016 Summer Olympics?|Brazil|false
+2017|Who is the fastest man in recorded history?|Usain Bolt|false
+2018|Which sport is associated with the Ashes series?|Cricket|false
+2019|Which country won the most recent Rugby World Cup in 2019?|South Africa|false
+2020|Who is the most successful Formula One driver of all time?|Lewis Hamilton|false

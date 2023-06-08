@@ -54,11 +54,8 @@ public class MainActivity extends AppCompatActivity{
         //set orientation portrait locked
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        // call this method to initialize all necessary things
         initializing();
-        //call this method to create a notification channel
         createNotificationChannel();
-        //call this method to initialize firebase cloud messaging
         firebase_initialization();
 
     }

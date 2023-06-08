@@ -1,0 +1,20 @@
+3001|What is the smallest country in the world?|Vatican City|false
+3002|Which continent is the largest by land area?|Asia|false
+3003|What is the capital city of France?|Paris|false
+3004|What is the longest river in the world?|Nile River|false
+3005|Which country is known as the Land of the Rising Sun?|Japan|false
+3006|What is the largest desert in the world?|Sahara Desert|false
+3007|What is the capital city of Brazil?|Brasília|false
+3008|Which mountain range is located in South America?|Andes Mountains|false
+3009|Which country is known for its fjords?|Norway|false
+3010|What is the largest ocean in the world?|Pacific Ocean|false
+3011|Which city is known as the Big Apple?|New York City|false
+3012|What is the capital city of Australia?|Canberra|false
+3013|Which country is known for its tulips and windmills?|Netherlands|false
+3014|What is the largest country in South America?|Brazil|false
+3015|Which continent is known as the 'Dark Continent'?|Africa|false
+3016|What is the capital city of Russia?|Moscow|false
+3017|Which country is known for the Great Barrier Reef?|Australia|false
+3018|Which river flows through the Grand Canyon?|Colorado River|false
+3019|What is the highest mountain in North America?|Mount Denali|false
+3020|Which country is known for the Pyramids of Giza?|Egypt|false

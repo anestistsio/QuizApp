@@ -1,0 +1,20 @@
+1|What is the most spoken language in the world?|Mandarin|false
+2|Who wrote the famous novel 'Pride and Prejudice'?|Jane Austen|false
+3|What is the capital city of Canada?|Ottawa|false
+4|Who painted the Mona Lisa?|Leonardo da Vinci|false
+5|Which planet is known as the 'Red Planet'?|Mars|false
+6|What is the largest organ in the human body?|Skin|false
+7|In which country is the Great Barrier Reef located?|Australia|false
+8|Which artist is famous for cutting off a part of his own ear?|Vincent van Gogh|false
+9|Who was the first man to walk on the moon?|Neil Armstrong|false
+10|What is the national flower of Japan?|Cherry blossom|false
+11|Which animal is known as the 'King of the Jungle'?|Lion|false
+12|Who is the author of the Harry Potter series?|J.K. Rowling|false
+13|What is the currency of Brazil?|Brazilian Real|false
+14|Which famous playwright wrote Romeo and Juliet?|William Shakespeare|false
+15|Which musical instrument has 88 keys?|Piano|false
+16|What is the tallest mountain in the world?|Mount Everest|false
+17|What is the national bird of the United States?|Bald eagle|false
+18|Who painted the ceiling of the Sistine Chapel?|Michelangelo|false
+19|What is the largest ocean in the world?|Pacific Ocean|false
+20|Who was the Greek god of music?|Apollo|false
