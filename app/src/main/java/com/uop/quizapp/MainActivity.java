@@ -219,6 +219,17 @@ public class MainActivity extends AppCompatActivity{
         Intent intent = new Intent(MainActivity.this,Settings.class);
         startActivity(intent);
     }
+    public void shareMain(View view) {
+        final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
+        click_sound.start();
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        String Body = "Download this app";
+        String Sub = "https://google.play.com";
+        intent.putExtra(Intent.EXTRA_TEXT, Body);
+        intent.putExtra(Intent.EXTRA_TEXT, Sub);
+        startActivity(Intent.createChooser(intent, "Share using"));
+    }
 
 
     @Override
