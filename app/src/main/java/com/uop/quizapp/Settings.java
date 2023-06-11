@@ -34,7 +34,7 @@ public class Settings extends AppCompatActivity {
         TimeInSeconds_tv = findViewById(R.id.TimeInSeconds_tv);
         TimeInSeconds_tv.setText(timeInSeconds + "s");
 
-        //seekBar listener
+        //Time per Question seekBar listener
         TimePerQuestion_sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

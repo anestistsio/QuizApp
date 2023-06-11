@@ -55,13 +55,21 @@ public class GameOver extends AppCompatActivity {
 
         if(t1s>t2s) {
             winning_team = t1n;
-        }else {
+        }else{
             winning_team = t2n;
         }
         if (!language.equals("English")) {
-            winning_tv.setText("Η ομάδα " + winning_team + " νικάει!");
+            if (t1s == t2s){
+                winning_tv.setText("Ισοπαλία!");
+            }else {
+                winning_tv.setText("Η ομάδα " + winning_team + " νικάει!");
+            }
         }else {
-            winning_tv.setText(winning_team + " WINS!");
+            if (t1s == t2s) {
+                winning_tv.setText("DRAW!");
+            } else {
+                winning_tv.setText(winning_team + " WINS!");
+            }
         }
 
         team1Name_tv.setText(t1n);

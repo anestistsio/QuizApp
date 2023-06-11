@@ -27,6 +27,11 @@ public class SelectCategory extends AppCompatActivity {
     private int team1GeneralCorrectAnswers;
     private int team2GeneralCorrectAnswers;
     private Bitmap team1bitmap,team2bitmap;
+    private byte[] team1byte;
+    private byte[] team2byte;
+    private boolean lastChance;
+    private int score;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +74,8 @@ public class SelectCategory extends AppCompatActivity {
         intent.putExtra("team2Name",t2n);
         intent.putExtra("team1Score",t1s);
         intent.putExtra("team2Score",t2s);
+        intent.putExtra("score", score);
+        intent.putExtra("lastChance",lastChance);
         // passing values for correct answered counters for each category for each team
         intent.putExtra("team1ScienceCorrectAnswers", team1ScienceCorrectAnswers);
         intent.putExtra("team2ScienceCorrectAnswers", team2ScienceCorrectAnswers);
@@ -133,7 +140,9 @@ public class SelectCategory extends AppCompatActivity {
         t2n = getIntent().getExtras().getString("team2Name");
         t1s = getIntent().getExtras().getInt("team1Score");
         t2s = getIntent().getExtras().getInt("team2Score");
+        score = getIntent().getExtras().getInt("score");
         playing_team = getIntent().getExtras().getString("playing_team");
+        lastChance = getIntent().getExtras().getBoolean("lastChance");
         //retrieving the values for correct answered counters for each category for each team
         team1ScienceCorrectAnswers =  getIntent().getExtras().getInt("team1ScienceCorrectAnswers");
         team2ScienceCorrectAnswers =  getIntent().getExtras().getInt("team2ScienceCorrectAnswers");
@@ -149,83 +158,52 @@ public class SelectCategory extends AppCompatActivity {
         timeInSeconds = getIntent().getExtras().getInt("timeInSeconds");
         //getting the images for two teams
         Bundle ex = getIntent().getExtras();
-        byte[] team1byte = ex.getByteArray("team1byte");
+        team1byte = ex.getByteArray("team1byte");
         if (team1byte != null) {
             team1bitmap = BitmapFactory.decodeByteArray(team1byte, 0, team1byte.length);
             team1_im.setImageBitmap(team1bitmap);
         }else {
             team1_im.setVisibility(View.GONE);
         }
-        byte[] team2byte = ex.getByteArray("team2byte");
+        team2byte = ex.getByteArray("team2byte");
         if (team2byte != null) {
             team2bitmap = BitmapFactory.decodeByteArray(team2byte, 0, team2byte.length);
             team2_im.setImageBitmap(team2bitmap);
         }else {
             team2_im.setVisibility(View.GONE);
         }
-        // if the score of any team reach 12 this teams win
-        if ((t1s >= 12||t2s >= 12)){
-            Intent intent = new Intent(SelectCategory.this, GameOver.class);
-            intent.putExtra("team1Name",t1n);
-            intent.putExtra("team2Name",t2n);
-            intent.putExtra("team1Score",t1s);
-            intent.putExtra("team2Score",t2s);
-            //passing selected_language
-            intent.putExtra("selected_language",language);
-            //passing the winning team image
-            if (t1s > t2s){
-                if (team1bitmap != null){
-                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                    team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
-                    team1byte = bytes.toByteArray();
-                    intent.putExtra("winning_byte",team1byte);
-                }else {
-                    intent.putExtra("winning_byte", (byte[]) null);
-                }
-            }else {
-                if (team2bitmap != null){
-                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                    team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
-                    team2byte = bytes.toByteArray();
-                    intent.putExtra("winning_byte",team2byte);
-                }else {
-                    intent.putExtra("winning_byte", (byte[]) null);
-                }
-            }
-            startActivity(intent);
-        }
-        //checks if any team answered all 3 questions from any category and if yes it disables the button
+        //checks if any team answered all  questions from any category and if yes it disables the button
         if (playing_team.equals(t1n)){
-            if (team1ScienceCorrectAnswers >= 3){
+            if (team1ScienceCorrectAnswers >= score/4){
                 science_bt.setVisibility(View.GONE);
                 science_iv.setVisibility(View.VISIBLE);
             }
-            if (team1SportsCorrectAnswers >= 3) {
+            if (team1SportsCorrectAnswers >= score/4) {
                 sports_bt.setVisibility(View.GONE);
                 sports_iv.setVisibility(View.VISIBLE);
             }
-            if (team1GeographyCorrectAnswers >= 3) {
+            if (team1GeographyCorrectAnswers >= score/4) {
                 geography_bt.setVisibility(View.GONE);
                 geography_iv.setVisibility(View.VISIBLE);
             }
-            if (team1GeneralCorrectAnswers >= 3) {
+            if (team1GeneralCorrectAnswers >= score/4) {
                 general_bt.setVisibility(View.GONE);
                 general_iv.setVisibility(View.VISIBLE);
             }
         }else {
-            if (team2ScienceCorrectAnswers >= 3){
+            if (team2ScienceCorrectAnswers >= score/4){
                 science_bt.setVisibility(View.GONE);
                 science_iv.setVisibility(View.VISIBLE);
             }
-            if (team2SportsCorrectAnswers >= 3) {
+            if (team2SportsCorrectAnswers >= score/4) {
                 sports_bt.setVisibility(View.GONE);
                 sports_iv.setVisibility(View.VISIBLE);
             }
-            if (team2GeographyCorrectAnswers >= 3) {
+            if (team2GeographyCorrectAnswers >= score/4) {
                 geography_bt.setVisibility(View.GONE);
                 geography_iv.setVisibility(View.VISIBLE);
             }
-            if (team2GeneralCorrectAnswers >= 3) {
+            if (team2GeneralCorrectAnswers >= score/4) {
                 general_bt.setVisibility(View.GONE);
                 general_iv.setVisibility(View.VISIBLE);
             }
@@ -243,10 +221,56 @@ public class SelectCategory extends AppCompatActivity {
         team1_score_tv.setText(String.valueOf(t1s));
         team2_score_tv.setText(String.valueOf(t2s));
 
+        // if team 1 reach first the score the team 2 has one last chance
+        if (t1s >= score && lastChance){
+            lastChance = false;
+        } else if (t2s >= score) {
+            GameEnd();
+        } else if (t1s >= score) {
+            GameEnd();
+        }
+
     }
     @Override
     public void onBackPressed() {
 
+    }
+    private void GameEnd(){
+        Intent intent = new Intent(SelectCategory.this, GameOver.class);
+        intent.putExtra("team1Name",t1n);
+        intent.putExtra("team2Name",t2n);
+        intent.putExtra("team1Score",t1s);
+        intent.putExtra("team2Score",t2s);
+        //passing selected_language
+        intent.putExtra("selected_language",language);
+        //passing the winning team image
+        if (t1s > t2s){
+            if (team1bitmap != null){
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
+                team1byte = bytes.toByteArray();
+                intent.putExtra("winning_byte",team1byte);
+            }else {
+                intent.putExtra("winning_byte", (byte[]) null);
+            }
+        } else if (t1s == t2s) {
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.correct);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
+            team1byte = bytes.toByteArray();
+            intent.putExtra("winning_byte",team1byte);
+
+        } else {
+            if (team2bitmap != null){
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
+                team2byte = bytes.toByteArray();
+                intent.putExtra("winning_byte",team2byte);
+            }else {
+                intent.putExtra("winning_byte", (byte[]) null);
+            }
+        }
+        startActivity(intent);
     }
 
 }

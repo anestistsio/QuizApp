@@ -34,6 +34,8 @@ public class MainGame extends AppCompatActivity {
     //this answers_is_boolean checks if question ended to prevent startTimer.onFinish run
     private boolean answers_is_boolean = true;
     private int  timeInSeconds;
+    private boolean lastChance;
+    private int score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +137,18 @@ public class MainGame extends AppCompatActivity {
         which_button = String.valueOf(view.getId());
         Intent intent = new Intent(MainGame.this, SelectCategory.class);
         if (which_button.equals(String.valueOf(correct_bt.getId()))) {
+            if (t2s < score - 1) {
+                lastChance = true;
+            }
+            //checks if team 1 finished all the questions and change to team 2 for a last chance
+            if (t1s >= score -1 && lastChance && playing_team.equals(t1n)){
+                if (!language.equals("English")) {
+                    Toast.makeText(this, "Το κινητό αλλάζει χέρια γιατί η ομάδα " + playing_team + " τελείωσε ", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, "The phone is changing hands because " + playing_team + " finished", Toast.LENGTH_LONG).show();
+                }
+
+            }
             //if correct button clicked then raise the score to the winning team and play correct_sound
             correct_sound.start();
 
@@ -178,6 +192,7 @@ public class MainGame extends AppCompatActivity {
                         break;
                 }
             }
+            // incorrect button clicked
         } else {
             //if the incorrect button clicked then change playing team and play incorrect sound
             incorrect_sound.start();
@@ -187,12 +202,16 @@ public class MainGame extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (!language.equals("English")){
-                Toast.makeText(this, "Το κινητό αλλάζει χέρια γιατι η ομάδα " + playing_team + " έχασε", Toast.LENGTH_LONG).show();
-            }else {
-                Toast.makeText(this, "the phone now is changing hands because " + playing_team + " lost", Toast.LENGTH_LONG).show();
+            //checks if team 2 lost in last chance
+            if (!(t1s >= score && lastChance)){
+                if (t1s != score) {
+                    if (!language.equals("English")) {
+                        Toast.makeText(this, "Το κινητό αλλάζει χέρια γιατι η ομάδα " + playing_team + " έχασε", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(this, "the phone now is changing hands because " + playing_team + " lost", Toast.LENGTH_LONG).show();
+                    }
+                }
             }
-
 
             //initialize the playing_team
             if (playing_team.equals(t1n)) {
@@ -201,13 +220,19 @@ public class MainGame extends AppCompatActivity {
                 playing_team = t1n;
             }
         }
-
-        //pass those things back to SelectCategory.class
-        intent.putExtra("playing_team", playing_team);
+        //check if team 1 reached first the 12
+        if (t1s == score) {
+            playing_team = t2n;
+            intent.putExtra("playing_team", playing_team);
+        } else{
+            intent.putExtra("playing_team", playing_team);
+        }
         intent.putExtra("team1Name", t1n);
         intent.putExtra("team2Name", t2n);
         intent.putExtra("team1Score", t1s);
         intent.putExtra("team2Score", t2s);
+        intent.putExtra("score", score);
+        intent.putExtra("lastChance",lastChance);
         // passing values for correct answered counters for each category for each team
         intent.putExtra("team1ScienceCorrectAnswers", team1ScienceCorrectAnswers);
         intent.putExtra("team2ScienceCorrectAnswers", team2ScienceCorrectAnswers);
@@ -265,6 +290,8 @@ public class MainGame extends AppCompatActivity {
         t1s = getIntent().getExtras().getInt("team1Score");
         t2s = getIntent().getExtras().getInt("team2Score");
         t1n = getIntent().getExtras().getString("team1Name");
+        score = getIntent().getExtras().getInt("score");
+        lastChance = getIntent().getExtras().getBoolean("lastChance");
 
         //retrieving the values for correct answered counters for each category for each team
         team1ScienceCorrectAnswers = getIntent().getExtras().getInt("team1ScienceCorrectAnswers");

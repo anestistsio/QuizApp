@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity{
     private ImageView team1_iv,team2_iv;
     private ImageButton team1_im,team2_im;
     private int id , timeInSeconds = 60;
+    private boolean lastChance = true;
+    private int score = 4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +100,7 @@ public class MainActivity extends AppCompatActivity{
                     intent.putExtra("team2Name", t2n);
                     intent.putExtra("team1Score", 0);
                     intent.putExtra("team2Score", 0);
+                    intent.putExtra("score", score);
                     //team1 starts by default
                     intent.putExtra("playing_team", t1n);
                     // passing initialized 0 values for correct answered counters for each category for each team
@@ -111,6 +114,7 @@ public class MainActivity extends AppCompatActivity{
                     intent.putExtra("team2GeneralCorrectAnswers", team2GeneralCorrectAnswers);
                     //pass the time in seconds
                     intent.putExtra("timeInSeconds",timeInSeconds);
+                    intent.putExtra("lastChance",lastChance);
 
 
                     //passing the images of the teams to SelectedCategory.class
