@@ -123,5 +123,40 @@
         app:layout_constraintEnd_toStartOf="@+id/timer_iv"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="230dp"
+        android:visibility="gone"
+        android:background="@color/background_color"
+        android:id="@+id/changing_team_layout"
+        >
+
+        <TextView
+            android:id="@+id/changing_team_tv"
+            android:layout_width="400dp"
+            android:gravity="center"
+            android:layout_height="400dp"
+            android:layout_marginTop="100dp"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:textColor="#FF0000"
+            android:layout_marginStart="5dp"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/changing_team_bt"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="100dp"
+            android:layout_weight="1"
+            android:text="OK" />
+
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

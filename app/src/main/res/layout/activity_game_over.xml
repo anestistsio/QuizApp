@@ -101,6 +101,8 @@
         android:layout_below="@+id/gameover_iv"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
+        android:background="#00FFFFFF"
+        android:scaleType="fitCenter"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
     <ImageView
         android:id="@+id/share_bt"

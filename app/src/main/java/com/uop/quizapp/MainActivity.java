@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity{
     private ImageButton team1_im,team2_im;
     private int id , timeInSeconds = 60;
     private boolean lastChance = true;
+    //4 questions per category by default
     private int score = 12;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

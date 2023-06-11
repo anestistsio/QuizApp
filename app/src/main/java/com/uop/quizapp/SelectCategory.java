@@ -255,7 +255,7 @@ public class SelectCategory extends AppCompatActivity {
             }
         } else if (t1s == t2s) {
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.correct);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.draw);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
             team1byte = bytes.toByteArray();
             intent.putExtra("winning_byte",team1byte);

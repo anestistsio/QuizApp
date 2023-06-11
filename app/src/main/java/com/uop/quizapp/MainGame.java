@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -24,9 +25,9 @@ import java.util.concurrent.TimeUnit;
 
 public class MainGame extends AppCompatActivity {
 
-    private TextView question_tv, selected_category_tv, answer_tv, answeris_tv, timer_tv;
+    private TextView question_tv, selected_category_tv, answer_tv, answeris_tv, timer_tv,changing_team_tv;
     private ImageButton correct_bt, incorrect_bt;
-    private Button show_hide_bt;
+    private Button show_hide_bt,changing_team_bt;
     private String which_button, playing_team, t1n, t2n, selectedCategory,language;
     private int t1s, t2s, team1ScienceCorrectAnswers, team2ScienceCorrectAnswers, team1SportsCorrectAnswers, team2SportsCorrectAnswers, team1GeographyCorrectAnswers, team2GeographyCorrectAnswers, team1GeneralCorrectAnswers, team2GeneralCorrectAnswers;
     Bitmap team2bitmap, team1bitmap;
@@ -36,6 +37,8 @@ public class MainGame extends AppCompatActivity {
     private int  timeInSeconds;
     private boolean lastChance;
     private int score;
+    private View changing_team_layout;
+    private boolean is_ok_pressed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,10 +145,11 @@ public class MainGame extends AppCompatActivity {
             }
             //checks if team 1 finished all the questions and change to team 2 for a last chance
             if (t1s >= score -1 && lastChance && playing_team.equals(t1n)){
+                changing_team_layout.setVisibility(View.VISIBLE);
                 if (!language.equals("English")) {
-                    Toast.makeText(this, "Το κινητό αλλάζει χέρια γιατί η ομάδα " + playing_team + " τελείωσε ", Toast.LENGTH_LONG).show();
+                    changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατί η ομάδα " + playing_team + " τελείωσε ");
                 } else {
-                    Toast.makeText(this, "The phone is changing hands because " + playing_team + " finished", Toast.LENGTH_LONG).show();
+                    changing_team_tv.setText("The phone is changing hands because " + playing_team + " finished");
                 }
 
             }
@@ -205,10 +209,11 @@ public class MainGame extends AppCompatActivity {
             //checks if team 2 lost in last chance
             if (!(t1s >= score && lastChance)){
                 if (t1s != score) {
+                    changing_team_layout.setVisibility(View.VISIBLE);
                     if (!language.equals("English")) {
-                        Toast.makeText(this, "Το κινητό αλλάζει χέρια γιατι η ομάδα " + playing_team + " έχασε", Toast.LENGTH_LONG).show();
+                        changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατι η ομάδα " + playing_team + " έχασε");
                     } else {
-                        Toast.makeText(this, "the phone now is changing hands because " + playing_team + " lost", Toast.LENGTH_LONG).show();
+                        changing_team_tv.setText("the phone now is changing hands because " + playing_team + " lost");
                     }
                 }
             }
@@ -262,8 +267,20 @@ public class MainGame extends AppCompatActivity {
         } else {
             intent.putExtra("team2byte", (byte[]) null);
         }
-
-        startActivity(intent);
+        //we set visible this layout when the user clicks the incorrect button
+        if (changing_team_layout.getVisibility() == View.VISIBLE){
+            final MediaPlayer click_sound = MediaPlayer.create(this, R.raw.click_sound);
+            //if the user clicks ok we pass in SelectedCategory.java
+            changing_team_bt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    click_sound.start();
+                    startActivity(intent);
+                }
+            });
+        }else {
+            startActivity(intent);
+        }
 
     }
 
@@ -279,6 +296,9 @@ public class MainGame extends AppCompatActivity {
         answeris_tv = findViewById(R.id.answeris_tv);
         timer_tv = findViewById(R.id.timer_tv);
         timer_iv = findViewById(R.id.timer_iv);
+        changing_team_bt = findViewById(R.id.changing_team_bt);
+        changing_team_tv = findViewById(R.id.changing_team_tv);
+        changing_team_layout = findViewById(R.id.changing_team_layout);
 
         //pass selected category from SelectedCategory.class to MainGame.class
         selectedCategory = getIntent().getExtras().getString("selectedCategory");
@@ -409,4 +429,5 @@ public class MainGame extends AppCompatActivity {
         };
         count.start();
     }
+
 }
