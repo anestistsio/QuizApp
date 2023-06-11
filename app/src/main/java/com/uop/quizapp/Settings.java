@@ -16,9 +16,10 @@ public class Settings extends AppCompatActivity {
 
     private Spinner language_sp;
     private String [] languages = new String[]{"Ελληνικά","English"};
-    private SeekBar TimePerQuestion_sb;
-    private TextView TimeInSeconds_tv;
+    private SeekBar TimePerQuestion_sb,QPerCat_sb;
+    private TextView TimeInSeconds_tv,QPerCat_tv;
     private int timeInSeconds = 60;
+    private int questionsPerCategory = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,10 @@ public class Settings extends AppCompatActivity {
         TimePerQuestion_sb = findViewById(R.id.TimePerQuestion_sb);
         TimeInSeconds_tv = findViewById(R.id.TimeInSeconds_tv);
         TimeInSeconds_tv.setText(timeInSeconds + "s");
+
+        QPerCat_sb = findViewById(R.id.QPerCat_sb);
+        QPerCat_tv = findViewById(R.id.QPerCat_tv);
+        QPerCat_tv.setText(String.valueOf(questionsPerCategory));
 
         //Time per Question seekBar listener
         TimePerQuestion_sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -54,6 +59,25 @@ public class Settings extends AppCompatActivity {
             }
         });
 
+
+        QPerCat_sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                questionsPerCategory = progress + 1;
+                QPerCat_tv.setText(String.valueOf(questionsPerCategory));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
     }
     public void save(View view) {
         final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
@@ -62,6 +86,7 @@ public class Settings extends AppCompatActivity {
         Intent intent = new Intent(Settings.this, MainActivity.class);
         intent.putExtra("selected_language", language);
         intent.putExtra("timeInSeconds",timeInSeconds);
+        intent.putExtra("questionsPerCategory",questionsPerCategory);
         startActivity(intent);
         finish();
     }

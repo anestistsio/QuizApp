@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity{
     private ImageButton team1_im,team2_im;
     private int id , timeInSeconds = 60;
     private boolean lastChance = true;
-    private int score = 4;
+    private int score = 12;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,11 +74,14 @@ public class MainActivity extends AppCompatActivity{
         team2_im = findViewById(R.id.team2_im);
         // here we check if language is greek and we change the hints from team1/2_et
         language = getIntent().getStringExtra("selected_language");
-        if (language != null && language.equals("Ελληνικά")) {
+        if (language != null) {
+            score = (getIntent().getExtras().getInt("questionsPerCategory")) * 4;
             //getting the time in seconds
             timeInSeconds = getIntent().getExtras().getInt("timeInSeconds");
-            team1_et.setHint("Όνομα Ομάδας 1");
-            team2_et.setHint("Όνομα Ομάδας 2");
+            if (language.equals("Ελληνικά")) {
+                team1_et.setHint("Όνομα Ομάδας 1");
+                team2_et.setHint("Όνομα Ομάδας 2");
+            }
         }
     }
         public void select_category(View view) {
@@ -86,10 +89,19 @@ public class MainActivity extends AppCompatActivity{
                 //Check if both team names entered
             if (TextUtils.isEmpty(team1_et.getText()) || TextUtils.isEmpty(team2_et.getText())){
                     //error message
+                if (!language.equals("English")) {
+                    Toast.makeText(MainActivity.this,"Παρακαλώ δώστε ονόματα ομάδας", Toast.LENGTH_SHORT).show();
+                }else {
                     Toast.makeText(MainActivity.this,"Please enter team names", Toast.LENGTH_SHORT).show();
+                }
+
             }else if (TextUtils.equals(team1_et.getText(),team2_et.getText())) {
                 //error same name handler
-                Toast.makeText(MainActivity.this, "Please enter different team names", Toast.LENGTH_SHORT).show();
+                if (!language.equals("English")) {
+                    Toast.makeText(MainActivity.this,"Παρακαλώ δώστε διαφορετικά ονόματα ομάδας", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(MainActivity.this,"Please enter different team names", Toast.LENGTH_SHORT).show();
+                }
             }else{
                     click_sound.start();
                     Intent intent = new Intent(MainActivity.this, SelectCategory.class);
