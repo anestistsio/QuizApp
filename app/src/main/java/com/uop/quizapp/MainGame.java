@@ -326,11 +326,7 @@ public class MainGame extends AppCompatActivity {
         language = getIntent().getExtras().getString("selected_language");
         //getting the time in seconds
         timeInSeconds =  getIntent().getExtras().getInt("timeInSeconds");
-        //by default the 2 buttons and the answer are hidden
-        answer_tv.setVisibility(View.GONE);
-        correct_bt.setVisibility(View.GONE);
-        incorrect_bt.setVisibility(View.GONE);
-        answeris_tv.setVisibility(View.GONE);
+
         if (!language.equals("English")) {
             answeris_tv.setText("Σωστή απάντηση");
             show_hide_bt.setText("Δείξε");

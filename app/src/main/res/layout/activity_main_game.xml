@@ -37,6 +37,7 @@
         android:background="#00FFFFFF"
         android:onClick="question_end"
         android:scaleType="fitCenter"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/correct" />
@@ -45,13 +46,14 @@
         android:id="@+id/incorrect_bt"
         android:layout_width="133dp"
         android:layout_height="133dp"
-        android:layout_marginEnd="25dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="60dp"
         android:background="#00FFFFFF"
         android:onClick="question_end"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
         app:srcCompat="@drawable/incorrect" />
 
     <TextView
@@ -63,6 +65,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/question_tv" />
 
     <TextView
@@ -71,6 +74,7 @@
         android:layout_height="23dp"
         android:layout_marginBottom="10dp"
         android:text="Correct Answer"
+        android:visibility="gone"
         android:textAlignment="center"
         android:textSize="19sp"
         android:textStyle="bold"

@@ -29,6 +29,7 @@
         android:layout_marginTop="100dp"
         android:background="#00FFFFFF"
         android:scaleType="fitCenter"
+        android:visibility="gone"
         app:srcCompat="@drawable/geography_icon_disabled" />
 
     <ImageButton
@@ -53,6 +54,7 @@
         android:layout_marginEnd="38dp"
         android:background="#00FFFFFF"
         android:scaleType="fitCenter"
+        android:visibility="gone"
         app:srcCompat="@drawable/general_icon_disabled" />
 
     <ImageButton
@@ -77,6 +79,7 @@
         android:layout_marginTop="270dp"
         android:background="#00FFFFFF"
         android:scaleType="fitCenter"
+        android:visibility="gone"
         app:srcCompat="@drawable/science_icon_disabled" />
 
     <ImageButton
@@ -101,6 +104,7 @@
         android:layout_marginEnd="38dp"
         android:background="#00FFFFFF"
         android:scaleType="fitCenter"
+        android:visibility="gone"
         app:srcCompat="@drawable/sport_icon_disabled" />
 
     <TextView

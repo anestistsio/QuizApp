@@ -128,11 +128,6 @@ public class SelectCategory extends AppCompatActivity {
         ImageView sports_iv = findViewById(R.id.sport_iv);
         ImageView team1_im = findViewById(R.id.team1_im);
         ImageView team2_im = findViewById(R.id.team2_im);
-        //hiding the image views to display only the image buttons
-        science_iv.setVisibility(View.GONE);
-        general_iv.setVisibility(View.GONE);
-        geography_iv.setVisibility(View.GONE);
-        sports_iv.setVisibility(View.GONE);
 
 
         //take the team names and scores and playing team
