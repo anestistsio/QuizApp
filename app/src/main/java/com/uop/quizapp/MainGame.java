@@ -147,9 +147,9 @@ public class MainGame extends AppCompatActivity {
             if (t1s >= score -1 && lastChance && playing_team.equals(t1n)){
                 changing_team_layout.setVisibility(View.VISIBLE);
                 if (!language.equals("English")) {
-                    changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατί η ομάδα " + playing_team + " τελείωσε ");
+                    changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατί η ομάδα : " + playing_team.toUpperCase() + " τελείωσε ");
                 } else {
-                    changing_team_tv.setText("The phone is changing hands because " + playing_team + " finished");
+                    changing_team_tv.setText("The phone is changing hands because : " + playing_team.toUpperCase() + " finished");
                 }
 
             }
@@ -211,9 +211,9 @@ public class MainGame extends AppCompatActivity {
                 if (t1s != score) {
                     changing_team_layout.setVisibility(View.VISIBLE);
                     if (!language.equals("English")) {
-                        changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατι η ομάδα " + playing_team + " έχασε");
+                        changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατι η ομάδα : " + playing_team.toUpperCase() + " έχασε");
                     } else {
-                        changing_team_tv.setText("the phone now is changing hands because " + playing_team + " lost");
+                        changing_team_tv.setText("the phone now is changing hands because : " + playing_team.toUpperCase() + " lost");
                     }
                 }
             }
