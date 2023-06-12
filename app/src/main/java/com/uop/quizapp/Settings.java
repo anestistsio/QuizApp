@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class Settings extends AppCompatActivity {
 
     private Spinner language_sp;
-    private String [] languages = new String[]{"Ελληνικά","English"};
+    private String [] languages = new String[]{"English","Ελληνικά"};
     private SeekBar TimePerQuestion_sb,QPerCat_sb;
     private TextView TimeInSeconds_tv,QPerCat_tv;
     private int timeInSeconds = 60;

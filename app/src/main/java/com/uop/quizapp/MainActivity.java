@@ -83,16 +83,18 @@ public class MainActivity extends AppCompatActivity{
                 team1_et.setHint("Όνομα Ομάδας 1");
                 team2_et.setHint("Όνομα Ομάδας 2");
             }
+        }else{
+            language = "English";
         }
     }
         public void select_category(View view) {
             final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
                 //Check if both team names entered
-            if (TextUtils.isEmpty(team1_et.getText()) || TextUtils.isEmpty(team2_et.getText())){
-                    //error message
+            if (TextUtils.isEmpty(team1_et.getText()) || TextUtils.isEmpty(team2_et.getText())) {
+                //error message
                 if (!language.equals("English")) {
-                    Toast.makeText(MainActivity.this,"Παρακαλώ δώστε ονόματα ομάδας", Toast.LENGTH_SHORT).show();
-                }else {
+                    Toast.makeText(MainActivity.this, "Παρακαλώ δώστε ονόματα ομάδας", Toast.LENGTH_SHORT).show();
+                } else {
                     Toast.makeText(MainActivity.this,"Please enter team names", Toast.LENGTH_SHORT).show();
                 }
 
