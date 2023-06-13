@@ -406,7 +406,6 @@ public class MainGame extends AppCompatActivity {
                 if (millisUntilFinished < 10000) {
                     timer_tv.setTextColor(Color.rgb(186,37,37));
                     ticking_sound.start();
-                    timer_iv.setImageResource(R.drawable.red_timer);
                 }
             }else{
                 ticking_sound.stop();
@@ -424,6 +423,10 @@ public class MainGame extends AppCompatActivity {
             }
         };
         count.start();
+    }
+    @Override
+    public void onBackPressed() {
+
     }
 
 }

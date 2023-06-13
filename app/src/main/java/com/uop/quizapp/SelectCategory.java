@@ -207,9 +207,9 @@ public class SelectCategory extends AppCompatActivity {
 
         //set team names and scores and playing team to TextViews
         if (!language.equals("English")) {
-            teamplay_tv.setText("Παίζει η ομάδα: " + playing_team);
+            teamplay_tv.setText("Παίζει η ομάδα: " + playing_team.toUpperCase());
         }else {
-            teamplay_tv.setText("Playing team: " + playing_team);
+            teamplay_tv.setText("Playing team: " + playing_team.toUpperCase());
         }
         team1_name_tv.setText(t1n);
         team2_name_tv.setText(t2n);

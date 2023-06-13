@@ -3,8 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background"
     android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#3BFFFFFF"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
 
 
     <ImageButton
@@ -115,7 +122,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="200dp"
         android:textAlignment="center"
-        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:textSize="24sp"
         android:textStyle="bold" />
 
     <TextView
@@ -126,8 +134,9 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="40dp"
         android:layout_marginTop="25dp"
+        android:textColor="@color/white"
         android:textAlignment="textStart"
-        android:textSize="16sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/team2_name_tv"
@@ -137,8 +146,9 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="40dp"
+        android:textColor="@color/white"
         android:textAlignment="textEnd"
-        android:textSize="16sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/team1_score_tv"
@@ -149,7 +159,8 @@
         android:layout_marginStart="65dp"
         android:layout_marginTop="10dp"
         android:textAlignment="center"
-        android:textSize="16sp"
+        android:textSize="24sp"
+        android:textColor="@color/white"
         android:textStyle="bold" />
 
     <TextView
@@ -159,12 +170,13 @@
         android:layout_below="@+id/team2_im"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="65dp"
+        android:layout_marginEnd="66dp"
         android:textAlignment="center"
-        android:textSize="16sp"
+        android:textSize="24sp"
+        android:textColor="@color/white"
         android:textStyle="bold" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/team1_im"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -174,7 +186,7 @@
         android:layout_marginTop="0dp"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/team2_im"
         android:layout_width="50dp"
         android:layout_height="50dp"

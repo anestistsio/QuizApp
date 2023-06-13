@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -91,6 +92,9 @@ public class MainActivity extends AppCompatActivity{
             final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
                 //Check if both team names entered
             if (TextUtils.isEmpty(team1_et.getText()) || TextUtils.isEmpty(team2_et.getText())) {
+                //change the color of hint
+                team1_et.setHintTextColor(Color.RED);
+                team2_et.setHintTextColor(Color.RED);
                 //error message
                 if (!language.equals("English")) {
                     Toast.makeText(MainActivity.this, "Παρακαλώ δώστε ονόματα ομάδας", Toast.LENGTH_SHORT).show();
