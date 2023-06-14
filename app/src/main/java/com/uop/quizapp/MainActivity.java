@@ -90,19 +90,25 @@ public class MainActivity extends AppCompatActivity{
     }
         public void select_category(View view) {
             final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
-                //Check if both team names entered
-            if (TextUtils.isEmpty(team1_et.getText()) || TextUtils.isEmpty(team2_et.getText())) {
-                //change the color of hint
-                team1_et.setHintTextColor(Color.RED);
-                team2_et.setHintTextColor(Color.RED);
-                //error message
-                if (!language.equals("English")) {
-                    Toast.makeText(MainActivity.this, "Παρακαλώ δώστε ονόματα ομάδας", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(MainActivity.this,"Please enter team names", Toast.LENGTH_SHORT).show();
+            //Check if both team names entered
+            t1n = team1_et.getText().toString();
+            t2n = team2_et.getText().toString();
+            if (t1n.equals("")){
+                if (language.equals("English")) {
+                    t1n = "Team 1";
+                }else {
+                    t1n = "Ομάδα 1";
                 }
+            }
+            if (t2n.equals("")){
+                if (language.equals("English")) {
+                    t2n = "Team 2";
+                }else {
+                    t2n = "Ομάδα 2";
+                }
+            }
 
-            }else if (TextUtils.equals(team1_et.getText(),team2_et.getText())) {
+            if (t1n.equals(t2n)) {
                 //error same name handler
                 if (!language.equals("English")) {
                     Toast.makeText(MainActivity.this,"Παρακαλώ δώστε διαφορετικά ονόματα ομάδας", Toast.LENGTH_SHORT).show();
@@ -113,8 +119,7 @@ public class MainActivity extends AppCompatActivity{
                     click_sound.start();
                     Intent intent = new Intent(MainActivity.this, SelectCategory.class);
                     //pass team names and scores and playing team to SelectedCategory.class
-                    t1n = team1_et.getText().toString();
-                    t2n = team2_et.getText().toString();
+
                     intent.putExtra("team1Name", t1n);
                     intent.putExtra("team2Name", t2n);
                     intent.putExtra("team1Score", 0);
