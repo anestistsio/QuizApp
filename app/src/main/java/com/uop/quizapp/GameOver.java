@@ -8,14 +8,18 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class GameOver extends AppCompatActivity {
     private TextView winning_tv,team1Name_tv,team2Name_tv,team1Score_tv,team2Score_tv;
     private int t1s,t2s;
     private String t1n,t2n,winning_team,language;
+    private boolean isMute;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,9 +31,11 @@ public class GameOver extends AppCompatActivity {
 
     }
     private void initializing(){
-
+        isMute = getIntent().getExtras().getBoolean("isMute");
         final MediaPlayer win_sound = MediaPlayer.create(this,R.raw.win_sound);
-        win_sound.start();
+        if (!isMute) {
+            win_sound.start();
+        }
         winning_tv = findViewById(R.id.winning_tv);
         team1Name_tv = findViewById(R.id.team1Name_tv);
         team2Name_tv = findViewById(R.id.team2Name_tv);
@@ -50,7 +56,7 @@ public class GameOver extends AppCompatActivity {
             Bitmap winning_image = BitmapFactory.decodeByteArray(winning_byte, 0, winning_byte.length);
             winning_im.setImageBitmap(winning_image);
         }else {
-            winning_im.setVisibility(View.GONE);
+            winning_im.setImageDrawable(getResources().getDrawable(R.drawable.user_im));
         }
 
         if(t1s>t2s) {
@@ -82,21 +88,27 @@ public class GameOver extends AppCompatActivity {
     public void exit(View view) {
         //initialize click sound
         final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
-        click_sound.start();
+        if (!isMute) {
+            click_sound.start();
+        }
         finishAffinity();
         finish();
     }
     public void restart(View view) {
         //initialize click sound
         final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
-        click_sound.start();
+        if (!isMute) {
+            click_sound.start();
+        }
         Intent intent = new Intent(GameOver.this, MainActivity.class);
         startActivity(intent);
         finish();
     }
     public void shareGameOver(View view) {
         final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
-        click_sound.start();
+        if (!isMute) {
+            click_sound.start();
+        }
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         String Body = "Download this app";
@@ -105,8 +117,25 @@ public class GameOver extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_TEXT, Sub);
         startActivity(Intent.createChooser(intent, "Share using"));
     }
+    boolean doubleBackToExitPressedOnce = false;
+
     @Override
     public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            finishAndRemoveTask();
+            this.finishAffinity();
 
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK twice to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 1000);
     }
 }

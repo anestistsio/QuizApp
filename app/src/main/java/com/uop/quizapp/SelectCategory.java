@@ -7,10 +7,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 
@@ -31,6 +35,14 @@ public class SelectCategory extends AppCompatActivity {
     private byte[] team2byte;
     private boolean lastChance;
     private int score;
+    private View score_layout;
+    private ImageView playing_team_im;
+    ImageButton science_bt;
+    ImageButton general_bt;
+    ImageButton geography_bt;
+    ImageButton sports_bt;
+    private boolean isMute;
+
 
 
     @Override
@@ -65,7 +77,9 @@ public class SelectCategory extends AppCompatActivity {
                 selectedCategory= DBContract.GeographyTable.TABLE_NAME;
                 break;
         }
-        click_sound.start();
+        if (!isMute) {
+            click_sound.start();
+        }
         //pass selected category to MainGame.class
         Intent intent = new Intent(SelectCategory.this, MainGame.class);
         intent.putExtra("selectedCategory", selectedCategory);
@@ -87,6 +101,7 @@ public class SelectCategory extends AppCompatActivity {
         intent.putExtra("team2GeneralCorrectAnswers", team2GeneralCorrectAnswers);
         //passing the language
         intent.putExtra("selected_language",language);
+        intent.putExtra("isMute",isMute);
         //passing the time in seconds
         intent.putExtra("timeInSeconds",timeInSeconds);
         //passing the images to MainGame.class
@@ -118,16 +133,19 @@ public class SelectCategory extends AppCompatActivity {
         team2_name_tv = findViewById(R.id.team2_name_tv);
         team1_score_tv =findViewById(R.id.team1_score_tv);
         team2_score_tv = findViewById(R.id.team2_score_tv);
-        ImageButton science_bt = findViewById(R.id.science_bt);
-        ImageButton general_bt = findViewById(R.id.general_bt);
-        ImageButton geography_bt = findViewById(R.id.geography_bt);
-        ImageButton sports_bt = findViewById(R.id.sport_bt);
+        science_bt = findViewById(R.id.science_bt);
+        general_bt = findViewById(R.id.general_bt);
+        geography_bt = findViewById(R.id.geography_bt);
+        sports_bt = findViewById(R.id.sport_bt);
         ImageView science_iv = findViewById(R.id.science_iv);
         ImageView general_iv = findViewById(R.id.general_iv);
         ImageView geography_iv = findViewById(R.id.geography_iv);
         ImageView sports_iv = findViewById(R.id.sport_iv);
         ImageView team1_im = findViewById(R.id.team1_im);
         ImageView team2_im = findViewById(R.id.team2_im);
+        Button score_bt = findViewById(R.id.score_bt);
+        score_layout = findViewById(R.id.score_layout);
+        playing_team_im = findViewById(R.id.playing_team_im);
 
 
         //take the team names and scores and playing team
@@ -149,6 +167,7 @@ public class SelectCategory extends AppCompatActivity {
         team2GeneralCorrectAnswers =  getIntent().getExtras().getInt("team2GeneralCorrectAnswers");
         //getting the selected_language from MainActivity.java or from MainGame.java
         language = getIntent().getExtras().getString("selected_language");
+        isMute = getIntent().getExtras().getBoolean("isMute");
         //getting the time in seconds
         timeInSeconds = getIntent().getExtras().getInt("timeInSeconds");
         //getting the images for two teams
@@ -158,14 +177,29 @@ public class SelectCategory extends AppCompatActivity {
             team1bitmap = BitmapFactory.decodeByteArray(team1byte, 0, team1byte.length);
             team1_im.setImageBitmap(team1bitmap);
         }else {
-            team1_im.setVisibility(View.GONE);
+            team1_im.setImageDrawable(getResources().getDrawable(R.drawable.user_im));
         }
         team2byte = ex.getByteArray("team2byte");
         if (team2byte != null) {
             team2bitmap = BitmapFactory.decodeByteArray(team2byte, 0, team2byte.length);
             team2_im.setImageBitmap(team2bitmap);
         }else {
-            team2_im.setVisibility(View.GONE);
+            team2_im.setImageDrawable(getResources().getDrawable(R.drawable.user_im));
+        }
+
+        //checks which team is playing to put the right image in the playing_team_im
+        if (playing_team.equals(t1n)){
+            if (team1byte != null) {
+                playing_team_im.setImageBitmap(team1bitmap);
+            }else {
+                playing_team_im.setImageDrawable(getResources().getDrawable(R.drawable.user_im));
+            }
+        }else {
+            if (team2byte != null) {
+                playing_team_im.setImageBitmap(team2bitmap);
+            }else {
+                playing_team_im.setImageDrawable(getResources().getDrawable(R.drawable.user_im));
+            }
         }
         //checks if any team answered all  questions from any category and if yes it disables the button
         if (playing_team.equals(t1n)){
@@ -226,9 +260,42 @@ public class SelectCategory extends AppCompatActivity {
         }
 
     }
+    boolean doubleBackToExitPressedOnce = false;
+
     @Override
     public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            finishAndRemoveTask();
+            this.finishAffinity();
 
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK twice to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 1000);
+    }
+    public void Score(View view){
+        score_layout.setVisibility(View.VISIBLE);
+        geography_bt.setClickable(false);
+        general_bt.setClickable(false);
+        sports_bt.setClickable(false);
+        science_bt.setClickable(false);
+
+
+    }
+    public void ReturnFromScore(View view){
+        score_layout.setVisibility(View.GONE);
+        geography_bt.setClickable(true);
+        general_bt.setClickable(true);
+        sports_bt.setClickable(true);
+        science_bt.setClickable(true);
     }
     private void GameEnd(){
         Intent intent = new Intent(SelectCategory.this, GameOver.class);
@@ -238,6 +305,7 @@ public class SelectCategory extends AppCompatActivity {
         intent.putExtra("team2Score",t2s);
         //passing selected_language
         intent.putExtra("selected_language",language);
+        intent.putExtra("isMute",isMute);
         //passing the winning team image
         if (t1s > t2s){
             if (team1bitmap != null){

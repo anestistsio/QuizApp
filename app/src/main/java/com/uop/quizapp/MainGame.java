@@ -8,7 +8,8 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.text.Layout;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -26,8 +27,8 @@ import java.util.concurrent.TimeUnit;
 public class MainGame extends AppCompatActivity {
 
     private TextView question_tv, selected_category_tv, answer_tv, answeris_tv, timer_tv,changing_team_tv;
-    private ImageButton correct_bt, incorrect_bt;
-    private Button show_hide_bt,changing_team_bt;
+    private ImageButton correct_bt, incorrect_bt,changing_team_bt;
+    private Button show_hide_bt;
     private String which_button, playing_team, t1n, t2n, selectedCategory,language;
     private int t1s, t2s, team1ScienceCorrectAnswers, team2ScienceCorrectAnswers, team1SportsCorrectAnswers, team2SportsCorrectAnswers, team1GeographyCorrectAnswers, team2GeographyCorrectAnswers, team1GeneralCorrectAnswers, team2GeneralCorrectAnswers;
     Bitmap team2bitmap, team1bitmap;
@@ -39,6 +40,8 @@ public class MainGame extends AppCompatActivity {
     private int score;
     private View changing_team_layout;
     private boolean is_ok_pressed = false;
+    private CountDownTimer count;
+    private boolean isMute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,8 +157,10 @@ public class MainGame extends AppCompatActivity {
 
             }
             //if correct button clicked then raise the score to the winning team and play correct_sound
-            correct_sound.start();
-
+            if (!isMute) {
+                correct_sound.start();
+            }
+            count.cancel();
             //wait 0.5 s to play sound properly
             try {
                 Thread.sleep(600);
@@ -199,7 +204,10 @@ public class MainGame extends AppCompatActivity {
             // incorrect button clicked
         } else {
             //if the incorrect button clicked then change playing team and play incorrect sound
-            incorrect_sound.start();
+            if (!isMute) {
+                incorrect_sound.start();
+            }
+            count.cancel();
             //wait 0.5 s to play sound properly
             try {
                 Thread.sleep(600);
@@ -249,6 +257,7 @@ public class MainGame extends AppCompatActivity {
         intent.putExtra("team2GeneralCorrectAnswers", team2GeneralCorrectAnswers);
         //passing selected_language and time in seconds
         intent.putExtra("selected_language",language);
+        intent.putExtra("isMute",isMute);
         intent.putExtra("timeInSeconds", timeInSeconds);
         //passing the images back to SelectedCategory.class
         if (team1bitmap != null) {
@@ -274,7 +283,9 @@ public class MainGame extends AppCompatActivity {
             changing_team_bt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    click_sound.start();
+                    if (!isMute) {
+                        click_sound.start();
+                    }
                     startActivity(intent);
                 }
             });
@@ -299,6 +310,7 @@ public class MainGame extends AppCompatActivity {
         changing_team_bt = findViewById(R.id.changing_team_bt);
         changing_team_tv = findViewById(R.id.changing_team_tv);
         changing_team_layout = findViewById(R.id.changing_team_layout);
+        TextView playing_team_tv = findViewById(R.id.playing_team_tv);
 
         //pass selected category from SelectedCategory.class to MainGame.class
         selectedCategory = getIntent().getExtras().getString("selectedCategory");
@@ -324,9 +336,14 @@ public class MainGame extends AppCompatActivity {
         team2GeneralCorrectAnswers = getIntent().getExtras().getInt("team2GeneralCorrectAnswers");
         //getting the selected_language from SelectCategory.java
         language = getIntent().getExtras().getString("selected_language");
+        isMute = getIntent().getExtras().getBoolean("isMute");
         //getting the time in seconds
         timeInSeconds =  getIntent().getExtras().getInt("timeInSeconds");
-
+        if (playing_team.equals(t1n)) {
+            playing_team_tv.setText(t1n);
+        }else {
+            playing_team_tv.setText(t2n);
+        }
         if (!language.equals("English")) {
             answeris_tv.setText("Σωστή απάντηση");
             show_hide_bt.setText("Δείξε");
@@ -349,13 +366,13 @@ public class MainGame extends AppCompatActivity {
             if (team1bitmap != null) {
                 playing_team_image.setImageBitmap(team1bitmap);
             } else {
-                playing_team_image.setVisibility(View.GONE);
+                playing_team_image.setImageDrawable(getResources().getDrawable(R.drawable.user_im));
             }
         } else {
             if (team2bitmap != null) {
                 playing_team_image.setImageBitmap(team2bitmap);
             } else {
-                playing_team_image.setVisibility(View.GONE);
+                playing_team_image.setImageDrawable(getResources().getDrawable(R.drawable.user_im));
             }
 
         }
@@ -391,7 +408,7 @@ public class MainGame extends AppCompatActivity {
     private void startTimer() {
         //initialize the time end sound
         final MediaPlayer ticking_sound = MediaPlayer.create(this ,R.raw.ticking_sound);
-        CountDownTimer count = new CountDownTimer((timeInSeconds * 1000), 1000) {
+        count = new CountDownTimer((timeInSeconds * 1000), 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 //making the time into the right format
@@ -405,10 +422,14 @@ public class MainGame extends AppCompatActivity {
             if(answers_is_boolean){
                 if (millisUntilFinished < 10000) {
                     timer_tv.setTextColor(Color.rgb(186,37,37));
-                    ticking_sound.start();
+                    if (!isMute) {
+                        ticking_sound.start();
+                    }
                 }
             }else{
-                ticking_sound.stop();
+                if (!isMute) {
+                    ticking_sound.stop();
+                }
             }
             }
 
@@ -416,7 +437,9 @@ public class MainGame extends AppCompatActivity {
             public void onFinish() {
                 //check if question_end called before executing
                 if(answers_is_boolean) {
-                    ticking_sound.stop();
+                    if (!isMute) {
+                        ticking_sound.stop();
+                    }
                     question_end(incorrect_bt);
                 }
 
@@ -424,9 +447,33 @@ public class MainGame extends AppCompatActivity {
         };
         count.start();
     }
+    boolean doubleBackToExitPressedOnce = false;
+
     @Override
     public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            count.cancel();
+            finishAndRemoveTask();
+            this.finishAffinity();
 
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK twice to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 1000);
+    }
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        count.cancel();
     }
 
 }

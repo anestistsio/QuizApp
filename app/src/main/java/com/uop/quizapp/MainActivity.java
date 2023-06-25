@@ -6,12 +6,12 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity{
     private boolean lastChance = true;
     //4 questions per category by default
     private int score = 12;
+    private boolean isMute = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity{
         // here we check if language is greek and we change the hints from team1/2_et
         language = getIntent().getStringExtra("selected_language");
         if (language != null) {
+            isMute = getIntent().getExtras().getBoolean("isMute");
             score = (getIntent().getExtras().getInt("questionsPerCategory")) * 4;
             //getting the time in seconds
             timeInSeconds = getIntent().getExtras().getInt("timeInSeconds");
@@ -116,7 +118,9 @@ public class MainActivity extends AppCompatActivity{
                     Toast.makeText(MainActivity.this,"Please enter different team names", Toast.LENGTH_SHORT).show();
                 }
             }else{
-                    click_sound.start();
+                    if (!isMute) {
+                        click_sound.start();
+                    }
                     Intent intent = new Intent(MainActivity.this, SelectCategory.class);
                     //pass team names and scores and playing team to SelectedCategory.class
 
@@ -139,6 +143,7 @@ public class MainActivity extends AppCompatActivity{
                     //pass the time in seconds
                     intent.putExtra("timeInSeconds",timeInSeconds);
                     intent.putExtra("lastChance",lastChance);
+                    intent.putExtra("isMute",isMute);
 
 
                     //passing the images of the teams to SelectedCategory.class
@@ -260,8 +265,25 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
+    boolean doubleBackToExitPressedOnce = false;
+
     @Override
     public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            finishAndRemoveTask();
+            this.finishAffinity();
 
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK twice to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 1000);
     }
 }
