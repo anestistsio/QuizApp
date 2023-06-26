@@ -19,7 +19,7 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 
 public class SelectCategory extends AppCompatActivity {
-    private TextView  teamplay_tv,team1_name_tv,team2_name_tv,team1_score_tv,team2_score_tv;
+    private TextView  teamplay_tv,team1_name_tv,team2_name_tv,team1_score_tv,team2_score_tv,team1_greekfootball,team1_generalquestions,team1_sciencequestions,team1_sportsquestions,team2_greekfootball,team2_generalquestions,team2_sciencequestions,team2_sportsquestions;
     private String selectedCategory,playing_team,t1n,t2n,language;//t1n = team1name and t1s = team2score
     private int t1s,t2s,timeInSeconds;
     private int team1ScienceCorrectAnswers;
@@ -146,6 +146,15 @@ public class SelectCategory extends AppCompatActivity {
         Button score_bt = findViewById(R.id.score_bt);
         score_layout = findViewById(R.id.score_layout);
         playing_team_im = findViewById(R.id.playing_team_im);
+        team1_greekfootball = findViewById(R.id.team1_greekfootball);
+        team1_generalquestions = findViewById(R.id.team1_generalquestions);
+        team1_sciencequestions = findViewById(R.id.team1_sciencequestions);
+        team1_sportsquestions = findViewById(R.id.team1_sportsquestions);
+        team2_greekfootball = findViewById(R.id.team2_greekfootball);
+        team2_generalquestions = findViewById(R.id.team2_generalquestions);
+        team2_sciencequestions = findViewById(R.id.team2_sciencequestions);
+        team2_sportsquestions = findViewById(R.id.team2_sportsquestions);
+
 
 
         //take the team names and scores and playing team
@@ -165,6 +174,18 @@ public class SelectCategory extends AppCompatActivity {
         team2GeographyCorrectAnswers =  getIntent().getExtras().getInt("team2GeographyCorrectAnswers");
         team1GeneralCorrectAnswers =  getIntent().getExtras().getInt("team1GeneralCorrectAnswers");
         team2GeneralCorrectAnswers =  getIntent().getExtras().getInt("team2GeneralCorrectAnswers");
+
+        //set the score to the score board
+
+        team1_greekfootball.setText(team1GeographyCorrectAnswers + "/" + score/4);
+        team1_generalquestions.setText(team1GeneralCorrectAnswers + "/" + score/4);
+        team1_sciencequestions.setText(team1ScienceCorrectAnswers + "/" + score/4);
+        team1_sportsquestions.setText(team1SportsCorrectAnswers + "/" + score/4);
+        team2_greekfootball.setText(team2GeographyCorrectAnswers + "/" + score/4);
+        team2_generalquestions.setText(team2GeneralCorrectAnswers + "/" + score/4);
+        team2_sciencequestions.setText(team2ScienceCorrectAnswers + "/" + score/4);
+        team2_sportsquestions.setText(team2SportsCorrectAnswers + "/" + score/4);
+
         //getting the selected_language from MainActivity.java or from MainGame.java
         language = getIntent().getExtras().getString("selected_language");
         isMute = getIntent().getExtras().getBoolean("isMute");
@@ -241,10 +262,9 @@ public class SelectCategory extends AppCompatActivity {
 
         //set team names and scores and playing team to TextViews
         if (!language.equals("English")) {
-            teamplay_tv.setText("Παίζει η ομάδα: " + playing_team.toUpperCase());
-        }else {
-            teamplay_tv.setText("Playing team: " + playing_team.toUpperCase());
+            score_bt.setText("ΣΚΟΡ");
         }
+        teamplay_tv.setText(playing_team);
         team1_name_tv.setText(t1n);
         team2_name_tv.setText(t2n);
         team1_score_tv.setText(String.valueOf(t1s));

@@ -32,16 +32,16 @@ public class MainGame extends AppCompatActivity {
     private String which_button, playing_team, t1n, t2n, selectedCategory,language;
     private int t1s, t2s, team1ScienceCorrectAnswers, team2ScienceCorrectAnswers, team1SportsCorrectAnswers, team2SportsCorrectAnswers, team1GeographyCorrectAnswers, team2GeographyCorrectAnswers, team1GeneralCorrectAnswers, team2GeneralCorrectAnswers;
     Bitmap team2bitmap, team1bitmap;
-    private ImageView timer_iv;
     //this answers_is_boolean checks if question ended to prevent startTimer.onFinish run
     private boolean answers_is_boolean = true;
     private int  timeInSeconds;
     private boolean lastChance;
     private int score;
-    private View changing_team_layout;
+    private View changing_team_layout,top;
     private boolean is_ok_pressed = false;
     private CountDownTimer count;
     private boolean isMute;
+    MediaPlayer ticking_sound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +149,19 @@ public class MainGame extends AppCompatActivity {
             //checks if team 1 finished all the questions and change to team 2 for a last chance
             if (t1s >= score -1 && lastChance && playing_team.equals(t1n)){
                 changing_team_layout.setVisibility(View.VISIBLE);
+                question_tv.setVisibility(View.GONE);
+                selected_category_tv.setVisibility(View.GONE);
+                answeris_tv.setVisibility(View.GONE);
+                answer_tv.setVisibility(View.GONE);
+                show_hide_bt.setVisibility(View.GONE);
+                correct_bt.setVisibility(View.GONE);
+                incorrect_bt.setVisibility(View.GONE);
+                try {
+                    Thread.sleep(800);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                changing_team_layout.setBackground(getDrawable(R.drawable.red_card));
                 if (!language.equals("English")) {
                     changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατί η ομάδα : " + playing_team.toUpperCase() + " τελείωσε ");
                 } else {
@@ -204,20 +217,29 @@ public class MainGame extends AppCompatActivity {
             // incorrect button clicked
         } else {
             //if the incorrect button clicked then change playing team and play incorrect sound
+            ticking_sound.stop();
             if (!isMute) {
                 incorrect_sound.start();
             }
             count.cancel();
-            //wait 0.5 s to play sound properly
-            try {
-                Thread.sleep(600);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
             //checks if team 2 lost in last chance
             if (!(t1s >= score && lastChance)){
                 if (t1s != score) {
                     changing_team_layout.setVisibility(View.VISIBLE);
+                    question_tv.setVisibility(View.GONE);
+                    selected_category_tv.setVisibility(View.GONE);
+                    answeris_tv.setVisibility(View.GONE);
+                    answer_tv.setVisibility(View.GONE);
+                    show_hide_bt.setVisibility(View.GONE);
+                    correct_bt.setVisibility(View.GONE);
+                    incorrect_bt.setVisibility(View.GONE);
+                    try {
+                        Thread.sleep(800);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    changing_team_layout.setBackground(getDrawable(R.drawable.yellow_card));
                     if (!language.equals("English")) {
                         changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατι η ομάδα : " + playing_team.toUpperCase() + " έχασε");
                     } else {
@@ -306,10 +328,10 @@ public class MainGame extends AppCompatActivity {
         show_hide_bt = findViewById(R.id.show_hide_bt);
         answeris_tv = findViewById(R.id.answeris_tv);
         timer_tv = findViewById(R.id.timer_tv);
-        timer_iv = findViewById(R.id.timer_iv);
         changing_team_bt = findViewById(R.id.changing_team_bt);
         changing_team_tv = findViewById(R.id.changing_team_tv);
         changing_team_layout = findViewById(R.id.changing_team_layout);
+        top = findViewById(R.id.top);
         TextView playing_team_tv = findViewById(R.id.playing_team_tv);
 
         //pass selected category from SelectedCategory.class to MainGame.class
@@ -407,7 +429,7 @@ public class MainGame extends AppCompatActivity {
 
     private void startTimer() {
         //initialize the time end sound
-        final MediaPlayer ticking_sound = MediaPlayer.create(this ,R.raw.ticking_sound);
+        ticking_sound = MediaPlayer.create(this ,R.raw.ticking_sound);
         count = new CountDownTimer((timeInSeconds * 1000), 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
