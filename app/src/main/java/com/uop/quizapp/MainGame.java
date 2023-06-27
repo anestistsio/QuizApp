@@ -163,9 +163,9 @@ public class MainGame extends AppCompatActivity {
                 }
                 changing_team_layout.setBackground(getDrawable(R.drawable.red_card));
                 if (!language.equals("English")) {
-                    changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατί η ομάδα : " + playing_team.toUpperCase() + " τελείωσε ");
+                    changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατί η ομάδα : " + playing_team + " τελείωσε ");
                 } else {
-                    changing_team_tv.setText("The phone is changing hands because : " + playing_team.toUpperCase() + " finished");
+                    changing_team_tv.setText("The phone is changing hands because : " + playing_team + " finished");
                 }
 
             }

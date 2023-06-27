@@ -27,6 +27,7 @@
         android:layout_marginBottom="100dp"
         android:onClick="save"
         android:text="SAVE"
+        android:fontFamily="@font/mansalva"
         android:textSize="26sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,6 +48,7 @@
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:fontFamily="@font/mansalva"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -72,6 +74,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textSize="24sp"
+        android:fontFamily="@font/mansalva"
         app:layout_constraintBottom_toTopOf="@+id/TimePerQuestion_sb"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -88,6 +91,7 @@
         android:background="@drawable/seekbar"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:fontFamily="@font/mansalva"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TimePerQuestion_sb" />
@@ -97,7 +101,7 @@
         android:layout_width="320dp"
         android:layout_height="39dp"
         android:layout_marginTop="60dp"
-        android:max="7"
+        android:max="3"
         android:progress="2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -112,6 +116,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textSize="24sp"
+        android:fontFamily="@font/mansalva"
         app:layout_constraintBottom_toTopOf="@+id/QPerCat_sb"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -134,10 +139,11 @@
         android:layout_height="30dp"
         android:gravity="center"
         android:text="English"
+        android:fontFamily="@font/mansalva"
         android:background="@drawable/seekbar"
         android:layout_marginEnd="5dp"
         android:textColor="@color/white"
-        android:textSize="22sp"
+        android:textSize="20sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/language_bt" />

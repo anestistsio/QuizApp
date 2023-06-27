@@ -146,11 +146,11 @@ public class SelectCategory extends AppCompatActivity {
         Button score_bt = findViewById(R.id.score_bt);
         score_layout = findViewById(R.id.score_layout);
         playing_team_im = findViewById(R.id.playing_team_im);
-        team1_greekfootball = findViewById(R.id.team1_greekfootball);
+        team1_greekfootball = findViewById(R.id.team1_geographyquestions);
         team1_generalquestions = findViewById(R.id.team1_generalquestions);
         team1_sciencequestions = findViewById(R.id.team1_sciencequestions);
         team1_sportsquestions = findViewById(R.id.team1_sportsquestions);
-        team2_greekfootball = findViewById(R.id.team2_greekfootball);
+        team2_greekfootball = findViewById(R.id.team2_geographyquestions);
         team2_generalquestions = findViewById(R.id.team2_generalquestions);
         team2_sciencequestions = findViewById(R.id.team2_sciencequestions);
         team2_sportsquestions = findViewById(R.id.team2_sportsquestions);

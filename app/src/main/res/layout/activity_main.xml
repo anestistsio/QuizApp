@@ -8,31 +8,31 @@
 
     <EditText
         android:id="@+id/team1_et"
-        android:layout_width="wrap_content"
+        android:layout_width="220dp"
         android:layout_height="40dp"
         android:layout_below="@+id/quizapp_tv"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="50dp"
-        android:ems="10"
         android:hint="Team 1 Name"
         android:paddingLeft="12dp"
+        android:fontFamily="@font/mansalva"
         android:background="@drawable/edit_round"
         android:inputType="text"
         android:maxLength="15" />
 
     <EditText
         android:id="@+id/team2_et"
-        android:layout_width="wrap_content"
+        android:layout_width="220dp"
         android:layout_height="40dp"
         android:layout_below="@+id/team1_et"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="55dp"
         android:layout_marginEnd="50dp"
-        android:ems="10"
         android:maxLength="15"
         android:background="@drawable/edit_round"
         android:hint="Team 2 Name"
+        android:fontFamily="@font/mansalva"
         android:paddingLeft="12dp"
         android:inputType="text" />
 
@@ -42,7 +42,7 @@
         android:layout_height="200dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="70dp"
         android:background="#00FFFFFF"
         android:onClick="select_category"
         android:scaleType="fitCenter"
