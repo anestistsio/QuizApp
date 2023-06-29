@@ -331,6 +331,8 @@ public class SelectCategory extends AppCompatActivity {
         intent.putExtra("isMute",isMute);
         intent.putExtra("score",score);
         intent.putExtra("timeInSeconds",timeInSeconds);
+        intent.putExtra("team1byte",team1byte);
+        intent.putExtra("team2byte", team2byte);
         //passing the winning team image
         if (t1s > t2s){
             if (team1bitmap != null){

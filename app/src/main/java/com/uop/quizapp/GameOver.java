@@ -22,6 +22,8 @@ public class GameOver extends AppCompatActivity {
     private int t1s,t2s,score,timeInSeconds,questionsPerCategory;
     private String t1n,t2n,winning_team,language;
     private boolean isMute;
+    byte[] team1byte;
+    byte[] team2byte;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,8 @@ public class GameOver extends AppCompatActivity {
         t2n = getIntent().getExtras().getString("team2Name");
         t1s = getIntent().getExtras().getInt("team1Score");
         t2s = getIntent().getExtras().getInt("team2Score");
+        team1byte = getIntent().getExtras().getByteArray("team1byte");
+        team2byte = getIntent().getExtras().getByteArray("team2byte");
         //getting selected_language from SelectCategory.java
         language = getIntent().getExtras().getString("selected_language");
         score = getIntent().getExtras().getInt("score");
@@ -113,6 +117,8 @@ public class GameOver extends AppCompatActivity {
         intent.putExtra("isMute",isMute);
         intent.putExtra("t1n",t1n);
         intent.putExtra("t2n",t2n);
+        intent.putExtra("team1byte",team1byte);
+        intent.putExtra("team2byte",team2byte);
         startActivity(intent);
         finish();
     }

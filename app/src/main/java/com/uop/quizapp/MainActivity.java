@@ -97,6 +97,19 @@ public class MainActivity extends AppCompatActivity{
             isMute = getIntent().getExtras().getBoolean("isMute");
             score = getIntent().getExtras().getInt("score");
             timeInSeconds = getIntent().getExtras().getInt("timeInSeconds");
+            Bundle ex = getIntent().getExtras();
+            team1byte = ex.getByteArray("team1byte");
+            if (team1byte != null) {
+                team1bitmap = BitmapFactory.decodeByteArray(team1byte, 0, team1byte.length);
+                team1_iv.setImageBitmap(team1bitmap);
+                team1_im.setVisibility(View.GONE);
+            }
+            team2byte = ex.getByteArray("team2byte");
+            if (team2byte != null) {
+                team2bitmap = BitmapFactory.decodeByteArray(team2byte, 0, team2byte.length);
+                team2_iv.setImageBitmap(team2bitmap);
+                team2_im.setVisibility(View.GONE);
+            }
 
         }
 
