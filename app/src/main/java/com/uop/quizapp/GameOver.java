@@ -15,9 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+
 public class GameOver extends AppCompatActivity {
     private TextView winning_tv,team1Name_tv,team2Name_tv,team1Score_tv,team2Score_tv;
-    private int t1s,t2s;
+    private int t1s,t2s,score,timeInSeconds,questionsPerCategory;
     private String t1n,t2n,winning_team,language;
     private boolean isMute;
     @Override
@@ -49,6 +51,8 @@ public class GameOver extends AppCompatActivity {
         t2s = getIntent().getExtras().getInt("team2Score");
         //getting selected_language from SelectCategory.java
         language = getIntent().getExtras().getString("selected_language");
+        score = getIntent().getExtras().getInt("score");
+        timeInSeconds = getIntent().getExtras().getInt("timeInSeconds");
         //getting the winning team's image
         Bundle ex = getIntent().getExtras();
         byte[] winning_byte = ex.getByteArray("winning_byte");
@@ -67,6 +71,7 @@ public class GameOver extends AppCompatActivity {
         if (!language.equals("English")) {
             if (t1s == t2s){
                 winning_tv.setText("Ισοπαλία!");
+
             }else {
                 winning_tv.setText("Η ομάδα " + winning_team + " νικάει!");
             }
@@ -101,6 +106,13 @@ public class GameOver extends AppCompatActivity {
             click_sound.start();
         }
         Intent intent = new Intent(GameOver.this, MainActivity.class);
+        intent.putExtra("restart_boolean",true);
+        intent.putExtra("selected_language", language);
+        intent.putExtra("timeInSeconds", timeInSeconds);
+        intent.putExtra("score", score);
+        intent.putExtra("isMute",isMute);
+        intent.putExtra("t1n",t1n);
+        intent.putExtra("t2n",t2n);
         startActivity(intent);
         finish();
     }

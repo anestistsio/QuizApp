@@ -329,6 +329,8 @@ public class SelectCategory extends AppCompatActivity {
         //passing selected_language
         intent.putExtra("selected_language",language);
         intent.putExtra("isMute",isMute);
+        intent.putExtra("score",score);
+        intent.putExtra("timeInSeconds",timeInSeconds);
         //passing the winning team image
         if (t1s > t2s){
             if (team1bitmap != null){

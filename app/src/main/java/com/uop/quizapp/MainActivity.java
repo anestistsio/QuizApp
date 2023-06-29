@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import java.io.ByteArrayOutputStream;
 
 public class MainActivity extends AppCompatActivity{
     private static final String CHANNEL_ID = "myFirebaseChannel";
+    private byte[] team1byte,team2byte;
     private EditText team1_et,team2_et;
     private String t1n,t2n,language; //team 1 name and team 2 name
     private int team1ScienceCorrectAnswers = 0;
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity{
     //4 questions per category by default
     private int score = 12;
     private boolean isMute = false;
+    private boolean restart_boolean;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,19 +81,65 @@ public class MainActivity extends AppCompatActivity{
         team2_iv = findViewById(R.id.team2_iv);
         team1_im = findViewById(R.id.team1_im);
         team2_im = findViewById(R.id.team2_im);
-        // here we check if language is greek and we change the hints from team1/2_et
-        language = getIntent().getStringExtra("selected_language");
-        if (language != null) {
-            isMute = getIntent().getExtras().getBoolean("isMute");
-            score = (getIntent().getExtras().getInt("questionsPerCategory")) * 4;
-            //getting the time in seconds
-            timeInSeconds = getIntent().getExtras().getInt("timeInSeconds");
-            if (language.equals("Ελληνικά")) {
+
+        //if the user finish one game and press restart we retrieve all his settings
+        restart_boolean = getIntent().getBooleanExtra("restart_boolean",false);
+        if (restart_boolean) {
+            language = getIntent().getStringExtra("selected_language");
+            t1n = getIntent().getStringExtra("t1n");
+            t2n = getIntent().getStringExtra("t2n");
+            team1_et.setText(t1n);
+            team2_et.setText(t2n);
+            if (language != "English") {
                 team1_et.setHint("Όνομα Ομάδας 1");
                 team2_et.setHint("Όνομα Ομάδας 2");
             }
-        }else{
-            language = "English";
+            isMute = getIntent().getExtras().getBoolean("isMute");
+            score = getIntent().getExtras().getInt("score");
+            timeInSeconds = getIntent().getExtras().getInt("timeInSeconds");
+
+        }
+
+
+
+        // here we check if language is greek and we change the hints from team1/2_et
+        if (!restart_boolean) {
+            language = getIntent().getStringExtra("selected_language");
+            if (language != null) {
+                isMute = getIntent().getExtras().getBoolean("isMute");
+                score = (getIntent().getExtras().getInt("questionsPerCategory")) * 4;
+                //getting the time in seconds
+                timeInSeconds = getIntent().getExtras().getInt("timeInSeconds");
+                if (language.equals("Ελληνικά")) {
+                    team1_et.setHint("Όνομα Ομάδας 1");
+                    team2_et.setHint("Όνομα Ομάδας 2");
+                }
+                String t1_et = getIntent().getStringExtra("t1_et");
+                if (t1_et != null){
+                    team1_et.setText(t1_et);
+                }
+                String t2_et = getIntent().getStringExtra("t2_et");
+                if (t2_et != null) {
+                    team2_et.setText(t2_et);
+                }
+                Bundle ex = getIntent().getExtras();
+                team1byte = ex.getByteArray("team1byte");
+                team2byte = ex.getByteArray("team2byte");
+                if (team1byte != null) {
+                        team1_im.setVisibility(View.GONE);
+                        team1bitmap = BitmapFactory.decodeByteArray(team1byte, 0, team1byte.length);
+                        team1_iv.setImageBitmap(team1bitmap);
+                }
+                if (team2byte != null) {
+                    team2_im.setVisibility(View.GONE);
+                    team2bitmap = BitmapFactory.decodeByteArray(team2byte, 0, team2byte.length);
+                    team2_iv.setImageBitmap(team2bitmap);
+                }
+
+
+            } else {
+                language = "English";
+            }
         }
     }
         public void select_category(View view) {
@@ -153,7 +202,7 @@ public class MainActivity extends AppCompatActivity{
                     if (team1bitmap != null){
                         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                         team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
-                        byte[] team1byte = bytes.toByteArray();
+                        team1byte = bytes.toByteArray();
                         intent.putExtra("team1byte",team1byte);
                     }else {
                         intent.putExtra("team1byte", (byte[]) null);
@@ -161,7 +210,7 @@ public class MainActivity extends AppCompatActivity{
                     if (team2bitmap != null){
                         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                         team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
-                        byte[] team2byte = bytes.toByteArray();
+                        team2byte = bytes.toByteArray();
                         intent.putExtra("team2byte",team2byte);
                     }else {
                         intent.putExtra("team2byte", (byte[]) null);
@@ -253,6 +302,24 @@ public class MainActivity extends AppCompatActivity{
         final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
         click_sound.start();
         Intent intent = new Intent(MainActivity.this,Settings.class);
+        intent.putExtra("selected_language", language);
+        intent.putExtra("timeInSeconds", timeInSeconds);
+        intent.putExtra("questionsPerCategory", score);
+        intent.putExtra("isMute",isMute);
+        intent.putExtra("t1_et",team1_et.getText().toString());
+        intent.putExtra("t2_et",team2_et.getText().toString());
+        if (team1bitmap != null){
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
+            team1byte = bytes.toByteArray();
+            intent.putExtra("team1byte",team1byte);
+        }
+        if (team2bitmap != null){
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
+            team2byte = bytes.toByteArray();
+            intent.putExtra("team2byte",team2byte);
+        }
         startActivity(intent);
     }
     public void shareMain(View view) {
