@@ -35,7 +35,7 @@ public class SelectCategory extends AppCompatActivity {
     private byte[] team2byte;
     private boolean lastChance;
     private int score;
-    private View score_layout;
+    private View score_layout,shadow_v;
     private ImageView playing_team_im;
     ImageButton science_bt;
     ImageButton general_bt;
@@ -154,6 +154,7 @@ public class SelectCategory extends AppCompatActivity {
         team2_generalquestions = findViewById(R.id.team2_generalquestions);
         team2_sciencequestions = findViewById(R.id.team2_sciencequestions);
         team2_sportsquestions = findViewById(R.id.team2_sportsquestions);
+        shadow_v = findViewById(R.id.shadow_v);
 
 
 
@@ -307,6 +308,7 @@ public class SelectCategory extends AppCompatActivity {
         general_bt.setClickable(false);
         sports_bt.setClickable(false);
         science_bt.setClickable(false);
+        shadow_v.setVisibility(View.GONE);
 
 
     }
@@ -316,6 +318,7 @@ public class SelectCategory extends AppCompatActivity {
         general_bt.setClickable(true);
         sports_bt.setClickable(true);
         science_bt.setClickable(true);
+        shadow_v.setVisibility(View.VISIBLE);
     }
     private void GameEnd(){
         Intent intent = new Intent(SelectCategory.this, GameOver.class);

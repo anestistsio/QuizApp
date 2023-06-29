@@ -84,12 +84,12 @@ public class Settings extends AppCompatActivity {
     }
 
     public void language_select(View view) {
-        if (language_tv.getText().equals("English")) {
+        if (language_tv.getText().equals("EN")) {
             language_bt.setImageResource(R.drawable.greek);
-            language_tv.setText("Ελληνικά");
+            language_tv.setText("ΕΛ");
         } else {
             language_bt.setImageResource(R.drawable.english);
-            language_tv.setText("English");
+            language_tv.setText("EN");
         }
     }
 

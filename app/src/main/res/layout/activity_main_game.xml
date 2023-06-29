@@ -25,7 +25,7 @@
     <TextView
         android:id="@+id/selected_category_tv"
         android:layout_width="174dp"
-        android:layout_height="30dp"
+        android:layout_height="33dp"
         android:layout_marginTop="110dp"
         android:textAlignment="center"
         android:textColor="@color/white"
@@ -106,10 +106,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:backgroundTint="#4D4D4F"
+        android:backgroundTint="@color/grey"
         android:fontFamily="@font/mansalva"
         android:onClick="ShowHide"
-        android:textColor="#F85F00"
+        android:textColor="@color/orange"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -161,11 +161,21 @@
     <RelativeLayout
         android:id="@+id/top"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="#ED4D4D4F"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="90dp"
+        android:background="@drawable/gradient"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/shadow"
+        android:elevation="8dp"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+
 
     <ImageView
         android:id="@+id/timer_iv"
@@ -215,6 +225,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

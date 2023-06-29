@@ -289,6 +289,7 @@ public class MainActivity extends AppCompatActivity{
             }
         }, 1000);
     }
+    //this method hides the soft keyboard when you touch anywhere else
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (getCurrentFocus() != null) {
