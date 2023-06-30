@@ -149,12 +149,12 @@ public class SelectCategory extends AppCompatActivity {
         playing_team_im = findViewById(R.id.playing_team_im);
         team1_geography = findViewById(R.id.team1_geographyquestions);
         team1_general = findViewById(R.id.team1_generalquestions);
-        team1_national = findViewById(R.id.team1_sciencequestions);
-        team1_clubs = findViewById(R.id.team1_sportsquestions);
+        team1_national = findViewById(R.id.team1_nationalquestions);
+        team1_clubs = findViewById(R.id.team1_clubsquestions);
         team2_geography = findViewById(R.id.team2_geographyquestions);
         team2_general = findViewById(R.id.team2_generalquestions);
-        team2_national = findViewById(R.id.team2_sciencequestions);
-        team2_clubs = findViewById(R.id.team2_sportsquestions);
+        team2_national = findViewById(R.id.team2_nationalquestions);
+        team2_clubs = findViewById(R.id.team2_clubsquestions);
         shadow_v = findViewById(R.id.shadow_v);
         general_tv = findViewById(R.id.general_tv);
         geography_tv = findViewById(R.id.geography_tv);
