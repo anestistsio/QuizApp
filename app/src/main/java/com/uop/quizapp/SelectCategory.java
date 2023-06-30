@@ -19,13 +19,13 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 
 public class SelectCategory extends AppCompatActivity {
-    private TextView  teamplay_tv,team1_name_tv,team2_name_tv,team1_score_tv,team2_score_tv,team1_greekfootball,team1_generalquestions,team1_sciencequestions,team1_sportsquestions,team2_greekfootball,team2_generalquestions,team2_sciencequestions,team2_sportsquestions;
+    private TextView  teamplay_tv,team1_name_tv,team2_name_tv,team1_score_tv,team2_score_tv, team1_geography, team1_general, team1_national, team1_clubs, team2_geography, team2_general, team2_national, team2_clubs;
     private String selectedCategory,playing_team,t1n,t2n,language;//t1n = team1name and t1s = team2score
     private int t1s,t2s,timeInSeconds;
-    private int team1ScienceCorrectAnswers;
-    private int team2ScienceCorrectAnswers;
-    private int team1SportsCorrectAnswers;
-    private int team2SportsCorrectAnswers;
+    private int team1NationalCorrectAnswers;
+    private int team2NationalCorrectAnswers;
+    private int team1ClubsCorrectAnswers;
+    private int team2ClubsCorrectAnswers;
     private int team1GeographyCorrectAnswers;
     private int team2GeographyCorrectAnswers;
     private int team1GeneralCorrectAnswers;
@@ -37,10 +37,10 @@ public class SelectCategory extends AppCompatActivity {
     private int score;
     private View score_layout,shadow_v;
     private ImageView playing_team_im;
-    ImageButton science_bt;
+    ImageButton national_bt;
     ImageButton general_bt;
     ImageButton geography_bt;
-    ImageButton sports_bt;
+    ImageButton clubs_bt;
     private boolean isMute;
     private TextView general_tv,geography_tv,national_tv,clubs_tv;
 
@@ -66,13 +66,13 @@ public class SelectCategory extends AppCompatActivity {
         switch (view.getId())
         {
             case R.id.national_bt:
-                selectedCategory = DBContract.ScienceTable.TABLE_NAME;
+                selectedCategory = DBContract.NationalTable.TABLE_NAME;
                 break;
             case R.id.general_bt:
                 selectedCategory = DBContract.GeneralTable.TABLE_NAME;
                 break;
             case R.id.clubs_bt:
-                selectedCategory = DBContract.SportsTable.TABLE_NAME;
+                selectedCategory = DBContract.ClubsTable.TABLE_NAME;
                 break;
             case R.id.geography_bt:
                 selectedCategory= DBContract.GeographyTable.TABLE_NAME;
@@ -92,10 +92,10 @@ public class SelectCategory extends AppCompatActivity {
         intent.putExtra("score", score);
         intent.putExtra("lastChance",lastChance);
         // passing values for correct answered counters for each category for each team
-        intent.putExtra("team1ScienceCorrectAnswers", team1ScienceCorrectAnswers);
-        intent.putExtra("team2ScienceCorrectAnswers", team2ScienceCorrectAnswers);
-        intent.putExtra("team1SportsCorrectAnswers", team1SportsCorrectAnswers);
-        intent.putExtra("team2SportsCorrectAnswers", team2SportsCorrectAnswers);
+        intent.putExtra("team1NationalCorrectAnswers", team1NationalCorrectAnswers);
+        intent.putExtra("team2NationalCorrectAnswers", team2NationalCorrectAnswers);
+        intent.putExtra("team1ClubsCorrectAnswers", team1ClubsCorrectAnswers);
+        intent.putExtra("team2ClubsCorrectAnswers", team2ClubsCorrectAnswers);
         intent.putExtra("team1GeographyCorrectAnswers", team1GeographyCorrectAnswers);
         intent.putExtra("team2GeographyCorrectAnswers", team2GeographyCorrectAnswers);
         intent.putExtra("team1GeneralCorrectAnswers", team1GeneralCorrectAnswers);
@@ -134,27 +134,27 @@ public class SelectCategory extends AppCompatActivity {
         team2_name_tv = findViewById(R.id.team2_name_tv);
         team1_score_tv =findViewById(R.id.team1_score_tv);
         team2_score_tv = findViewById(R.id.team2_score_tv);
-        science_bt = findViewById(R.id.national_bt);
+        national_bt = findViewById(R.id.national_bt);
         general_bt = findViewById(R.id.general_bt);
         geography_bt = findViewById(R.id.geography_bt);
-        sports_bt = findViewById(R.id.clubs_bt);
-        ImageView science_iv = findViewById(R.id.national_iv);
+        clubs_bt = findViewById(R.id.clubs_bt);
+        ImageView national_iv = findViewById(R.id.national_iv);
         ImageView general_iv = findViewById(R.id.general_iv);
         ImageView geography_iv = findViewById(R.id.geography_iv);
-        ImageView sports_iv = findViewById(R.id.sport_iv);
+        ImageView clubs_iv = findViewById(R.id.sport_iv);
         ImageView team1_im = findViewById(R.id.team1_im);
         ImageView team2_im = findViewById(R.id.team2_im);
         Button score_bt = findViewById(R.id.score_bt);
         score_layout = findViewById(R.id.score_layout);
         playing_team_im = findViewById(R.id.playing_team_im);
-        team1_greekfootball = findViewById(R.id.team1_geographyquestions);
-        team1_generalquestions = findViewById(R.id.team1_generalquestions);
-        team1_sciencequestions = findViewById(R.id.team1_sciencequestions);
-        team1_sportsquestions = findViewById(R.id.team1_sportsquestions);
-        team2_greekfootball = findViewById(R.id.team2_geographyquestions);
-        team2_generalquestions = findViewById(R.id.team2_generalquestions);
-        team2_sciencequestions = findViewById(R.id.team2_sciencequestions);
-        team2_sportsquestions = findViewById(R.id.team2_sportsquestions);
+        team1_geography = findViewById(R.id.team1_geographyquestions);
+        team1_general = findViewById(R.id.team1_generalquestions);
+        team1_national = findViewById(R.id.team1_sciencequestions);
+        team1_clubs = findViewById(R.id.team1_sportsquestions);
+        team2_geography = findViewById(R.id.team2_geographyquestions);
+        team2_general = findViewById(R.id.team2_generalquestions);
+        team2_national = findViewById(R.id.team2_sciencequestions);
+        team2_clubs = findViewById(R.id.team2_sportsquestions);
         shadow_v = findViewById(R.id.shadow_v);
         general_tv = findViewById(R.id.general_tv);
         geography_tv = findViewById(R.id.geography_tv);
@@ -171,10 +171,10 @@ public class SelectCategory extends AppCompatActivity {
         playing_team = getIntent().getExtras().getString("playing_team");
         lastChance = getIntent().getExtras().getBoolean("lastChance");
         //retrieving the values for correct answered counters for each category for each team
-        team1ScienceCorrectAnswers =  getIntent().getExtras().getInt("team1ScienceCorrectAnswers");
-        team2ScienceCorrectAnswers =  getIntent().getExtras().getInt("team2ScienceCorrectAnswers");
-        team1SportsCorrectAnswers =  getIntent().getExtras().getInt("team1SportsCorrectAnswers");
-        team2SportsCorrectAnswers =  getIntent().getExtras().getInt("team2SportsCorrectAnswers");
+        team1NationalCorrectAnswers =  getIntent().getExtras().getInt("team1NationalCorrectAnswers");
+        team2NationalCorrectAnswers =  getIntent().getExtras().getInt("team2NationalCorrectAnswers");
+        team1ClubsCorrectAnswers =  getIntent().getExtras().getInt("team1ClubsCorrectAnswers");
+        team2ClubsCorrectAnswers =  getIntent().getExtras().getInt("team2ClubsCorrectAnswers");
         team1GeographyCorrectAnswers =  getIntent().getExtras().getInt("team1GeographyCorrectAnswers");
         team2GeographyCorrectAnswers =  getIntent().getExtras().getInt("team2GeographyCorrectAnswers");
         team1GeneralCorrectAnswers =  getIntent().getExtras().getInt("team1GeneralCorrectAnswers");
@@ -182,14 +182,14 @@ public class SelectCategory extends AppCompatActivity {
 
         //set the score to the score board
 
-        team1_greekfootball.setText(team1GeographyCorrectAnswers + "/" + score/4);
-        team1_generalquestions.setText(team1GeneralCorrectAnswers + "/" + score/4);
-        team1_sciencequestions.setText(team1ScienceCorrectAnswers + "/" + score/4);
-        team1_sportsquestions.setText(team1SportsCorrectAnswers + "/" + score/4);
-        team2_greekfootball.setText(team2GeographyCorrectAnswers + "/" + score/4);
-        team2_generalquestions.setText(team2GeneralCorrectAnswers + "/" + score/4);
-        team2_sciencequestions.setText(team2ScienceCorrectAnswers + "/" + score/4);
-        team2_sportsquestions.setText(team2SportsCorrectAnswers + "/" + score/4);
+        team1_geography.setText(team1GeographyCorrectAnswers + "/" + score/4);
+        team1_general.setText(team1GeneralCorrectAnswers + "/" + score/4);
+        team1_national.setText(team1NationalCorrectAnswers + "/" + score/4);
+        team1_clubs.setText(team1ClubsCorrectAnswers + "/" + score/4);
+        team2_geography.setText(team2GeographyCorrectAnswers + "/" + score/4);
+        team2_general.setText(team2GeneralCorrectAnswers + "/" + score/4);
+        team2_national.setText(team2NationalCorrectAnswers + "/" + score/4);
+        team2_clubs.setText(team2ClubsCorrectAnswers + "/" + score/4);
 
         //getting the selected_language from MainActivity.java or from MainGame.java
         language = getIntent().getExtras().getString("selected_language");
@@ -229,13 +229,13 @@ public class SelectCategory extends AppCompatActivity {
         }
         //checks if any team answered all  questions from any category and if yes it disables the button
         if (playing_team.equals(t1n)){
-            if (team1ScienceCorrectAnswers >= score/4){
-                science_bt.setVisibility(View.GONE);
-                science_iv.setVisibility(View.VISIBLE);
+            if (team1NationalCorrectAnswers >= score/4){
+                national_bt.setVisibility(View.GONE);
+                national_iv.setVisibility(View.VISIBLE);
             }
-            if (team1SportsCorrectAnswers >= score/4) {
-                sports_bt.setVisibility(View.GONE);
-                sports_iv.setVisibility(View.VISIBLE);
+            if (team1ClubsCorrectAnswers >= score/4) {
+                clubs_bt.setVisibility(View.GONE);
+                clubs_iv.setVisibility(View.VISIBLE);
             }
             if (team1GeographyCorrectAnswers >= score/4) {
                 geography_bt.setVisibility(View.GONE);
@@ -246,13 +246,13 @@ public class SelectCategory extends AppCompatActivity {
                 general_iv.setVisibility(View.VISIBLE);
             }
         }else {
-            if (team2ScienceCorrectAnswers >= score/4){
-                science_bt.setVisibility(View.GONE);
-                science_iv.setVisibility(View.VISIBLE);
+            if (team2NationalCorrectAnswers >= score/4){
+                national_bt.setVisibility(View.GONE);
+                national_iv.setVisibility(View.VISIBLE);
             }
-            if (team2SportsCorrectAnswers >= score/4) {
-                sports_bt.setVisibility(View.GONE);
-                sports_iv.setVisibility(View.VISIBLE);
+            if (team2ClubsCorrectAnswers >= score/4) {
+                clubs_bt.setVisibility(View.GONE);
+                clubs_iv.setVisibility(View.VISIBLE);
             }
             if (team2GeographyCorrectAnswers >= score/4) {
                 geography_bt.setVisibility(View.GONE);
@@ -315,8 +315,8 @@ public class SelectCategory extends AppCompatActivity {
         score_layout.setVisibility(View.VISIBLE);
         geography_bt.setClickable(false);
         general_bt.setClickable(false);
-        sports_bt.setClickable(false);
-        science_bt.setClickable(false);
+        clubs_bt.setClickable(false);
+        national_bt.setClickable(false);
         shadow_v.setVisibility(View.GONE);
 
 
@@ -325,8 +325,8 @@ public class SelectCategory extends AppCompatActivity {
         score_layout.setVisibility(View.GONE);
         geography_bt.setClickable(true);
         general_bt.setClickable(true);
-        sports_bt.setClickable(true);
-        science_bt.setClickable(true);
+        clubs_bt.setClickable(true);
+        national_bt.setClickable(true);
         shadow_v.setVisibility(View.VISIBLE);
     }
     private void GameEnd(){

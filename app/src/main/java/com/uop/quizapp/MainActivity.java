@@ -43,10 +43,10 @@ public class MainActivity extends AppCompatActivity{
     private byte[] team1byte,team2byte;
     private EditText team1_et,team2_et;
     private String t1n,t2n,language; //team 1 name and team 2 name
-    private int team1ScienceCorrectAnswers = 0;
-    private int team2ScienceCorrectAnswers = 0;
-    private int team1SportsCorrectAnswers = 0;
-    private int team2SportsCorrectAnswers = 0;
+    private int team1NationalCorrectAnswers = 0;
+    private int team2NationalCorrectAnswers = 0;
+    private int team1ClubsCorrectAnswers = 0;
+    private int team2ClubsCorrectAnswers = 0;
     private int team1GeographyCorrectAnswers = 0;
     private int team2GeographyCorrectAnswers = 0;
     private int team1GeneralCorrectAnswers = 0;
@@ -193,10 +193,10 @@ public class MainActivity extends AppCompatActivity{
                     //team1 starts by default
                     intent.putExtra("playing_team", t1n);
                     // passing initialized 0 values for correct answered counters for each category for each team
-                    intent.putExtra("team1ScienceCorrectAnswers", team1ScienceCorrectAnswers);
-                    intent.putExtra("team2ScienceCorrectAnswers", team2ScienceCorrectAnswers);
-                    intent.putExtra("team1SportsCorrectAnswers", team1SportsCorrectAnswers);
-                    intent.putExtra("team2SportsCorrectAnswers", team2SportsCorrectAnswers);
+                    intent.putExtra("team1NationalCorrectAnswers", team1NationalCorrectAnswers);
+                    intent.putExtra("team2NationalCorrectAnswers", team2NationalCorrectAnswers);
+                    intent.putExtra("team1ClubsCorrectAnswers", team1ClubsCorrectAnswers);
+                    intent.putExtra("team2ClubsCorrectAnswers", team2ClubsCorrectAnswers);
                     intent.putExtra("team1GeographyCorrectAnswers", team1GeographyCorrectAnswers);
                     intent.putExtra("team2GeographyCorrectAnswers", team2GeographyCorrectAnswers);
                     intent.putExtra("team1GeneralCorrectAnswers", team1GeneralCorrectAnswers);

@@ -34,12 +34,12 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // SQL statement to create the tables
         this.db = db;
-        final String SQL_CREATE_SCIENCE_TABLE = "CREATE TABLE IF NOT EXISTS " +
-                ScienceTable.TABLE_NAME + " ( " +
-                ScienceTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                ScienceTable.COLUMN_QUESTION + " TEXT, " +
-                ScienceTable.COLUMN_ANSWER + " TEXT, " +
-                ScienceTable.COLUMN_DISPLAYED + " INTEGER" +
+        final String SQL_CREATE_NATIONAL_TABLE = "CREATE TABLE IF NOT EXISTS " +
+                NationalTable.TABLE_NAME + " ( " +
+                NationalTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                NationalTable.COLUMN_QUESTION + " TEXT, " +
+                NationalTable.COLUMN_ANSWER + " TEXT, " +
+                NationalTable.COLUMN_DISPLAYED + " INTEGER" +
                 ")";
         final String SQL_CREATE_GEOGRAPHY_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 GeographyTable.TABLE_NAME + " ( " +
@@ -55,19 +55,19 @@ public class DBHelper extends SQLiteOpenHelper {
                 GeneralTable.COLUMN_ANSWER + " TEXT, " +
                 GeneralTable.COLUMN_DISPLAYED + " INTEGER" +
                 ")";
-        final String SQL_CREATE_SPORTS_TABLE = "CREATE TABLE IF NOT EXISTS " +
-                SportsTable.TABLE_NAME + " ( " +
-                SportsTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                SportsTable.COLUMN_QUESTION + " TEXT, " +
-                SportsTable.COLUMN_ANSWER + " TEXT, " +
-                SportsTable.COLUMN_DISPLAYED + " INTEGER" +
+        final String SQL_CREATE_CLUBS_TABLE = "CREATE TABLE IF NOT EXISTS " +
+                ClubsTable.TABLE_NAME + " ( " +
+                ClubsTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                ClubsTable.COLUMN_QUESTION + " TEXT, " +
+                ClubsTable.COLUMN_ANSWER + " TEXT, " +
+                ClubsTable.COLUMN_DISPLAYED + " INTEGER" +
                 ")";
-        final String SQL_CREATE_GREEK_SCIENCE_TABLE = "CREATE TABLE IF NOT EXISTS " +
-                GreekScienceTable.TABLE_NAME + " ( " +
-                GreekScienceTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                GreekScienceTable.COLUMN_QUESTION + " TEXT, " +
-                GreekScienceTable.COLUMN_ANSWER + " TEXT, " +
-                GreekScienceTable.COLUMN_DISPLAYED + " INTEGER" +
+        final String SQL_CREATE_GREEK_NATIONAL_TABLE = "CREATE TABLE IF NOT EXISTS " +
+                GreekNationalTable.TABLE_NAME + " ( " +
+                GreekNationalTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                GreekNationalTable.COLUMN_QUESTION + " TEXT, " +
+                GreekNationalTable.COLUMN_ANSWER + " TEXT, " +
+                GreekNationalTable.COLUMN_DISPLAYED + " INTEGER" +
                 ")";
         final String SQL_CREATE_GREEK_GEOGRAPHY_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 GreekGeographyTable.TABLE_NAME + " ( " +
@@ -83,38 +83,38 @@ public class DBHelper extends SQLiteOpenHelper {
                 GreekGeneralTable.COLUMN_ANSWER + " TEXT, " +
                 GreekGeneralTable.COLUMN_DISPLAYED + " INTEGER" +
                 ")";
-        final String SQL_CREATE_GREEK_SPORTS_TABLE = "CREATE TABLE IF NOT EXISTS " +
-                GreekSportsTable.TABLE_NAME + " ( " +
-                GreekSportsTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                GreekSportsTable.COLUMN_QUESTION + " TEXT, " +
-                GreekSportsTable.COLUMN_ANSWER + " TEXT, " +
-                GreekSportsTable.COLUMN_DISPLAYED + " INTEGER" +
+        final String SQL_CREATE_GREEK_CLUBS_TABLE = "CREATE TABLE IF NOT EXISTS " +
+                GreekClubsTable.TABLE_NAME + " ( " +
+                GreekClubsTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                GreekClubsTable.COLUMN_QUESTION + " TEXT, " +
+                GreekClubsTable.COLUMN_ANSWER + " TEXT, " +
+                GreekClubsTable.COLUMN_DISPLAYED + " INTEGER" +
                 ")";
 
         // create the tables
-        db.execSQL(SQL_CREATE_SCIENCE_TABLE);
-        fillScienceTable();
+        db.execSQL(SQL_CREATE_NATIONAL_TABLE);
+        fillNationalTable();
         db.execSQL(SQL_CREATE_GEOGRAPHY_TABLE);
         fillGeographyTable();
         db.execSQL(SQL_CREATE_GENERAL_TABLE);
         fillGeneralTable();
-        db.execSQL(SQL_CREATE_SPORTS_TABLE);
-        fillSportsTable();
-        db.execSQL(SQL_CREATE_GREEK_SCIENCE_TABLE);
-        fillGreekScienceTable();
+        db.execSQL(SQL_CREATE_CLUBS_TABLE);
+        fillClubsTable();
+        db.execSQL(SQL_CREATE_GREEK_NATIONAL_TABLE);
+        fillGreekNationalTable();
         db.execSQL(SQL_CREATE_GREEK_GEOGRAPHY_TABLE);
         fillGreekGeographyTable();
         db.execSQL(SQL_CREATE_GREEK_GENERAL_TABLE);
         fillGreekGeneralTable();
-        db.execSQL(SQL_CREATE_GREEK_SPORTS_TABLE);
-        fillGreekSportsTable();
+        db.execSQL(SQL_CREATE_GREEK_CLUBS_TABLE);
+        fillGreekClubsTable();
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + ScienceTable.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + NationalTable.TABLE_NAME);
         // create fresh table
         onCreate(db);
         // Drop older table if existed
@@ -122,7 +122,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // create fresh table
         onCreate(db);
         // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + SportsTable.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ClubsTable.TABLE_NAME);
         // create fresh table
         onCreate(db);
         // Drop older table if existed
@@ -130,7 +130,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // create fresh table
         onCreate(db);
         // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + GreekScienceTable.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + GreekNationalTable.TABLE_NAME);
         // create fresh table
         onCreate(db);
         // Drop older table if existed
@@ -138,7 +138,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // create fresh table
         onCreate(db);
         // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + GreekSportsTable.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + GreekClubsTable.TABLE_NAME);
         // create fresh table
         onCreate(db);
         // Drop older table if existed
@@ -147,13 +147,13 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
     //this 4 methods called in fill-//-Table and they are adding the the rows in the tables
-    private void addScience(Questions science_questions) {
+    private void addNational(Questions national_questions) {
         ContentValues cv = new ContentValues();
-        cv.put(ScienceTable.COLUMN_QUESTION, science_questions.getQuestion());
-        cv.put(ScienceTable.COLUMN_ANSWER, science_questions.getAnswer());
-        cv.put(ScienceTable.COLUMN_ID, science_questions.get_id());
-        cv.put(ScienceTable.COLUMN_DISPLAYED, false);
-        db.insert(ScienceTable.TABLE_NAME, null, cv);
+        cv.put(NationalTable.COLUMN_QUESTION, national_questions.getQuestion());
+        cv.put(NationalTable.COLUMN_ANSWER, national_questions.getAnswer());
+        cv.put(NationalTable.COLUMN_ID, national_questions.get_id());
+        cv.put(NationalTable.COLUMN_DISPLAYED, false);
+        db.insert(NationalTable.TABLE_NAME, null, cv);
         cv.clear();
     }
 
@@ -177,23 +177,23 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.clear();
     }
 
-    private void addSports(Questions sports_questions) {
+    private void addClubs(Questions clubs_questions) {
         ContentValues cv = new ContentValues();
-        cv.put(SportsTable.COLUMN_QUESTION, sports_questions.getQuestion());
-        cv.put(SportsTable.COLUMN_ANSWER, sports_questions.getAnswer());
-        cv.put(SportsTable.COLUMN_ID, sports_questions.get_id());
-        cv.put(SportsTable.COLUMN_DISPLAYED, false);
-        db.insert(SportsTable.TABLE_NAME, null, cv);
+        cv.put(ClubsTable.COLUMN_QUESTION, clubs_questions.getQuestion());
+        cv.put(ClubsTable.COLUMN_ANSWER, clubs_questions.getAnswer());
+        cv.put(ClubsTable.COLUMN_ID, clubs_questions.get_id());
+        cv.put(ClubsTable.COLUMN_DISPLAYED, false);
+        db.insert(ClubsTable.TABLE_NAME, null, cv);
         cv.clear();
     }
     //this 4 methods called in fill Greek -//-Table and they are adding the the rows in the tables
-    private void addGreekScience(Questions greek_science_questions) {
+    private void addGreekNational(Questions greek_national_questions) {
         ContentValues cv = new ContentValues();
-        cv.put(GreekScienceTable.COLUMN_QUESTION, greek_science_questions.getQuestion());
-        cv.put(GreekScienceTable.COLUMN_ANSWER, greek_science_questions.getAnswer());
-        cv.put(GreekScienceTable.COLUMN_ID, greek_science_questions.get_id());
-        cv.put(GreekScienceTable.COLUMN_DISPLAYED, false);
-        db.insert(GreekScienceTable.TABLE_NAME, null, cv);
+        cv.put(GreekNationalTable.COLUMN_QUESTION, greek_national_questions.getQuestion());
+        cv.put(GreekNationalTable.COLUMN_ANSWER, greek_national_questions.getAnswer());
+        cv.put(GreekNationalTable.COLUMN_ID, greek_national_questions.get_id());
+        cv.put(GreekNationalTable.COLUMN_DISPLAYED, false);
+        db.insert(GreekNationalTable.TABLE_NAME, null, cv);
         cv.clear();
     }
 
@@ -217,22 +217,22 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.clear();
     }
 
-    private void addGreekSports(Questions greek_sports_questions) {
+    private void addGreekClubs(Questions greek_clubs_questions) {
         ContentValues cv = new ContentValues();
-        cv.put(GreekSportsTable.COLUMN_QUESTION, greek_sports_questions.getQuestion());
-        cv.put(GreekSportsTable.COLUMN_ANSWER, greek_sports_questions.getAnswer());
-        cv.put(GreekSportsTable.COLUMN_ID, greek_sports_questions.get_id());
-        cv.put(GreekSportsTable.COLUMN_DISPLAYED, false);
-        db.insert(GreekSportsTable.TABLE_NAME, null, cv);
+        cv.put(GreekClubsTable.COLUMN_QUESTION, greek_clubs_questions.getQuestion());
+        cv.put(GreekClubsTable.COLUMN_ANSWER, greek_clubs_questions.getAnswer());
+        cv.put(GreekClubsTable.COLUMN_ID, greek_clubs_questions.get_id());
+        cv.put(GreekClubsTable.COLUMN_DISPLAYED, false);
+        db.insert(GreekClubsTable.TABLE_NAME, null, cv);
         cv.clear();
     }
 //these 8 methods are called in MainGame.fill_arraylist method to return the filled up arrays from each category for both languages
-    public List<Questions> getAllScience() {
-        ArrayList<Questions> scienceList = new ArrayList<>();
+    public List<Questions> getAllNational() {
+        ArrayList<Questions> nationalList = new ArrayList<>();
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(
-                ScienceTable.TABLE_NAME,
+                NationalTable.TABLE_NAME,
                 new String[]{"id", "question", "answer", "displayed"},
                 "displayed = 0",  // Fetch only questions where displayed is false
                 null,
@@ -249,20 +249,20 @@ public class DBHelper extends SQLiteOpenHelper {
                 boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
 
                 Questions q = new Questions(id,question, answer, displayed);
-                scienceList.add(q);
+                nationalList.add(q);
             } while (cursor.moveToNext());
         }
 
         cursor.close();
-        return scienceList;
+        return nationalList;
     }
 
-    public List<Questions> getAllSports() {
-        ArrayList<Questions> sportsList = new ArrayList<>();
+    public List<Questions> getAllClubs() {
+        ArrayList<Questions> clubsList = new ArrayList<>();
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(
-                SportsTable.TABLE_NAME,
+                ClubsTable.TABLE_NAME,
                 new String[]{"id", "question", "answer", "displayed"},
                 "displayed = 0",  // Fetch only questions where displayed is false
                 null,
@@ -279,12 +279,12 @@ public class DBHelper extends SQLiteOpenHelper {
                 boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
 
                 Questions q = new Questions(id,question, answer, displayed);
-                sportsList.add(q);
+                clubsList.add(q);
             } while (cursor.moveToNext());
         }
 
         cursor.close();
-        return sportsList;
+        return clubsList;
     }
 
     public List<Questions> getAllGeneral() {
@@ -347,12 +347,12 @@ public class DBHelper extends SQLiteOpenHelper {
         return geographyList;
     }
     //Greek
-    public List<Questions> getAllGreekScience() {
-        ArrayList<Questions> GreekScienceList = new ArrayList<>();
+    public List<Questions> getAllGreekNational() {
+        ArrayList<Questions> GreekNationalList = new ArrayList<>();
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(
-                GreekScienceTable.TABLE_NAME,
+                GreekNationalTable.TABLE_NAME,
                 new String[]{"id", "question", "answer", "displayed"},
                 "displayed = 0",  // Fetch only questions where displayed is false
                 null,
@@ -369,20 +369,20 @@ public class DBHelper extends SQLiteOpenHelper {
                 boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
 
                 Questions q = new Questions(id,question, answer, displayed);
-                GreekScienceList.add(q);
+                GreekNationalList.add(q);
             } while (cursor.moveToNext());
         }
 
         cursor.close();
-        return GreekScienceList;
+        return GreekNationalList;
     }
 
-    public List<Questions> getAllGreekSports() {
-        ArrayList<Questions> GreekSportsList = new ArrayList<>();
+    public List<Questions> getAllGreekClubs() {
+        ArrayList<Questions> GreekClubsList = new ArrayList<>();
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(
-                GreekSportsTable.TABLE_NAME,
+                GreekClubsTable.TABLE_NAME,
                 new String[]{"id", "question", "answer", "displayed"},
                 "displayed = 0",  // Fetch only questions where displayed is false
                 null,
@@ -399,12 +399,12 @@ public class DBHelper extends SQLiteOpenHelper {
                 boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
 
                 Questions q = new Questions(id,question, answer, displayed);
-                GreekSportsList.add(q);
+                GreekClubsList.add(q);
             } while (cursor.moveToNext());
         }
 
         cursor.close();
-        return GreekSportsList;
+        return GreekClubsList;
     }
 
     public List<Questions> getAllGreekGeneral() {
@@ -474,7 +474,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put("displayed", question.getDisplayed() ? 1 : 0);  // Convert boolean to integer (1 for true, 0 for false)
 
         db.update(
-                ScienceTable.TABLE_NAME,
+                NationalTable.TABLE_NAME,
                 values,
                 "id = ?",
                 new String[]{String.valueOf(question.get_id())}
@@ -486,7 +486,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(question.get_id())}
         );
         db.update(
-                SportsTable.TABLE_NAME,
+                ClubsTable.TABLE_NAME,
                 values,
                 "id = ?",
                 new String[]{String.valueOf(question.get_id())}
@@ -498,7 +498,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(question.get_id())}
         );
         db.update(
-                GreekScienceTable.TABLE_NAME,
+                GreekNationalTable.TABLE_NAME,
                 values,
                 "id = ?",
                 new String[]{String.valueOf(question.get_id())}
@@ -510,7 +510,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(question.get_id())}
         );
         db.update(
-                GreekSportsTable.TABLE_NAME,
+                GreekClubsTable.TABLE_NAME,
                 values,
                 "id = ?",
                 new String[]{String.valueOf(question.get_id())}
@@ -527,14 +527,14 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("displayed", 0); // Set displayed value to false
-        db.update(ScienceTable.TABLE_NAME, values, null, null);
+        db.update(NationalTable.TABLE_NAME, values, null, null);
         db.update(GeneralTable.TABLE_NAME, values, null, null);
         db.update(GeographyTable.TABLE_NAME, values, null, null);
-        db.update(SportsTable.TABLE_NAME, values, null, null);
-        db.update(GreekScienceTable.TABLE_NAME, values, null, null);
+        db.update(ClubsTable.TABLE_NAME, values, null, null);
+        db.update(GreekNationalTable.TABLE_NAME, values, null, null);
         db.update(GreekGeneralTable.TABLE_NAME, values, null, null);
         db.update(GreekGeographyTable.TABLE_NAME, values, null, null);
-        db.update(GreekSportsTable.TABLE_NAME, values, null, null);
+        db.update(GreekClubsTable.TABLE_NAME, values, null, null);
         db.close();
     }
     // fill all the tables with questions from txt files
@@ -563,10 +563,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    private void fillScienceTable(){
+    private void fillNationalTable(){
 
         try {
-            InputStream inputStream = context.getAssets().open("ScienceTable.txt");
+            InputStream inputStream = context.getAssets().open("NationalTable.txt");
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
             String line;
@@ -579,7 +579,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 boolean displayed = Boolean.parseBoolean(parts[3]);
 
                 Questions q = new Questions(id, question, answer, displayed);
-                addScience(q);
+                addNational(q);
             }
 
             reader.close();
@@ -589,10 +589,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    private void fillSportsTable(){
+    private void fillClubsTable(){
 
         try {
-            InputStream inputStream = context.getAssets().open("SportsTable.txt");
+            InputStream inputStream = context.getAssets().open("ClubsTable.txt");
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
             String line;
@@ -605,7 +605,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 boolean displayed = Boolean.parseBoolean(parts[3]);
 
                 Questions q = new Questions(id, question, answer, displayed);
-                addSports(q);
+                addClubs(q);
             }
 
             reader.close();
@@ -665,10 +665,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
 
-    private void fillGreekScienceTable(){
+    private void fillGreekNationalTable(){
 
         try {
-            InputStream inputStream = context.getAssets().open("GreekScienceTable.txt");
+            InputStream inputStream = context.getAssets().open("GreekNationalTable.txt");
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
             String line;
@@ -681,7 +681,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 boolean displayed = Boolean.parseBoolean(parts[3]);
 
                 Questions q = new Questions(id, question, answer, displayed);
-                addGreekScience(q);
+                addGreekNational(q);
             }
 
             reader.close();
@@ -691,10 +691,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    private void fillGreekSportsTable(){
+    private void fillGreekClubsTable(){
 
         try {
-            InputStream inputStream = context.getAssets().open("GreekSportsTable.txt");
+            InputStream inputStream = context.getAssets().open("GreekClubsTable.txt");
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
             String line;
@@ -707,7 +707,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 boolean displayed = Boolean.parseBoolean(parts[3]);
 
                 Questions q = new Questions(id, question, answer, displayed);
-                addGreekSports(q);
+                addGreekClubs(q);
             }
 
             reader.close();

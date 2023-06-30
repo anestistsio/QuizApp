@@ -30,7 +30,7 @@ public class MainGame extends AppCompatActivity {
     private ImageButton correct_bt, incorrect_bt,changing_team_bt;
     private Button show_hide_bt;
     private String which_button, playing_team, t1n, t2n, selectedCategory,language;
-    private int t1s, t2s, team1ScienceCorrectAnswers, team2ScienceCorrectAnswers, team1SportsCorrectAnswers, team2SportsCorrectAnswers, team1GeographyCorrectAnswers, team2GeographyCorrectAnswers, team1GeneralCorrectAnswers, team2GeneralCorrectAnswers;
+    private int t1s, t2s, team1NationalCorrectAnswers, team2NationalCorrectAnswers, team1ClubsCorrectAnswers, team2ClubsCorrectAnswers, team1GeographyCorrectAnswers, team2GeographyCorrectAnswers, team1GeneralCorrectAnswers, team2GeneralCorrectAnswers;
     Bitmap team2bitmap, team1bitmap;
     //this answers_is_boolean checks if question ended to prevent startTimer.onFinish run
     private boolean answers_is_boolean = true;
@@ -61,22 +61,22 @@ public class MainGame extends AppCompatActivity {
 
         //checks the language to fill with the right table the arraylist and also set the selected_category_tv with the right language category name
         switch (selectedCategory) {
-            case DBContract.ScienceTable.TABLE_NAME:
+            case DBContract.NationalTable.TABLE_NAME:
                 if (language.equals("English")) {
-                    questions = (ArrayList<Questions>) dbHelper.getAllScience();
-                    selected_category_tv.setText(DBContract.ScienceTable.TABLE_NAME);
+                    questions = (ArrayList<Questions>) dbHelper.getAllNational();
+                    selected_category_tv.setText(DBContract.NationalTable.TABLE_NAME);
                 }else {
-                    questions = (ArrayList<Questions>) dbHelper.getAllGreekScience();
-                    selected_category_tv.setText(DBContract.GreekScienceTable.TABLE_NAME);
+                    questions = (ArrayList<Questions>) dbHelper.getAllGreekNational();
+                    selected_category_tv.setText(DBContract.GreekNationalTable.TABLE_NAME);
                 }
                 break;
-            case DBContract.SportsTable.TABLE_NAME:
+            case DBContract.ClubsTable.TABLE_NAME:
                 if (language.equals("English")) {
-                    questions = (ArrayList<Questions>) dbHelper.getAllSports();
-                    selected_category_tv.setText(DBContract.SportsTable.TABLE_NAME);
+                    questions = (ArrayList<Questions>) dbHelper.getAllClubs();
+                    selected_category_tv.setText(DBContract.ClubsTable.TABLE_NAME);
                 }else {
-                    questions = (ArrayList<Questions>) dbHelper.getAllGreekSports();
-                    selected_category_tv.setText(DBContract.GreekSportsTable.TABLE_NAME);
+                    questions = (ArrayList<Questions>) dbHelper.getAllGreekClubs();
+                    selected_category_tv.setText(DBContract.GreekClubsTable.TABLE_NAME);
                 }
                 break;
             case DBContract.GeographyTable.TABLE_NAME:
@@ -184,11 +184,11 @@ public class MainGame extends AppCompatActivity {
             if (playing_team.equals(t1n)) {
                 t1s++;
                 switch (selectedCategory) {
-                    case DBContract.ScienceTable.TABLE_NAME:
-                        team1ScienceCorrectAnswers++;
+                    case DBContract.NationalTable.TABLE_NAME:
+                        team1NationalCorrectAnswers++;
                         break;
-                    case DBContract.SportsTable.TABLE_NAME:
-                        team1SportsCorrectAnswers++;
+                    case DBContract.ClubsTable.TABLE_NAME:
+                        team1ClubsCorrectAnswers++;
                         break;
                     case DBContract.GeographyTable.TABLE_NAME:
                         team1GeographyCorrectAnswers++;
@@ -200,11 +200,11 @@ public class MainGame extends AppCompatActivity {
             } else {
                 t2s++;
                 switch (selectedCategory) {
-                    case DBContract.ScienceTable.TABLE_NAME:
-                        team2ScienceCorrectAnswers++;
+                    case DBContract.NationalTable.TABLE_NAME:
+                        team2NationalCorrectAnswers++;
                         break;
-                    case DBContract.SportsTable.TABLE_NAME:
-                        team2SportsCorrectAnswers++;
+                    case DBContract.ClubsTable.TABLE_NAME:
+                        team2ClubsCorrectAnswers++;
                         break;
                     case DBContract.GeographyTable.TABLE_NAME:
                         team2GeographyCorrectAnswers++;
@@ -269,10 +269,10 @@ public class MainGame extends AppCompatActivity {
         intent.putExtra("score", score);
         intent.putExtra("lastChance",lastChance);
         // passing values for correct answered counters for each category for each team
-        intent.putExtra("team1ScienceCorrectAnswers", team1ScienceCorrectAnswers);
-        intent.putExtra("team2ScienceCorrectAnswers", team2ScienceCorrectAnswers);
-        intent.putExtra("team1SportsCorrectAnswers", team1SportsCorrectAnswers);
-        intent.putExtra("team2SportsCorrectAnswers", team2SportsCorrectAnswers);
+        intent.putExtra("team1NationalCorrectAnswers", team1NationalCorrectAnswers);
+        intent.putExtra("team2NationalCorrectAnswers", team2NationalCorrectAnswers);
+        intent.putExtra("team1ClubsCorrectAnswers", team1ClubsCorrectAnswers);
+        intent.putExtra("team2ClubsCorrectAnswers", team2ClubsCorrectAnswers);
         intent.putExtra("team1GeographyCorrectAnswers", team1GeographyCorrectAnswers);
         intent.putExtra("team2GeographyCorrectAnswers", team2GeographyCorrectAnswers);
         intent.putExtra("team1GeneralCorrectAnswers", team1GeneralCorrectAnswers);
@@ -348,10 +348,10 @@ public class MainGame extends AppCompatActivity {
         lastChance = getIntent().getExtras().getBoolean("lastChance");
 
         //retrieving the values for correct answered counters for each category for each team
-        team1ScienceCorrectAnswers = getIntent().getExtras().getInt("team1ScienceCorrectAnswers");
-        team2ScienceCorrectAnswers = getIntent().getExtras().getInt("team2ScienceCorrectAnswers");
-        team1SportsCorrectAnswers = getIntent().getExtras().getInt("team1SportsCorrectAnswers");
-        team2SportsCorrectAnswers = getIntent().getExtras().getInt("team2SportsCorrectAnswers");
+        team1NationalCorrectAnswers = getIntent().getExtras().getInt("team1NationalCorrectAnswers");
+        team2NationalCorrectAnswers = getIntent().getExtras().getInt("team2NationalCorrectAnswers");
+        team1ClubsCorrectAnswers = getIntent().getExtras().getInt("team1ClubsCorrectAnswers");
+        team2ClubsCorrectAnswers = getIntent().getExtras().getInt("team2ClubsCorrectAnswers");
         team1GeographyCorrectAnswers = getIntent().getExtras().getInt("team1GeographyCorrectAnswers");
         team2GeographyCorrectAnswers = getIntent().getExtras().getInt("team2GeographyCorrectAnswers");
         team1GeneralCorrectAnswers = getIntent().getExtras().getInt("team1GeneralCorrectAnswers");
