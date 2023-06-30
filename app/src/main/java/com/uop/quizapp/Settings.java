@@ -45,7 +45,6 @@ public class Settings extends AppCompatActivity {
 
         TimeInSeconds_tv.setText(timeInSeconds + "s");
 
-
         QPerCat_sb = findViewById(R.id.QPerCat_sb);
         QPerCat_tv = findViewById(R.id.QPerCat_tv);
         QPerCat_tv.setText(String.valueOf(questionsPerCategory));
@@ -138,7 +137,7 @@ public class Settings extends AppCompatActivity {
             language_bt.setImageResource(R.drawable.greek);
             language_tv.setText("ΕΛ");
             language = "Ελληνικά";
-            TimePerQuestion_tv.setText("Χρόνος Ανα Κατηγορία");
+            TimePerQuestion_tv.setText("Χρόνος Ανα Ερώτηση");
             QPerCatText_tv.setText("Ερωτήσεις Ανα Κατηγορία");
             save_bt.setText("ΣΩΣΕ");
 

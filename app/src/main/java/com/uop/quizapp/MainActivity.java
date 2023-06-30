@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity{
     private int team2GeneralCorrectAnswers = 0;
     private Bitmap team1bitmap,team2bitmap,bitmap;
     private ImageView team1_iv,team2_iv;
-    private ImageButton team1_im,team2_im;
     private int id , timeInSeconds = 60;
     private boolean lastChance = true;
     //4 questions per category by default
@@ -79,8 +78,7 @@ public class MainActivity extends AppCompatActivity{
         team2_et = findViewById(R.id.team2_et);
         team1_iv = findViewById(R.id.team1_iv);
         team2_iv = findViewById(R.id.team2_iv);
-        team1_im = findViewById(R.id.team1_im);
-        team2_im = findViewById(R.id.team2_im);
+
 
         //if the user finish one game and press restart we retrieve all his settings
         restart_boolean = getIntent().getBooleanExtra("restart_boolean",false);
@@ -102,13 +100,11 @@ public class MainActivity extends AppCompatActivity{
             if (team1byte != null) {
                 team1bitmap = BitmapFactory.decodeByteArray(team1byte, 0, team1byte.length);
                 team1_iv.setImageBitmap(team1bitmap);
-                team1_im.setVisibility(View.GONE);
             }
             team2byte = ex.getByteArray("team2byte");
             if (team2byte != null) {
                 team2bitmap = BitmapFactory.decodeByteArray(team2byte, 0, team2byte.length);
                 team2_iv.setImageBitmap(team2bitmap);
-                team2_im.setVisibility(View.GONE);
             }
 
         }
@@ -139,12 +135,10 @@ public class MainActivity extends AppCompatActivity{
                 team1byte = ex.getByteArray("team1byte");
                 team2byte = ex.getByteArray("team2byte");
                 if (team1byte != null) {
-                        team1_im.setVisibility(View.GONE);
                         team1bitmap = BitmapFactory.decodeByteArray(team1byte, 0, team1byte.length);
                         team1_iv.setImageBitmap(team1bitmap);
                 }
                 if (team2byte != null) {
-                    team2_im.setVisibility(View.GONE);
                     team2bitmap = BitmapFactory.decodeByteArray(team2byte, 0, team2byte.length);
                     team2_iv.setImageBitmap(team2bitmap);
                 }
@@ -268,15 +262,13 @@ public class MainActivity extends AppCompatActivity{
            //we check which button is pressed to put the image to the right image view
             switch (id)
             {
-                case R.id.team1_im:
+                case R.id.team1_iv:
                     team1bitmap = bitmap;
                     team1_iv.setImageBitmap(team1bitmap);
-                    team1_im.setVisibility(View.GONE);
                     break;
-                case R.id.team2_im:
+                case R.id.team2_iv:
                     team2bitmap = bitmap;
                     team2_iv.setImageBitmap(team2bitmap);
-                    team2_im.setVisibility(View.GONE);
                     break;
             }
 
