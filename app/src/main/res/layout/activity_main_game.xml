@@ -220,8 +220,8 @@
 
     <TextView
         android:id="@+id/playing_team_tv"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_width="190dp"
+        android:layout_height="25dp"
         android:layout_marginTop="28dp"
         android:paddingLeft="10dp"
         android:text="TextView"

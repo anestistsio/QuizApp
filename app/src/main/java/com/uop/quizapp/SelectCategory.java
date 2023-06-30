@@ -141,7 +141,7 @@ public class SelectCategory extends AppCompatActivity {
         ImageView national_iv = findViewById(R.id.national_iv);
         ImageView general_iv = findViewById(R.id.general_iv);
         ImageView geography_iv = findViewById(R.id.geography_iv);
-        ImageView clubs_iv = findViewById(R.id.sport_iv);
+        ImageView clubs_iv = findViewById(R.id.clubs_iv);
         ImageView team1_im = findViewById(R.id.team1_im);
         ImageView team2_im = findViewById(R.id.team2_im);
         Button score_bt = findViewById(R.id.score_bt);
