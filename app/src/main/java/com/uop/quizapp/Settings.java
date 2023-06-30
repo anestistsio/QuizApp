@@ -199,7 +199,7 @@ public class Settings extends AppCompatActivity {
             mute_bt.setImageDrawable(getResources().getDrawable(R.drawable.mute));
             isMute = true;
         } else {
-            mute_bt.setImageDrawable(getResources().getDrawable(R.drawable.umute));
+            mute_bt.setImageDrawable(getResources().getDrawable(R.drawable.unmute));
             isMute = false;
         }
     }

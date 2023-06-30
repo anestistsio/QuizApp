@@ -55,7 +55,7 @@
         android:id="@+id/incorrect_bt"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="25dp"
         android:layout_marginBottom="60dp"
         android:background="#00FFFFFF"
         android:onClick="question_end"
@@ -165,6 +165,21 @@
         android:background="@drawable/gradient"
         app:layout_constraintTop_toTopOf="parent"
         />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:alpha=".40"
+        android:scaleType="fitCenter"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/mini_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/top"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:layout_width="match_parent"

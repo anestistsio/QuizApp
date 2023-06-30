@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,6 +36,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity{
     private static final String CHANNEL_ID = "myFirebaseChannel";
@@ -238,30 +240,51 @@ public class MainActivity extends AppCompatActivity{
 
 
     //with this methods we ask for permission to open the camera and we also take the picture and assign it to the image views
-    public void TakePicture(View view){
-
-        if (ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.CAMERA)
-        != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(MainActivity.this , new String[]{
-                    Manifest.permission.CAMERA
-            },100);
+    public void TakePicture(View view) {
+        final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
+        if (!isMute) {
+            click_sound.start();
         }
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Launch the camera intent to capture an image
-        startActivityForResult(intent, 100,null);
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{
+                    Manifest.permission.CAMERA
+            }, 100);
+        }
 
-        //we put the pressed button's id in this variable
-        id=view.getId();
+        // Create an intent to capture image from camera
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
+        // Create chooser intent to handle camera and gallery intents
+        Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Image");
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{cameraIntent});
+
+        startActivityForResult(chooserIntent, 100);
+        id = view.getId();
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == RESULT_OK && data != null){
-             bitmap = (Bitmap) data.getExtras().get("data");
-           //we check which button is pressed to put the image to the right image view
-            switch (id)
-            {
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            if (data != null) {
+                if (data.getData() != null) {
+                    // Image selected from gallery
+                    Uri selectedImageUri = data.getData();
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
+                        bitmap = resizeBitmap(bitmap, 400);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    // Image captured from camera
+                    bitmap = (Bitmap) data.getExtras().get("data");
+                }
+            }
+
+            // Check which button is pressed to put the image in the correct ImageView
+            switch (id) {
                 case R.id.team1_iv:
                     team1bitmap = bitmap;
                     team1_iv.setImageBitmap(team1bitmap);
@@ -271,9 +294,19 @@ public class MainActivity extends AppCompatActivity{
                     team2_iv.setImageBitmap(team2bitmap);
                     break;
             }
-
         }
     }
+    private Bitmap resizeBitmap(Bitmap bitmap, int desiredWidth) {
+        int originalWidth = bitmap.getWidth();
+        int originalHeight = bitmap.getHeight();
+
+        // Calculate the desired height while maintaining the aspect ratio
+        int desiredHeight = (int) (originalHeight / (float) originalWidth * desiredWidth);
+
+        return Bitmap.createScaledBitmap(bitmap, desiredWidth, desiredHeight, true);
+    }
+
+
     // this method creates a notification channel
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -305,7 +338,9 @@ public class MainActivity extends AppCompatActivity{
     //this method goes to Settings activity
     public void settings(View view){
         final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
-        click_sound.start();
+        if (!isMute) {
+            click_sound.start();
+        }
         Intent intent = new Intent(MainActivity.this,Settings.class);
         intent.putExtra("selected_language", language);
         intent.putExtra("timeInSeconds", timeInSeconds);
@@ -329,7 +364,9 @@ public class MainActivity extends AppCompatActivity{
     }
     public void shareMain(View view) {
         final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
-        click_sound.start();
+        if (!isMute) {
+            click_sound.start();
+        }
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         String Body = "Download this app";

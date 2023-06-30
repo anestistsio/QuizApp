@@ -42,6 +42,7 @@ public class SelectCategory extends AppCompatActivity {
     ImageButton geography_bt;
     ImageButton sports_bt;
     private boolean isMute;
+    private TextView general_tv,geography_tv,national_tv,clubs_tv;
 
 
 
@@ -64,13 +65,13 @@ public class SelectCategory extends AppCompatActivity {
         //DBContract category = new DBContract();
         switch (view.getId())
         {
-            case R.id.science_bt:
+            case R.id.national_bt:
                 selectedCategory = DBContract.ScienceTable.TABLE_NAME;
                 break;
             case R.id.general_bt:
                 selectedCategory = DBContract.GeneralTable.TABLE_NAME;
                 break;
-            case R.id.sport_bt:
+            case R.id.clubs_bt:
                 selectedCategory = DBContract.SportsTable.TABLE_NAME;
                 break;
             case R.id.geography_bt:
@@ -133,11 +134,11 @@ public class SelectCategory extends AppCompatActivity {
         team2_name_tv = findViewById(R.id.team2_name_tv);
         team1_score_tv =findViewById(R.id.team1_score_tv);
         team2_score_tv = findViewById(R.id.team2_score_tv);
-        science_bt = findViewById(R.id.science_bt);
+        science_bt = findViewById(R.id.national_bt);
         general_bt = findViewById(R.id.general_bt);
         geography_bt = findViewById(R.id.geography_bt);
-        sports_bt = findViewById(R.id.sport_bt);
-        ImageView science_iv = findViewById(R.id.science_iv);
+        sports_bt = findViewById(R.id.clubs_bt);
+        ImageView science_iv = findViewById(R.id.national_iv);
         ImageView general_iv = findViewById(R.id.general_iv);
         ImageView geography_iv = findViewById(R.id.geography_iv);
         ImageView sports_iv = findViewById(R.id.sport_iv);
@@ -155,7 +156,10 @@ public class SelectCategory extends AppCompatActivity {
         team2_sciencequestions = findViewById(R.id.team2_sciencequestions);
         team2_sportsquestions = findViewById(R.id.team2_sportsquestions);
         shadow_v = findViewById(R.id.shadow_v);
-
+        general_tv = findViewById(R.id.general_tv);
+        geography_tv = findViewById(R.id.geography_tv);
+        clubs_tv = findViewById(R.id.clubs_tv);
+        national_tv = findViewById(R.id.national_tv);
 
 
         //take the team names and scores and playing team
@@ -264,6 +268,11 @@ public class SelectCategory extends AppCompatActivity {
         //set team names and scores and playing team to TextViews
         if (!language.equals("English")) {
             score_bt.setText("ΣΚΟΡ");
+            general_tv.setText("Γενικές");
+            geography_tv.setText("Γεωγραφία");
+            clubs_tv.setText("Συλλόγοι");
+            national_tv.setText("Εθνικές");
+
         }
         teamplay_tv.setText(playing_team);
         team1_name_tv.setText(t1n);

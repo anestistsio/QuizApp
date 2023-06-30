@@ -13,13 +13,13 @@
         android:layout_height="121dp"
         android:layout_below="@+id/teamplay_tv"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginBottom="400dp"
+        android:layout_marginBottom="330dp"
+        android:layout_marginEnd="30dp"
         android:background="#00FFFFFF"
         android:onClick="Startgame"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/geography_icon" />
 
     <ImageView
@@ -28,13 +28,13 @@
         android:layout_height="121dp"
         android:layout_below="@+id/teamplay_tv"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginBottom="400dp"
+        android:layout_marginBottom="330dp"
+        android:layout_marginEnd="30dp"
         android:background="#00FFFFFF"
         android:scaleType="fitCenter"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/geography_icon_disabled" />
 
     <ImageButton
@@ -44,7 +44,7 @@
         android:layout_below="@+id/teamplay_tv"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="400dp"
+        android:layout_marginBottom="500dp"
         android:background="#00FFFFFF"
         android:onClick="Startgame"
         android:scaleType="fitCenter"
@@ -59,7 +59,7 @@
         android:layout_below="@+id/teamplay_tv"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="400dp"
+        android:layout_marginBottom="500dp"
         android:background="#00FFFFFF"
         android:scaleType="fitCenter"
         android:visibility="gone"
@@ -68,65 +68,65 @@
         app:srcCompat="@drawable/general_icon_disabled" />
 
     <ImageButton
-        android:id="@+id/science_bt"
+        android:id="@+id/national_bt"
         android:layout_width="155dp"
         android:layout_height="121dp"
         android:layout_below="@+id/teamplay_tv"
         android:layout_alignParentStart="true"
         android:layout_marginStart="30dp"
-        android:layout_marginBottom="230dp"
+        android:layout_marginBottom="330dp"
         android:background="#00FFFFFF"
         android:onClick="Startgame"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/science_icon" />
+        app:srcCompat="@drawable/national_icon" />
 
     <ImageView
-        android:id="@+id/science_iv"
+        android:id="@+id/national_iv"
         android:layout_width="155dp"
         android:layout_height="121dp"
         android:layout_below="@+id/teamplay_tv"
         android:layout_alignParentStart="true"
         android:layout_marginStart="30dp"
-        android:layout_marginBottom="230dp"
+        android:layout_marginBottom="330dp"
         android:background="#00FFFFFF"
         android:scaleType="fitCenter"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/science_icon_disabled" />
+        app:srcCompat="@drawable/national_icon_disabled" />
 
     <ImageButton
-        android:id="@+id/sport_bt"
-        android:layout_width="165dp"
-        android:layout_height="130dp"
+        android:id="@+id/clubs_bt"
+        android:layout_width="155dp"
+        android:layout_height="121dp"
         android:layout_below="@+id/teamplay_tv"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="225dp"
+        android:layout_marginBottom="500dp"
+        android:layout_marginStart="30dp"
         android:background="#00FFFFFF"
         android:onClick="Startgame"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/sport_icon" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/clubs_icon" />
 
 
     <ImageView
         android:id="@+id/sport_iv"
-        android:layout_width="165dp"
-        android:layout_height="130dp"
+        android:layout_width="155dp"
+        android:layout_height="121dp"
         android:layout_below="@+id/teamplay_tv"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="225dp"
+        android:layout_marginBottom="500dp"
+        android:layout_marginStart="30dp"
         android:background="#00FFFFFF"
         android:scaleType="fitCenter"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/sport_icon_disabled" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/clubs_icon_disabled" />
 
     <RelativeLayout
         android:id="@+id/top"
@@ -135,6 +135,21 @@
         android:background="@drawable/gradient"
         app:layout_constraintTop_toTopOf="parent"
         />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:scaleType="fitCenter"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/mini_logo"
+        app:layout_constraintEnd_toEndOf="@+id/top"
+        app:layout_constraintStart_toStartOf="parent"
+        android:alpha="0.40"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:layout_width="match_parent"
@@ -147,16 +162,17 @@
 
     <TextView
         android:id="@+id/teamplay_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="195dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="10dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginTop="28dp"
-        android:text="TextView"
         android:fontFamily="@font/mansalva"
-        android:textAlignment="center"
+        android:text="TextView"
         android:textColor="@color/white"
         android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView3"
         app:layout_constraintStart_toEndOf="@+id/playing_team_im"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -309,7 +325,7 @@
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="195dp"
+            android:layout_marginTop="210dp"
             app:srcCompat="@drawable/geography_icon" />
 
         <ImageView
@@ -328,22 +344,22 @@
             android:layout_below="@+id/general_questions"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            app:srcCompat="@drawable/science_icon" />
+            app:srcCompat="@drawable/national_icon" />
 
         <ImageView
             android:id="@+id/sports_questions"
-            android:layout_width="105dp"
-            android:layout_height="105dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:layout_below="@+id/science_questions"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            app:srcCompat="@drawable/sport_icon" />
+            app:srcCompat="@drawable/clubs_icon" />
 
         <TextView
             android:id="@+id/team1_geographyquestions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="222dp"
+            android:layout_marginTop="237dp"
             android:layout_marginEnd="40dp"
             android:layout_toStartOf="@+id/geography_questions"
             android:gravity="center"
@@ -356,7 +372,7 @@
             android:id="@+id/team1_generalquestions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="338dp"
+            android:layout_marginTop="353dp"
             android:layout_marginEnd="40dp"
             android:layout_toStartOf="@+id/general_questions"
             android:gravity="center"
@@ -369,7 +385,7 @@
             android:id="@+id/team1_sciencequestions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="458dp"
+            android:layout_marginTop="473dp"
             android:layout_marginEnd="40dp"
             android:layout_toStartOf="@+id/science_questions"
             android:gravity="center"
@@ -382,7 +398,7 @@
             android:id="@+id/team1_sportsquestions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="586dp"
+            android:layout_marginTop="601dp"
             android:layout_marginEnd="40dp"
             android:layout_toStartOf="@+id/sports_questions"
             android:gravity="center"
@@ -396,7 +412,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="222dp"
+            android:layout_marginTop="237dp"
             android:layout_toEndOf="@+id/geography_questions"
             android:gravity="center"
             android:fontFamily="@font/mansalva"
@@ -409,7 +425,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="338dp"
+            android:layout_marginTop="353dp"
             android:layout_toEndOf="@+id/general_questions"
             android:gravity="center"
             android:text="TextView"
@@ -422,7 +438,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="458dp"
+            android:layout_marginTop="473dp"
             android:layout_toEndOf="@+id/science_questions"
             android:gravity="center"
             android:text="TextView"
@@ -435,7 +451,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="586dp"
+            android:layout_marginTop="601dp"
             android:layout_toEndOf="@+id/sports_questions"
             android:gravity="center"
             android:fontFamily="@font/mansalva"
@@ -445,5 +461,49 @@
 
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/geography_tv"
+        android:layout_width="155dp"
+        android:layout_height="wrap_content"
+        android:text="Geography"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="309dp"
+        android:gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/general_tv"
+        android:layout_width="155dp"
+        android:layout_height="wrap_content"
+        android:text="General"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="480dp"
+        android:gravity="center_horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/national_tv"
+        android:layout_width="155dp"
+        android:layout_height="wrap_content"
+        android:text="National"
+        android:gravity="center_horizontal"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="309dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/clubs_tv"
+        android:layout_width="155dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="480dp"
+        android:layout_marginStart="30dp"
+        android:text="Clubs"
+        android:gravity="center_horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

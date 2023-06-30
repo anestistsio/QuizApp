@@ -21,7 +21,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Questions_db.db";
 
     // Database Version
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 8;
     private SQLiteDatabase db;
     private Context context;
 
