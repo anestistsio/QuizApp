@@ -5,14 +5,13 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class Settings extends AppCompatActivity {
 
@@ -27,10 +26,16 @@ public class Settings extends AppCompatActivity {
     private String language,t1_et,t2_et;
     private byte[] team1byte;
     private byte[] team2byte;
+    private int preselected_timeInSeconds,preselected_questionsPerCategory;
+    private boolean preselected_isMute;
+    private String preselected_language;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE); // Hide the title bar
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN); // Set fullscreen
         setContentView(R.layout.activity_settings);
         //set orientation portrait locked
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -57,6 +62,11 @@ public class Settings extends AppCompatActivity {
         isMute = getIntent().getExtras().getBoolean("isMute");
         t1_et = getIntent().getStringExtra("t1_et");
         t2_et = getIntent().getStringExtra("t2_et");
+
+        preselected_language = language;
+        preselected_timeInSeconds = timeInSeconds;
+        preselected_questionsPerCategory = questionsPerCategory;
+        preselected_isMute = isMute;
 
         Bundle ex = getIntent().getExtras();
         team1byte = ex.getByteArray("team1byte");
@@ -177,22 +187,42 @@ public class Settings extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            finishAndRemoveTask();
-            this.finishAffinity();
-
+        Intent intent = new Intent(Settings.this, MainActivity.class);
+        intent.putExtra("selected_language", preselected_language);
+        intent.putExtra("timeInSeconds", preselected_timeInSeconds);
+        intent.putExtra("questionsPerCategory", preselected_questionsPerCategory);
+        intent.putExtra("isMute",preselected_isMute);
+        intent.putExtra("t1_et",t1_et);
+        intent.putExtra("t2_et",t2_et);
+        if (team1byte != null){
+            intent.putExtra("team1byte", team1byte);
         }
-
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK twice to exit", Toast.LENGTH_SHORT).show();
-
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, 1000);
+        if (team2byte != null){
+            intent.putExtra("team2byte", team2byte);
+        }
+        startActivity(intent);
+        finish();
+    }
+    public void Back(View view){
+        final MediaPlayer click_sound = MediaPlayer.create(this, R.raw.click_sound);
+        if (!isMute) {
+            click_sound.start();
+        }
+        Intent intent = new Intent(Settings.this, MainActivity.class);
+        intent.putExtra("selected_language", preselected_language);
+        intent.putExtra("timeInSeconds", preselected_timeInSeconds);
+        intent.putExtra("questionsPerCategory", preselected_questionsPerCategory);
+        intent.putExtra("isMute",preselected_isMute);
+        intent.putExtra("t1_et",t1_et);
+        intent.putExtra("t2_et",t2_et);
+        if (team1byte != null){
+            intent.putExtra("team1byte", team1byte);
+        }
+        if (team2byte != null){
+            intent.putExtra("team2byte", team2byte);
+        }
+        startActivity(intent);
+        finish();
     }
     public void mute(View view) {
         if (!isMute) {

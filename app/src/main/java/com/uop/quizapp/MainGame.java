@@ -11,6 +11,8 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -46,6 +48,9 @@ public class MainGame extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE); // Hide the title bar
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN); // Set fullscreen
         setContentView(R.layout.activity_main_game);
         //set orientation portrait locked
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -106,7 +111,7 @@ public class MainGame extends AppCompatActivity {
         if (questions.isEmpty()) {
             // Handle the case where the list is empty
             if (!language.equals("English")){
-                Toast.makeText(this, "Δεν υπάρχουν άλλες ερωτήσης σε αυτή την κατηγορία", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Δεν υπάρχουν άλλες ερωτήσεις σε αυτή την κατηγορία", Toast.LENGTH_SHORT).show();
             }else {
                 Toast.makeText(this, "No questions available for this category", Toast.LENGTH_SHORT).show();
             }
@@ -143,6 +148,7 @@ public class MainGame extends AppCompatActivity {
         which_button = String.valueOf(view.getId());
         Intent intent = new Intent(MainGame.this, SelectCategory.class);
         if (which_button.equals(String.valueOf(correct_bt.getId()))) {
+            ticking_sound.stop();
             if (t2s < score - 1) {
                 lastChance = true;
             }
@@ -163,9 +169,13 @@ public class MainGame extends AppCompatActivity {
                 }
                 changing_team_layout.setBackground(getDrawable(R.drawable.red_card));
                 if (!language.equals("English")) {
-                    changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατί η ομάδα : " + playing_team + " τελείωσε ");
+                    if (playing_team.equals("Ομάδα 1") || playing_team.equals("Ομάδα 2")) {
+                        changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατί η : " + playing_team + " τελείωσε ");
+                    }else {
+                        changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατί η ομάδα : " + playing_team + " τελείωσε ");
+                    }
                 } else {
-                    changing_team_tv.setText("The phone is changing hands because : " + playing_team + " finished");
+                        changing_team_tv.setText("The phone is changing hands because : " + playing_team + " finished");
                 }
 
             }
@@ -241,7 +251,11 @@ public class MainGame extends AppCompatActivity {
                     }
                     changing_team_layout.setBackground(getDrawable(R.drawable.yellow_card));
                     if (!language.equals("English")) {
-                        changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατι η ομάδα : " + playing_team.toUpperCase() + " έχασε");
+                        if (playing_team.equals("Ομάδα 1") || playing_team.equals("Ομάδα 2")) {
+                            changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατί η : " + playing_team + " έχασε ");
+                        }else {
+                            changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατί η ομάδα : " + playing_team + " έχασε ");
+                        }
                     } else {
                         changing_team_tv.setText("the phone now is changing hands because : " + playing_team.toUpperCase() + " lost");
                     }

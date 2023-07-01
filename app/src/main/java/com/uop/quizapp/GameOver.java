@@ -11,11 +11,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.ByteArrayOutputStream;
 
 public class GameOver extends AppCompatActivity {
     private TextView winning_tv,team1Name_tv,team2Name_tv,team1Score_tv,team2Score_tv;
@@ -27,6 +27,9 @@ public class GameOver extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE); // Hide the title bar
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN); // Set fullscreen
         setContentView(R.layout.activity_game_over);
         //set orientation portrait locked
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -77,7 +80,11 @@ public class GameOver extends AppCompatActivity {
                 winning_tv.setText("Ισοπαλία!");
 
             }else {
-                winning_tv.setText("Η ομάδα " + winning_team + " νικάει!");
+                if (winning_team.equals("Ομάδα 1") || winning_team.equals("Ομάδα 2")) {
+                    winning_tv.setText("Η " + winning_team + " νικάει! ");
+                }else {
+                    winning_tv.setText("Η ομάδα" + winning_team + " νικάει!");
+                }
             }
         }else {
             if (t1s == t2s) {

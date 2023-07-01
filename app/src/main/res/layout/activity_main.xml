@@ -4,7 +4,9 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="false">
 
 
     <EditText
@@ -16,7 +18,7 @@
         android:layout_marginTop="55dp"
         android:layout_marginEnd="50dp"
         android:background="@drawable/edit_round"
-        android:fontFamily="@font/mansalva"
+        android:fontFamily="@font/play"
         android:hint="Team 1 Name"
         android:inputType="text"
         android:maxLength="12"
@@ -33,14 +35,14 @@
         android:maxLength="12"
         android:background="@drawable/edit_round"
         android:hint="Team 2 Name"
-        android:fontFamily="@font/mansalva"
+        android:fontFamily="@font/play"
         android:paddingLeft="12dp"
         android:inputType="text" />
 
     <ImageButton
         android:id="@+id/start_bt"
         android:layout_width="154dp"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="25dp"

@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -49,6 +51,9 @@ public class SelectCategory extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE); // Hide the title bar
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN); // Set fullscreen
         setContentView(R.layout.activity_select_category);
         //set orientation portrait locked
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -138,10 +143,6 @@ public class SelectCategory extends AppCompatActivity {
         general_bt = findViewById(R.id.general_bt);
         geography_bt = findViewById(R.id.geography_bt);
         clubs_bt = findViewById(R.id.clubs_bt);
-        ImageView national_iv = findViewById(R.id.national_iv);
-        ImageView general_iv = findViewById(R.id.general_iv);
-        ImageView geography_iv = findViewById(R.id.geography_iv);
-        ImageView clubs_iv = findViewById(R.id.clubs_iv);
         ImageView team1_im = findViewById(R.id.team1_im);
         ImageView team2_im = findViewById(R.id.team2_im);
         Button score_bt = findViewById(R.id.score_bt);
@@ -230,37 +231,37 @@ public class SelectCategory extends AppCompatActivity {
         //checks if any team answered all  questions from any category and if yes it disables the button
         if (playing_team.equals(t1n)){
             if (team1NationalCorrectAnswers >= score/4){
-                national_bt.setVisibility(View.GONE);
-                national_iv.setVisibility(View.VISIBLE);
+                national_bt.setClickable(false);
+                national_bt.setImageDrawable(getResources().getDrawable(R.drawable.national_icon_disabled));
             }
             if (team1ClubsCorrectAnswers >= score/4) {
-                clubs_bt.setVisibility(View.GONE);
-                clubs_iv.setVisibility(View.VISIBLE);
+                clubs_bt.setClickable(false);
+                clubs_bt.setImageDrawable(getResources().getDrawable(R.drawable.clubs_icon_disabled));
             }
             if (team1GeographyCorrectAnswers >= score/4) {
-                geography_bt.setVisibility(View.GONE);
-                geography_iv.setVisibility(View.VISIBLE);
+                geography_bt.setClickable(false);
+                geography_bt.setImageDrawable(getResources().getDrawable(R.drawable.geography_icon_disabled));
             }
             if (team1GeneralCorrectAnswers >= score/4) {
-                general_bt.setVisibility(View.GONE);
-                general_iv.setVisibility(View.VISIBLE);
+                general_bt.setClickable(false);
+                general_bt.setImageDrawable(getResources().getDrawable(R.drawable.general_icon_disabled));
             }
         }else {
             if (team2NationalCorrectAnswers >= score/4){
-                national_bt.setVisibility(View.GONE);
-                national_iv.setVisibility(View.VISIBLE);
+                national_bt.setClickable(false);
+                national_bt.setImageDrawable(getResources().getDrawable(R.drawable.national_icon_disabled));
             }
             if (team2ClubsCorrectAnswers >= score/4) {
-                clubs_bt.setVisibility(View.GONE);
-                clubs_iv.setVisibility(View.VISIBLE);
+                clubs_bt.setClickable(false);
+                clubs_bt.setImageDrawable(getResources().getDrawable(R.drawable.clubs_icon_disabled));
             }
             if (team2GeographyCorrectAnswers >= score/4) {
-                geography_bt.setVisibility(View.GONE);
-                geography_iv.setVisibility(View.VISIBLE);
+                geography_bt.setClickable(false);
+                geography_bt.setImageDrawable(getResources().getDrawable(R.drawable.geography_icon_disabled));
             }
             if (team2GeneralCorrectAnswers >= score/4) {
-                general_bt.setVisibility(View.GONE);
-                general_iv.setVisibility(View.VISIBLE);
+                general_bt.setClickable(false);
+                general_bt.setImageDrawable(getResources().getDrawable(R.drawable.general_icon_disabled));
             }
         }
 
