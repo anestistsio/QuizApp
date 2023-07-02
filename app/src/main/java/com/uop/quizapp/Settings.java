@@ -183,8 +183,6 @@ public class Settings extends AppCompatActivity {
         finish();
     }
 
-    boolean doubleBackToExitPressedOnce = false;
-
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(Settings.this, MainActivity.class);

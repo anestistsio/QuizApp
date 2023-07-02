@@ -67,13 +67,13 @@
         android:layout_below="@+id/team1Name_tv"
         android:layout_alignParentStart="true"
         android:layout_marginStart="30dp"
-        android:textSize="138sp"
+        android:textSize="130sp"
         android:textStyle="bold"
         android:text="00"
         android:fontFamily="@font/play"
         android:gravity="center"
         android:textColor="@color/orange"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="25dp"
         />
 
     <TextView
@@ -82,8 +82,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/team2Name_tv"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="22dp"
-        android:textSize="138sp"
+        android:layout_marginTop="25dp"
+        android:textSize="130sp"
         android:textStyle="bold"
         android:text="00"
         android:fontFamily="@font/play"
@@ -135,11 +135,11 @@
 
     <ImageButton
         android:id="@+id/exit_bt"
-        android:layout_width="60dp"
-        android:layout_height= "60dp"
+        android:layout_width="54dp"
+        android:layout_height= "54dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="14dp"
         android:layout_marginEnd="30dp"
         android:background="#00FFFFFF"
         android:onClick="exit"

@@ -43,6 +43,7 @@ public class MainGame extends AppCompatActivity {
     private boolean is_ok_pressed = false;
     private CountDownTimer count;
     private boolean isMute;
+    private long time_int;
     MediaPlayer ticking_sound;
 
     @Override
@@ -58,7 +59,6 @@ public class MainGame extends AppCompatActivity {
         initializing();
         //this method takes the questions straight from DB and fills an arraylist for the chosen category
         fill_arraylist(selectedCategory);
-
     }
     public void fill_arraylist(String selectedCategory) {
         DBHelper dbHelper = new DBHelper(this);
@@ -148,7 +148,9 @@ public class MainGame extends AppCompatActivity {
         which_button = String.valueOf(view.getId());
         Intent intent = new Intent(MainGame.this, SelectCategory.class);
         if (which_button.equals(String.valueOf(correct_bt.getId()))) {
-            ticking_sound.stop();
+            if (time_int < 10000) {
+                ticking_sound.stop();
+            }
             if (t2s < score - 1) {
                 lastChance = true;
             }
@@ -162,11 +164,7 @@ public class MainGame extends AppCompatActivity {
                 show_hide_bt.setVisibility(View.GONE);
                 correct_bt.setVisibility(View.GONE);
                 incorrect_bt.setVisibility(View.GONE);
-                try {
-                    Thread.sleep(800);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+
                 changing_team_layout.setBackground(getDrawable(R.drawable.red_card));
                 if (!language.equals("English")) {
                     if (playing_team.equals("Ομάδα 1") || playing_team.equals("Ομάδα 2")) {
@@ -227,7 +225,9 @@ public class MainGame extends AppCompatActivity {
             // incorrect button clicked
         } else {
             //if the incorrect button clicked then change playing team and play incorrect sound
-            ticking_sound.stop();
+            if (time_int < 10000) {
+                ticking_sound.stop();
+            }
             if (!isMute) {
                 incorrect_sound.start();
             }
@@ -244,11 +244,7 @@ public class MainGame extends AppCompatActivity {
                     show_hide_bt.setVisibility(View.GONE);
                     correct_bt.setVisibility(View.GONE);
                     incorrect_bt.setVisibility(View.GONE);
-                    try {
-                        Thread.sleep(800);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+
                     changing_team_layout.setBackground(getDrawable(R.drawable.yellow_card));
                     if (!language.equals("English")) {
                         if (playing_team.equals("Ομάδα 1") || playing_team.equals("Ομάδα 2")) {
@@ -454,6 +450,7 @@ public class MainGame extends AppCompatActivity {
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
                 //set the time in the timer_tv
+                time_int = millisUntilFinished;
                 timer_tv.setText(time);
             if(answers_is_boolean){
                 if (millisUntilFinished < 10000) {
@@ -464,7 +461,9 @@ public class MainGame extends AppCompatActivity {
                 }
             }else{
                 if (!isMute) {
-                    ticking_sound.stop();
+                    if (time_int < 10000) {
+                        ticking_sound.stop();
+                    }
                 }
             }
             }
@@ -474,7 +473,9 @@ public class MainGame extends AppCompatActivity {
                 //check if question_end called before executing
                 if(answers_is_boolean) {
                     if (!isMute) {
-                        ticking_sound.stop();
+                        if (time_int < 10000) {
+                            ticking_sound.stop();
+                        }
                     }
                     question_end(incorrect_bt);
                 }

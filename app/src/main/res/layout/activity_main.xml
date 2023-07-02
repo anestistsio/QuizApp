@@ -11,33 +11,41 @@
 
     <EditText
         android:id="@+id/team1_et"
-        android:layout_width="220dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/quizapp_tv"
         android:layout_alignParentEnd="true"
+        android:layout_marginStart="41dp"
         android:layout_marginTop="55dp"
         android:layout_marginEnd="50dp"
+        android:layout_toEndOf="@+id/team1_iv"
         android:background="@drawable/edit_round"
         android:fontFamily="@font/play"
         android:hint="Team 1 Name"
+        android:textColor="@color/black"
+        android:textColorHint="#79000000"
         android:inputType="text"
         android:maxLength="12"
         android:paddingLeft="12dp" />
 
     <EditText
         android:id="@+id/team2_et"
-        android:layout_width="220dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/team1_et"
         android:layout_alignParentEnd="true"
+        android:layout_marginStart="41dp"
         android:layout_marginTop="55dp"
         android:layout_marginEnd="50dp"
-        android:maxLength="12"
+        android:layout_toEndOf="@+id/team2_iv"
         android:background="@drawable/edit_round"
-        android:hint="Team 2 Name"
         android:fontFamily="@font/play"
-        android:paddingLeft="12dp"
-        android:inputType="text" />
+        android:hint="Team 2 Name"
+        android:textColor="@color/black"
+        android:inputType="text"
+        android:textColorHint="#79000000"
+        android:maxLength="12"
+        android:paddingLeft="12dp" />
 
     <ImageButton
         android:id="@+id/start_bt"
@@ -59,7 +67,7 @@
         android:layout_below="@+id/quizapp_tv"
         android:layout_alignParentStart="true"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="50dp"
         android:src="@drawable/photo_bt"
         android:onClick="TakePicture"
          />

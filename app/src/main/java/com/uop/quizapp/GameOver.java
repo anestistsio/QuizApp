@@ -83,7 +83,7 @@ public class GameOver extends AppCompatActivity {
                 if (winning_team.equals("Ομάδα 1") || winning_team.equals("Ομάδα 2")) {
                     winning_tv.setText("Η " + winning_team + " νικάει! ");
                 }else {
-                    winning_tv.setText("Η ομάδα" + winning_team + " νικάει!");
+                    winning_tv.setText("Η ομάδα " + winning_team + " νικάει!");
                 }
             }
         }else {
@@ -122,8 +122,16 @@ public class GameOver extends AppCompatActivity {
         intent.putExtra("timeInSeconds", timeInSeconds);
         intent.putExtra("score", score);
         intent.putExtra("isMute",isMute);
-        intent.putExtra("t1n",t1n);
-        intent.putExtra("t2n",t2n);
+        if(t1n.equals("Ομάδα 1") || t1n.equals("Team 1")){
+
+        }else {
+            intent.putExtra("t1n", t1n);
+        }
+        if(t2n.equals("Ομάδα 2") || t2n.equals("Team 2")){
+
+        }else {
+            intent.putExtra("t2n",t2n);
+        }
         intent.putExtra("team1byte",team1byte);
         intent.putExtra("team2byte",team2byte);
         startActivity(intent);
