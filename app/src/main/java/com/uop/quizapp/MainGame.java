@@ -141,8 +141,8 @@ public class MainGame extends AppCompatActivity {
         incorrect_bt.setVisibility(View.GONE);
         correct_bt.setVisibility(View.GONE);
         //initialize correct and incorrect sounds
-        final MediaPlayer correct_sound = MediaPlayer.create(this, R.raw.correct_sound);
-        final MediaPlayer incorrect_sound = MediaPlayer.create(this, R.raw.incorrect_sound);
+         MediaPlayer correct_sound = MediaPlayer.create(this, R.raw.correct_sound);
+         MediaPlayer incorrect_sound = MediaPlayer.create(this, R.raw.incorrect_sound);
 
         //checks which button is clicked (correct or incorrect)
         which_button = String.valueOf(view.getId());

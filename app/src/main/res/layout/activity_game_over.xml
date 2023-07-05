@@ -6,28 +6,21 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:fitsSystemWindows="true"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:resizeableActivity="false">
 
 
-    <TextView
-        android:id="@+id/winning_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="420dp"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="28sp"
-        android:fontFamily="@font/play"
-        android:textStyle="bold" />
+
 
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="340dp"
-        android:layout_marginTop="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="96dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
+        android:scaleType="fitStart"
         app:srcCompat="@drawable/scoreboard_logo" />
 
     <TextView
@@ -70,6 +63,7 @@
         android:textSize="130sp"
         android:textStyle="bold"
         android:text="00"
+        style="@android:style/TextAppearance.DeviceDefault.Medium"
         android:fontFamily="@font/play"
         android:gravity="center"
         android:textColor="@color/orange"
@@ -78,19 +72,19 @@
 
     <TextView
         android:id="@+id/team2Score_tv"
+        style="@android:style/TextAppearance.DeviceDefault.Medium"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/team2Name_tv"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="25dp"
-        android:textSize="130sp"
-        android:textStyle="bold"
-        android:text="00"
+        android:layout_marginEnd="30dp"
         android:fontFamily="@font/play"
         android:gravity="center"
+        android:text="00"
         android:textColor="@color/orange"
-        android:layout_marginEnd="30dp"
-        />
+        android:textSize="130sp"
+        android:textStyle="bold" />
 
 
     <RelativeLayout
@@ -146,15 +140,6 @@
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/exit_bt" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/winning_im"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="500dp"
-        android:background="#00FFFFFF"
-        app:srcCompat="@android:drawable/ic_menu_gallery" />
     <ImageView
         android:id="@+id/share_bt"
         android:layout_width="45dp"
@@ -167,6 +152,48 @@
         android:scaleType="fitCenter"
         android:onClick="shareGameOver"
         app:srcCompat="@drawable/share_bt" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="250dp"
+        android:layout_height="400dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        app:srcCompat="@drawable/winning_logo" />
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/winning_im"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_alignBottom="@+id/imageView"
+            android:layout_alignStart="@+id/imageView"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="165dp"
+            android:layout_marginBottom="210dp"
+            android:padding="3dp"
+            android:background="@drawable/image_gold_fade"
+            app:srcCompat="@android:drawable/ic_menu_gallery"/>
+    <TextView
+        android:id="@+id/winning_tv"
+        android:layout_width="210dp"
+        android:layout_height="32dp"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="150dp"
+        android:fontFamily="@font/play"
+        android:text="WWWWWWWWWW"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+
+
+
 
 
 </RelativeLayout>

@@ -6,12 +6,14 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:fitsSystemWindows="true"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:resizeableActivity="false"
+    >
 
 
     <TextView
         android:id="@+id/question_tv"
-        android:layout_width="392dp"
+        android:layout_width="wrap_content"
         android:layout_height="210dp"
         android:layout_marginTop="150dp"
         android:layout_marginEnd="21dp"
@@ -46,13 +48,14 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="25dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="40dp"
         android:background="#00FFFFFF"
         android:onClick="question_end"
         android:scaleType="fitCenter"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+
         app:srcCompat="@drawable/correct" />
 
     <ImageButton
@@ -60,24 +63,28 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="40dp"
         android:background="#00FFFFFF"
         android:onClick="question_end"
         android:scaleType="fitCenter"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"
+
         app:srcCompat="@drawable/incorrect" />
 
     <TextView
         android:id="@+id/answer_tv"
-        android:layout_width="270dp"
+        android:layout_width="280dp"
         android:layout_height="145dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:layout_marginTop="150dp"
         android:textSize="22sp"
         android:paddingTop="40dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginStart="100dp"
+        android:paddingEnd="40dp"
         android:paddingStart="25dp"
         android:fontFamily="@font/play"
         android:gravity="center_horizontal"

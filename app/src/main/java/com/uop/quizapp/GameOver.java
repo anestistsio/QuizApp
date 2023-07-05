@@ -81,16 +81,16 @@ public class GameOver extends AppCompatActivity {
 
             }else {
                 if (winning_team.equals("Ομάδα 1") || winning_team.equals("Ομάδα 2")) {
-                    winning_tv.setText("Η " + winning_team + " νικάει! ");
+                    winning_tv.setText( winning_team);
                 }else {
-                    winning_tv.setText("Η ομάδα " + winning_team + " νικάει!");
+                    winning_tv.setText(winning_team);
                 }
             }
         }else {
             if (t1s == t2s) {
                 winning_tv.setText("DRAW!");
             } else {
-                winning_tv.setText(winning_team + " WINS!");
+                winning_tv.setText(winning_team);
             }
         }
 
