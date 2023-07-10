@@ -16,12 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
-
     // Database Name
     private static final String DATABASE_NAME = "Questions_db.db";
-
     // Database Version
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 11;
     private SQLiteDatabase db;
     private Context context;
 

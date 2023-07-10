@@ -172,7 +172,6 @@ public class MainActivity extends AppCompatActivity{
                     t2n = "Ομάδα 2";
                 }
             }
-
             if (t1n.equals(t2n)) {
                 //error same name handler
                 if (!language.equals("English")) {
@@ -186,7 +185,6 @@ public class MainActivity extends AppCompatActivity{
                     }
                     Intent intent = new Intent(MainActivity.this, SelectCategory.class);
                     //pass team names and scores and playing team to SelectedCategory.class
-
                     intent.putExtra("team1Name", t1n);
                     intent.putExtra("team2Name", t2n);
                     intent.putExtra("team1Score", 0);
@@ -207,8 +205,6 @@ public class MainActivity extends AppCompatActivity{
                     intent.putExtra("timeInSeconds",timeInSeconds);
                     intent.putExtra("lastChance",lastChance);
                     intent.putExtra("isMute",isMute);
-
-
                     //passing the images of the teams to SelectedCategory.class
                     if (team1bitmap != null){
                         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -226,7 +222,6 @@ public class MainActivity extends AppCompatActivity{
                     }else {
                         intent.putExtra("team2byte", (byte[]) null);
                     }
-
                         //here we check if the user selected language from Settings.java
                         if (language == null){
                             //English is the default language
@@ -234,7 +229,6 @@ public class MainActivity extends AppCompatActivity{
                         }else {
                             intent.putExtra("selected_language", language);
                         }
-
                     startActivity(intent);
                     finish();
             }

@@ -1,20 +1,24 @@
-1|What is the most spoken language in the world?|Mandarin|false
-2|Who wrote the famous novel 'Pride and Prejudice'?|Jane Austen|false
-3|What is the capital city of Canada?|Ottawa|false
-4|Who painted the Mona Lisa?|Leonardo da Vinci|false
-5|Which planet is known as the 'Red Planet'?|Mars|false
-6|What is the largest organ in the human body?|Skin|false
-7|In which country is the Great Barrier Reef located?|Australia|false
-8|Which artist is famous for cutting off a part of his own ear?|Vincent van Gogh|false
-9|Who was the first man to walk on the moon?|Neil Armstrong|false
-10|What is the national flower of Japan?|Cherry blossom|false
-11|Which animal is known as the 'King of the Jungle'?|Lion|false
-12|Who is the author of the Harry Potter series?|J.K. Rowling|false
-13|What is the currency of Brazil?|Brazilian Real|false
-14|Which famous playwright wrote Romeo and Juliet?|William Shakespeare|false
-15|Which musical instrument has 88 keys?|Piano|false
-16|What is the tallest mountain in the world?|Mount Everest|false
-17|What is the national bird of the United States?|Bald eagle|false
-18|Who painted the ceiling of the Sistine Chapel?|Michelangelo|false
-19|What is the largest ocean in the world?|Pacific Ocean|false
-20|Who was the Greek god of music?|Apollo|false
+2000|Which former French football player kicked a kung fu kick at a fan?|Eric Cantona|false
+2001|Which football team is associated with the nickname "Blaugrana"?|Barcelona|false
+2002|Who was the all-time leading goal scorer in the European Cup (before it became the Champions League)?|Alfredo Di Stefano|false
+2003|Which player holds the record for the most expensive football transfer?|Neymar|false
+2004|With which team did Cristiano Ronaldo start his professional career?|Sporting Lisbon|false
+2005|Which Liverpool player is from Egypt?|Mohamed Salah|false
+2006|Who is the player with the most goals in the history of the Brazilian national team?|Pele|false
+2007|Which player holds the record for the most goals scored in a single season of the English Premier League?|Erling Haaland|false
+2008|Which player has won the most Golden Boots in the Premier League?|Alan Shearer|false
+2009|Who is the player with the most goals in the history of the Spanish national team?|David Villa|false
+2010|Which country has won the most Africa Cup of Nations titles?|Egypt|false
+2011|Which country won the European Championship in 2020?|Italy|false
+2012|Which team is nicknamed "The Foxes"?|Leicester City|false
+2013|Which former Barcelona player is famous for biting other players?|Luis Suarez|false
+2014|What is the name of the German football league?|Bundesliga|false
+2015|What is the "Pichichi" award?|The top scorer award in Spain|false
+2016|Which club did Zinedine Zidane coach before his return to Real Madrid?|Real Madrid Castilla|false
+2017|Who is the current manager of Manchester City?|Pep Guardiola|false
+2018|Who is the all-time leading goal scorer for the French national football team?|Olivier Giroud|false
+2019|Who is the current manager of Chelsea?|Mauricio Pochettino|false
+2020|Which team has won the most FA Cup titles in England?|Arsenal|false
+2021|Who is the current manager of the Argentina national football team?|Lionel Scaloni|false
+2022|Who is the all-time leading goal scorer for the Swedish national football team?|Zlatan Ibrahimovic|false
+2023|Which club has won the most Süper Lig titles in Turkey?|Galatasaray|false

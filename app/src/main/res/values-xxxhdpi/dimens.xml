@@ -69,4 +69,5 @@
     <dimen name="margin_start_dimen">155dp</dimen>
     <dimen name="margin_end_dimen">105dp</dimen>
     <dimen name="margin_top_scoreboard">90dp</dimen>
+
 </resources>

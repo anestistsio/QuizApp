@@ -1,20 +1,22 @@
-3001|What is the smallest country in the world?|Vatican City|false
-3002|Which continent is the largest by land area?|Asia|false
-3003|What is the capital city of France?|Paris|false
-3004|What is the longest river in the world?|Nile River|false
-3005|Which country is known as the Land of the Rising Sun?|Japan|false
-3006|What is the largest desert in the world?|Sahara Desert|false
-3007|What is the capital city of Brazil?|Brasília|false
-3008|Which mountain range is located in South America?|Andes Mountains|false
-3009|Which country is known for its fjords?|Norway|false
-3010|What is the largest ocean in the world?|Pacific Ocean|false
-3011|Which city is known as the Big Apple?|New York City|false
-3012|What is the capital city of Australia?|Canberra|false
-3013|Which country is known for its tulips and windmills?|Netherlands|false
-3014|What is the largest country in South America?|Brazil|false
-3015|Which continent is known as the 'Dark Continent'?|Africa|false
-3016|What is the capital city of Russia?|Moscow|false
-3017|Which country is known for the Great Barrier Reef?|Australia|false
-3018|Which river flows through the Grand Canyon?|Colorado River|false
-3019|What is the highest mountain in North America?|Mount Denali|false
-3020|Which country is known for the Pyramids of Giza?|Egypt|false
+3000|In which city is the Ajax team based?|Amsterdam|false
+3001|In which city is the Juventus team based?|Turin|false
+3002|In which city is the Panathinaikos team based?|Athens|false
+3003|In which country was the first World Cup that the Greek National Team participated in held?|Brazil|false
+3004|Which country hosted the Euro 2016 tournament?|France|false
+3005|In which city is the San Siro stadium located?|Milan|false
+3006|In which city is the Maracanã stadium located?|Rio de Janeiro|false
+3007|In which country is the Allianz Arena stadium located?|Germany|false
+3008|In which city was the final of the UEFA Champions League held in the 2022-2023 season?|Istanbul|false
+3009|In which countries was the 2012 UEFA European Championship held?|Poland and Ukraine|false
+3010|True or False: The FIFA World Cup has never been held in Africa.|False|false
+3011|In which stadium was the final of EURO 2004 held?|Estádio da Luz|false
+3012|In which city is the Signal Iduna Park stadium located?|Dortmund|false
+3013|In which city is the Stade de France located?|Paris|false
+3014|Which city is home to the football club Chelsea FC?|London|false
+3015|In which country was the first World Cup held?|Uruguay|false
+3016|Which country hosted the 2018 FIFA World Cup?|Russia|false
+3017|In which city is the Wembley Stadium located?|London|false
+3018|In which city is the Estadio Santiago Bernabeu located?|Madrid|false
+3019|In which country was the Copa America 2021 tournament held?|Brazil|false
+3020|Which country won the UEFA Euro 2020 tournament?|Italy|false
+3021|In which city was the final of the UEFA Champions League held in the 2020-2021 season?|Porto|false

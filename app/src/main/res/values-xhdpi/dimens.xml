@@ -56,17 +56,18 @@
     <dimen name="margin_441dp">441dp</dimen>
     <dimen name="margin_473dp">473dp</dimen>
     <dimen name="margin_601dp">601dp</dimen>
-    <dimen name="fifa_card_width">250dp</dimen>
-    <dimen name="fifa_card_height">400dp</dimen>
-    <dimen name="photo_width">140dp</dimen>
-    <dimen name="photo_height">140dp</dimen>
-    <dimen name="winning_team_width">210dp</dimen>
-    <dimen name="winning_team_height">35dp</dimen>
-    <dimen name="margin_photo_bottom">210dp</dimen>
-    <dimen name="margin_bottom_tv">150dp</dimen>
-    <dimen name="margin_bottom_fifa_card">60dp</dimen>
-    <dimen name="text_size">25dp</dimen>
-    <dimen name="margin_start_dimen">155dp</dimen>
-    <dimen name="margin_end_dimen">105dp</dimen>
+    <dimen name="fifa_card_width">192.31dp</dimen>
+    <dimen name="fifa_card_height">307.69dp</dimen>
+    <dimen name="photo_width">100dp</dimen>
+    <dimen name="photo_height">100dp</dimen>
+    <dimen name="winning_team_width">161.54dp</dimen>
+    <dimen name="winning_team_height">26.92dp</dimen>
+    <dimen name="margin_photo_bottom">161.54dp</dimen>
+    <dimen name="margin_bottom_tv">115.38dp</dimen>
+    <dimen name="margin_bottom_fifa_card">46.15dp</dimen>
+    <dimen name="text_size">19.23dp</dimen>
+    <dimen name="margin_start_dimen">126.92dp</dimen>
+    <dimen name="margin_end_dimen">88.46dp</dimen>
     <dimen name="margin_top_scoreboard">90dp</dimen>
+
 </resources>

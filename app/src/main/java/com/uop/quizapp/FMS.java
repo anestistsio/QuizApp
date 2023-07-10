@@ -1,10 +1,9 @@
 package com.uop.quizapp;
 
-
+import android.annotation.SuppressLint;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -17,6 +16,8 @@ public class FMS extends FirebaseMessagingService {
 
     }
 
+
+    @SuppressLint("MissingPermission")
     public void getFirebaseMessage(String title, String msg) {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "myFirebaseChannel")
