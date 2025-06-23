@@ -144,10 +144,10 @@ public class GameOver extends AppCompatActivity {
         }
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        String Body = "Download this app";
-        String Sub = "https://google.play.com";
-        intent.putExtra(Intent.EXTRA_TEXT, Body);
-        intent.putExtra(Intent.EXTRA_TEXT, Sub);
+        String subject = "Download this app";
+        String body = "https://google.play.com";
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, body);
         startActivity(Intent.createChooser(intent, "Share using"));
     }
     boolean doubleBackToExitPressedOnce = false;
