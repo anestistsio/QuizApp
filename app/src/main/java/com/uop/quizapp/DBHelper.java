@@ -111,37 +111,17 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Drop older table if existed
+        // Drop all existing tables
         db.execSQL("DROP TABLE IF EXISTS " + NationalTable.TABLE_NAME);
-        // create fresh table
-        onCreate(db);
-        // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + GeneralTable.TABLE_NAME);
-        // create fresh table
-        onCreate(db);
-        // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + ClubsTable.TABLE_NAME);
-        // create fresh table
-        onCreate(db);
-        // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + GeographyTable.TABLE_NAME);
-        // create fresh table
-        onCreate(db);
-        // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + GreekNationalTable.TABLE_NAME);
-        // create fresh table
-        onCreate(db);
-        // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + GreekGeneralTable.TABLE_NAME);
-        // create fresh table
-        onCreate(db);
-        // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + GreekClubsTable.TABLE_NAME);
-        // create fresh table
-        onCreate(db);
-        // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + GreekGeographyTable.TABLE_NAME);
-        // create fresh table
+
+        // Recreate the tables and repopulate them
         onCreate(db);
     }
     //this 4 methods called in fill-//-Table and they are adding the the rows in the tables
