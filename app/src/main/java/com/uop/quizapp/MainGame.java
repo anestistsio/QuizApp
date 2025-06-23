@@ -23,10 +23,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-import com.uop.quizapp.FirebaseDBHelper;
-import com.uop.quizapp.Category;
+
 import com.google.firebase.database.DatabaseError;
 
 public class MainGame extends AppCompatActivity {
@@ -261,7 +261,7 @@ public class MainGame extends AppCompatActivity {
         if (t1s == score) {
             playing_team = t2n;
         }
-        RedisManager db = RedisManager.getInstance();
+        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
         db.put("playing_team", playing_team);
         db.put("team1Name", t1n);
         db.put("team2Name", t2n);
@@ -334,7 +334,7 @@ public class MainGame extends AppCompatActivity {
         TextView playing_team_tv = findViewById(R.id.playing_team_tv);
 
         //pass selected category from SelectCategory.class to MainGame.class
-        RedisManager db = RedisManager.getInstance();
+        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
         selectedCategory = db.get("selectedCategory");
 
         //playing team ,score and team names are

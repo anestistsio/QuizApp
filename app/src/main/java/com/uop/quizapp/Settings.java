@@ -56,7 +56,7 @@ public class Settings extends AppCompatActivity {
         mute_bt = findViewById(R.id.mute_bt);
 
 
-        RedisManager db = RedisManager.getInstance();
+        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
         questionsPerCategory = ((Integer) db.get("questionsPerCategory")) /4;
         timeInSeconds = db.get("timeInSeconds");
         language = db.get("selected_language");
@@ -167,7 +167,7 @@ public class Settings extends AppCompatActivity {
             click_sound.start();
         }
         Intent intent = new Intent(Settings.this, MainActivity.class);
-        RedisManager db = RedisManager.getInstance();
+        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
         db.put("selected_language", language);
         db.put("timeInSeconds", timeInSeconds);
         db.put("questionsPerCategory", questionsPerCategory);
@@ -187,7 +187,7 @@ public class Settings extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(Settings.this, MainActivity.class);
-        RedisManager db = RedisManager.getInstance();
+        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
         db.put("selected_language", preselected_language);
         db.put("timeInSeconds", preselected_timeInSeconds);
         db.put("questionsPerCategory", preselected_questionsPerCategory);
@@ -209,7 +209,7 @@ public class Settings extends AppCompatActivity {
             click_sound.start();
         }
         Intent intent = new Intent(Settings.this, MainActivity.class);
-        RedisManager db2 = RedisManager.getInstance();
+        DataBetweenActivitiesManager db2 = DataBetweenActivitiesManager.getInstance();
         db2.put("selected_language", preselected_language);
         db2.put("timeInSeconds", preselected_timeInSeconds);
         db2.put("questionsPerCategory", preselected_questionsPerCategory);

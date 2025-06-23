@@ -1,12 +1,14 @@
-public class RedisManager {
-    private static RedisManager instance;
+package com.uop.quizapp;
+
+public class DataBetweenActivitiesManager {
+    private static DataBetweenActivitiesManager instance;
     private final java.util.Map<String, Object> store = new java.util.HashMap<>();
 
-    private RedisManager() {}
+    private DataBetweenActivitiesManager() {}
 
-    public static synchronized RedisManager getInstance() {
+    public static synchronized DataBetweenActivitiesManager getInstance() {
         if (instance == null) {
-            instance = new RedisManager();
+            instance = new DataBetweenActivitiesManager();
         }
         return instance;
     }

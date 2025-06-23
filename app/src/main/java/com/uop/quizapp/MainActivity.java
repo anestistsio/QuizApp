@@ -33,7 +33,6 @@ import androidx.core.content.ContextCompat;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.uop.quizapp.FirebaseDBHelper;
 
 import java.io.ByteArrayOutputStream;
 
@@ -186,7 +185,7 @@ public class MainActivity extends AppCompatActivity{
                     }
                     Intent intent = new Intent(MainActivity.this, SelectCategory.class);
                     // Store the initial game state in RedisManager instead of using Intent extras
-                    RedisManager db = RedisManager.getInstance();
+                    DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
                     db.put("team1Name", t1n);
                     db.put("team2Name", t2n);
                     db.put("team1Score", 0);
@@ -309,7 +308,7 @@ public class MainActivity extends AppCompatActivity{
             click_sound.start();
         }
         Intent intent = new Intent(MainActivity.this,Settings.class);
-        RedisManager db = RedisManager.getInstance();
+        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
         db.put("selected_language", language);
         db.put("timeInSeconds", timeInSeconds);
         db.put("questionsPerCategory", score);

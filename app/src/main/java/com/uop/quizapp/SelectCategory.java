@@ -18,8 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.uop.quizapp.Category;
-
 import java.io.ByteArrayOutputStream;
 
 public class SelectCategory extends AppCompatActivity {
@@ -89,7 +87,7 @@ public class SelectCategory extends AppCompatActivity {
         }
         //pass selected category to MainGame.class
         Intent intent = new Intent(SelectCategory.this, MainGame.class);
-        RedisManager db = RedisManager.getInstance();
+        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
         db.put("selectedCategory", selectedCategory);
         db.put("playing_team", playing_team);
         db.put("team1Name", t1n);
@@ -163,7 +161,7 @@ public class SelectCategory extends AppCompatActivity {
 
 
         //take the team names and scores and playing team from RedisManager
-        RedisManager db = RedisManager.getInstance();
+        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
         t1n = db.get("team1Name");
         t2n = db.get("team2Name");
         t1s = db.get("team1Score");
@@ -331,7 +329,7 @@ public class SelectCategory extends AppCompatActivity {
     }
     private void GameEnd(){
         Intent intent = new Intent(SelectCategory.this, GameOver.class);
-        RedisManager db = RedisManager.getInstance();
+        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
         db.put("team1Name", t1n);
         db.put("team2Name", t2n);
         db.put("team1Score", t1s);

@@ -38,7 +38,7 @@ public class GameOver extends AppCompatActivity {
 
     }
     private void initializing(){
-        RedisManager db = RedisManager.getInstance();
+        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
         isMute = db.get("isMute");
         final MediaPlayer win_sound = MediaPlayer.create(this,R.raw.win_sound);
         if (!isMute) {
@@ -117,7 +117,7 @@ public class GameOver extends AppCompatActivity {
             click_sound.start();
         }
         Intent intent = new Intent(GameOver.this, MainActivity.class);
-        RedisManager db = RedisManager.getInstance();
+        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
         db.put("restart_boolean", true);
         db.put("selected_language", language);
         db.put("timeInSeconds", timeInSeconds);
