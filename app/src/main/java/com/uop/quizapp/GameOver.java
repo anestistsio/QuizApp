@@ -38,7 +38,8 @@ public class GameOver extends AppCompatActivity {
 
     }
     private void initializing(){
-        isMute = getIntent().getExtras().getBoolean("isMute");
+        RedisManager db = RedisManager.getInstance();
+        isMute = db.get("isMute");
         final MediaPlayer win_sound = MediaPlayer.create(this,R.raw.win_sound);
         if (!isMute) {
             win_sound.start();
@@ -50,19 +51,18 @@ public class GameOver extends AppCompatActivity {
         team2Score_tv = findViewById(R.id.team2Score_tv);
         ImageView winning_im = findViewById(R.id.winning_im);
 
-        t1n = getIntent().getExtras().getString("team1Name");
-        t2n = getIntent().getExtras().getString("team2Name");
-        t1s = getIntent().getExtras().getInt("team1Score");
-        t2s = getIntent().getExtras().getInt("team2Score");
-        team1byte = getIntent().getExtras().getByteArray("team1byte");
-        team2byte = getIntent().getExtras().getByteArray("team2byte");
+        t1n = db.get("team1Name");
+        t2n = db.get("team2Name");
+        t1s = db.get("team1Score");
+        t2s = db.get("team2Score");
+        team1byte = db.get("team1byte");
+        team2byte = db.get("team2byte");
         //getting selected_language from SelectCategory.java
-        language = getIntent().getExtras().getString("selected_language");
-        score = getIntent().getExtras().getInt("score");
-        timeInSeconds = getIntent().getExtras().getInt("timeInSeconds");
+        language = db.get("selected_language");
+        score = db.get("score");
+        timeInSeconds = db.get("timeInSeconds");
         //getting the winning team's image
-        Bundle ex = getIntent().getExtras();
-        byte[] winning_byte = ex.getByteArray("winning_byte");
+        byte[] winning_byte = db.get("winning_byte");
         if (winning_byte != null) {
             Bitmap winning_image = BitmapFactory.decodeByteArray(winning_byte, 0, winning_byte.length);
             winning_im.setImageBitmap(winning_image);
@@ -117,23 +117,24 @@ public class GameOver extends AppCompatActivity {
             click_sound.start();
         }
         Intent intent = new Intent(GameOver.this, MainActivity.class);
-        intent.putExtra("restart_boolean",true);
-        intent.putExtra("selected_language", language);
-        intent.putExtra("timeInSeconds", timeInSeconds);
-        intent.putExtra("score", score);
-        intent.putExtra("isMute",isMute);
+        RedisManager db = RedisManager.getInstance();
+        db.put("restart_boolean", true);
+        db.put("selected_language", language);
+        db.put("timeInSeconds", timeInSeconds);
+        db.put("score", score);
+        db.put("isMute", isMute);
         if(t1n.equals("Ομάδα 1") || t1n.equals("Team 1")){
 
         }else {
-            intent.putExtra("t1n", t1n);
+            db.put("t1n", t1n);
         }
         if(t2n.equals("Ομάδα 2") || t2n.equals("Team 2")){
 
         }else {
-            intent.putExtra("t2n",t2n);
+            db.put("t2n", t2n);
         }
-        intent.putExtra("team1byte",team1byte);
-        intent.putExtra("team2byte",team2byte);
+        db.put("team1byte", team1byte);
+        db.put("team2byte", team2byte);
         startActivity(intent);
         finish();
     }

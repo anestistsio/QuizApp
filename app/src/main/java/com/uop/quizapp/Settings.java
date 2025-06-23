@@ -56,21 +56,21 @@ public class Settings extends AppCompatActivity {
         mute_bt = findViewById(R.id.mute_bt);
 
 
-        questionsPerCategory = getIntent().getExtras().getInt("questionsPerCategory") /4;
-        timeInSeconds = getIntent().getExtras().getInt("timeInSeconds");
-        language = getIntent().getExtras().getString("selected_language");
-        isMute = getIntent().getExtras().getBoolean("isMute");
-        t1_et = getIntent().getStringExtra("t1_et");
-        t2_et = getIntent().getStringExtra("t2_et");
+        RedisManager db = RedisManager.getInstance();
+        questionsPerCategory = ((Integer) db.get("questionsPerCategory")) /4;
+        timeInSeconds = db.get("timeInSeconds");
+        language = db.get("selected_language");
+        isMute = db.get("isMute");
+        t1_et = db.get("t1_et");
+        t2_et = db.get("t2_et");
 
         preselected_language = language;
         preselected_timeInSeconds = timeInSeconds;
         preselected_questionsPerCategory = questionsPerCategory;
         preselected_isMute = isMute;
 
-        Bundle ex = getIntent().getExtras();
-        team1byte = ex.getByteArray("team1byte");
-        team2byte = ex.getByteArray("team2byte");
+        team1byte = db.get("team1byte");
+        team2byte = db.get("team2byte");
 
 
         //Here we check if the user has already changed the setting and got back again, in this case we put the right values
@@ -167,17 +167,18 @@ public class Settings extends AppCompatActivity {
             click_sound.start();
         }
         Intent intent = new Intent(Settings.this, MainActivity.class);
-        intent.putExtra("selected_language", language);
-        intent.putExtra("timeInSeconds", timeInSeconds);
-        intent.putExtra("questionsPerCategory", questionsPerCategory);
-        intent.putExtra("isMute",isMute);
-        intent.putExtra("t1_et",t1_et);
-        intent.putExtra("t2_et",t2_et);
+        RedisManager db = RedisManager.getInstance();
+        db.put("selected_language", language);
+        db.put("timeInSeconds", timeInSeconds);
+        db.put("questionsPerCategory", questionsPerCategory);
+        db.put("isMute", isMute);
+        db.put("t1_et", t1_et);
+        db.put("t2_et", t2_et);
         if (team1byte != null){
-            intent.putExtra("team1byte", team1byte);
+            db.put("team1byte", team1byte);
         }
         if (team2byte != null){
-            intent.putExtra("team2byte", team2byte);
+            db.put("team2byte", team2byte);
         }
         startActivity(intent);
         finish();
@@ -186,17 +187,18 @@ public class Settings extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(Settings.this, MainActivity.class);
-        intent.putExtra("selected_language", preselected_language);
-        intent.putExtra("timeInSeconds", preselected_timeInSeconds);
-        intent.putExtra("questionsPerCategory", preselected_questionsPerCategory);
-        intent.putExtra("isMute",preselected_isMute);
-        intent.putExtra("t1_et",t1_et);
-        intent.putExtra("t2_et",t2_et);
+        RedisManager db = RedisManager.getInstance();
+        db.put("selected_language", preselected_language);
+        db.put("timeInSeconds", preselected_timeInSeconds);
+        db.put("questionsPerCategory", preselected_questionsPerCategory);
+        db.put("isMute", preselected_isMute);
+        db.put("t1_et", t1_et);
+        db.put("t2_et", t2_et);
         if (team1byte != null){
-            intent.putExtra("team1byte", team1byte);
+            db.put("team1byte", team1byte);
         }
         if (team2byte != null){
-            intent.putExtra("team2byte", team2byte);
+            db.put("team2byte", team2byte);
         }
         startActivity(intent);
         finish();
@@ -207,17 +209,18 @@ public class Settings extends AppCompatActivity {
             click_sound.start();
         }
         Intent intent = new Intent(Settings.this, MainActivity.class);
-        intent.putExtra("selected_language", preselected_language);
-        intent.putExtra("timeInSeconds", preselected_timeInSeconds);
-        intent.putExtra("questionsPerCategory", preselected_questionsPerCategory);
-        intent.putExtra("isMute",preselected_isMute);
-        intent.putExtra("t1_et",t1_et);
-        intent.putExtra("t2_et",t2_et);
+        RedisManager db2 = RedisManager.getInstance();
+        db2.put("selected_language", preselected_language);
+        db2.put("timeInSeconds", preselected_timeInSeconds);
+        db2.put("questionsPerCategory", preselected_questionsPerCategory);
+        db2.put("isMute", preselected_isMute);
+        db2.put("t1_et", t1_et);
+        db2.put("t2_et", t2_et);
         if (team1byte != null){
-            intent.putExtra("team1byte", team1byte);
+            db2.put("team1byte", team1byte);
         }
         if (team2byte != null){
-            intent.putExtra("team2byte", team2byte);
+            db2.put("team2byte", team2byte);
         }
         startActivity(intent);
         finish();

@@ -260,45 +260,42 @@ public class MainGame extends AppCompatActivity {
         //check if team 1 reached first the 12
         if (t1s == score) {
             playing_team = t2n;
-            intent.putExtra("playing_team", playing_team);
-        } else{
-            intent.putExtra("playing_team", playing_team);
         }
-        intent.putExtra("team1Name", t1n);
-        intent.putExtra("team2Name", t2n);
-        intent.putExtra("team1Score", t1s);
-        intent.putExtra("team2Score", t2s);
-        intent.putExtra("score", score);
-        intent.putExtra("lastChance",lastChance);
-        // passing values for correct answered counters for each category for each team
-        intent.putExtra("team1NationalCorrectAnswers", team1NationalCorrectAnswers);
-        intent.putExtra("team2NationalCorrectAnswers", team2NationalCorrectAnswers);
-        intent.putExtra("team1ClubsCorrectAnswers", team1ClubsCorrectAnswers);
-        intent.putExtra("team2ClubsCorrectAnswers", team2ClubsCorrectAnswers);
-        intent.putExtra("team1GeographyCorrectAnswers", team1GeographyCorrectAnswers);
-        intent.putExtra("team2GeographyCorrectAnswers", team2GeographyCorrectAnswers);
-        intent.putExtra("team1GeneralCorrectAnswers", team1GeneralCorrectAnswers);
-        intent.putExtra("team2GeneralCorrectAnswers", team2GeneralCorrectAnswers);
-        //passing selected_language and time in seconds
-        intent.putExtra("selected_language",language);
-        intent.putExtra("isMute",isMute);
-        intent.putExtra("timeInSeconds", timeInSeconds);
+        RedisManager db = RedisManager.getInstance();
+        db.put("playing_team", playing_team);
+        db.put("team1Name", t1n);
+        db.put("team2Name", t2n);
+        db.put("team1Score", t1s);
+        db.put("team2Score", t2s);
+        db.put("score", score);
+        db.put("lastChance", lastChance);
+        db.put("team1NationalCorrectAnswers", team1NationalCorrectAnswers);
+        db.put("team2NationalCorrectAnswers", team2NationalCorrectAnswers);
+        db.put("team1ClubsCorrectAnswers", team1ClubsCorrectAnswers);
+        db.put("team2ClubsCorrectAnswers", team2ClubsCorrectAnswers);
+        db.put("team1GeographyCorrectAnswers", team1GeographyCorrectAnswers);
+        db.put("team2GeographyCorrectAnswers", team2GeographyCorrectAnswers);
+        db.put("team1GeneralCorrectAnswers", team1GeneralCorrectAnswers);
+        db.put("team2GeneralCorrectAnswers", team2GeneralCorrectAnswers);
+        db.put("selected_language", language);
+        db.put("isMute", isMute);
+        db.put("timeInSeconds", timeInSeconds);
         //passing the images back to SelectedCategory.class
         if (team1bitmap != null) {
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
             byte[] team1byte = bytes.toByteArray();
-            intent.putExtra("team1byte", team1byte);
+            db.put("team1byte", team1byte);
         } else {
-            intent.putExtra("team1byte", (byte[]) null);
+            db.put("team1byte", null);
         }
         if (team2bitmap != null) {
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
             byte[] team2byte = bytes.toByteArray();
-            intent.putExtra("team2byte", team2byte);
+            db.put("team2byte", team2byte);
         } else {
-            intent.putExtra("team2byte", (byte[]) null);
+            db.put("team2byte", null);
         }
         //we set visible this layout when the user clicks the incorrect button
         if (changing_team_layout.getVisibility() == View.VISIBLE){
@@ -336,33 +333,33 @@ public class MainGame extends AppCompatActivity {
         top = findViewById(R.id.top);
         TextView playing_team_tv = findViewById(R.id.playing_team_tv);
 
-        //pass selected category from SelectedCategory.class to MainGame.class
-        selectedCategory = getIntent().getExtras().getString("selectedCategory");
+        //pass selected category from SelectCategory.class to MainGame.class
+        RedisManager db = RedisManager.getInstance();
+        selectedCategory = db.get("selectedCategory");
 
         //playing team ,score and team names are
-        playing_team = getIntent().getExtras().getString("playing_team");
-        t1n = getIntent().getExtras().getString("team1Name");
-        t2n = getIntent().getExtras().getString("team2Name");
-        t1s = getIntent().getExtras().getInt("team1Score");
-        t2s = getIntent().getExtras().getInt("team2Score");
-        t1n = getIntent().getExtras().getString("team1Name");
-        score = getIntent().getExtras().getInt("score");
-        lastChance = getIntent().getExtras().getBoolean("lastChance");
+        playing_team = db.get("playing_team");
+        t1n = db.get("team1Name");
+        t2n = db.get("team2Name");
+        t1s = db.get("team1Score");
+        t2s = db.get("team2Score");
+        score = db.get("score");
+        lastChance = db.get("lastChance");
 
         //retrieving the values for correct answered counters for each category for each team
-        team1NationalCorrectAnswers = getIntent().getExtras().getInt("team1NationalCorrectAnswers");
-        team2NationalCorrectAnswers = getIntent().getExtras().getInt("team2NationalCorrectAnswers");
-        team1ClubsCorrectAnswers = getIntent().getExtras().getInt("team1ClubsCorrectAnswers");
-        team2ClubsCorrectAnswers = getIntent().getExtras().getInt("team2ClubsCorrectAnswers");
-        team1GeographyCorrectAnswers = getIntent().getExtras().getInt("team1GeographyCorrectAnswers");
-        team2GeographyCorrectAnswers = getIntent().getExtras().getInt("team2GeographyCorrectAnswers");
-        team1GeneralCorrectAnswers = getIntent().getExtras().getInt("team1GeneralCorrectAnswers");
-        team2GeneralCorrectAnswers = getIntent().getExtras().getInt("team2GeneralCorrectAnswers");
+        team1NationalCorrectAnswers = db.get("team1NationalCorrectAnswers");
+        team2NationalCorrectAnswers = db.get("team2NationalCorrectAnswers");
+        team1ClubsCorrectAnswers = db.get("team1ClubsCorrectAnswers");
+        team2ClubsCorrectAnswers = db.get("team2ClubsCorrectAnswers");
+        team1GeographyCorrectAnswers = db.get("team1GeographyCorrectAnswers");
+        team2GeographyCorrectAnswers = db.get("team2GeographyCorrectAnswers");
+        team1GeneralCorrectAnswers = db.get("team1GeneralCorrectAnswers");
+        team2GeneralCorrectAnswers = db.get("team2GeneralCorrectAnswers");
         //getting the selected_language from SelectCategory.java
-        language = getIntent().getExtras().getString("selected_language");
-        isMute = getIntent().getExtras().getBoolean("isMute");
+        language = db.get("selected_language");
+        isMute = db.get("isMute");
         //getting the time in seconds
-        timeInSeconds =  getIntent().getExtras().getInt("timeInSeconds");
+        timeInSeconds = db.get("timeInSeconds");
         if (playing_team.equals(t1n)) {
             playing_team_tv.setText(t1n);
         }else {
@@ -375,13 +372,11 @@ public class MainGame extends AppCompatActivity {
             show_hide_bt.setText("show");
         }
         //getting the images for the teams
-        Bundle ex = getIntent().getExtras();
-
-        byte[] team1byte = ex.getByteArray("team1byte");
+        byte[] team1byte = db.get("team1byte");
         if (team1byte != null) {
             team1bitmap = BitmapFactory.decodeByteArray(team1byte, 0, team1byte.length);
         }
-        byte[] team2byte = ex.getByteArray("team2byte");
+        byte[] team2byte = db.get("team2byte");
         if (team2byte != null) {
             team2bitmap = BitmapFactory.decodeByteArray(team2byte, 0, team2byte.length);
 
