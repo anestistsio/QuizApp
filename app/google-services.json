@@ -1,6 +1,8 @@
 {
   "project_info": {
     "project_number": "209367989709",
+    "firebase_url": "https://quizapp-41598-default-rtdb.europe-west1.firebasedatabase.app",
+    "database_url": "https://quizapp-41598-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "quizapp-41598",
     "storage_bucket": "quizapp-41598.appspot.com"
   },

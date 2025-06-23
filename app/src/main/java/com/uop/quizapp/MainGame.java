@@ -25,6 +25,8 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import com.uop.quizapp.FirebaseDBHelper;
+import com.google.firebase.database.DatabaseError;
 
 public class MainGame extends AppCompatActivity {
 
@@ -61,49 +63,38 @@ public class MainGame extends AppCompatActivity {
         fill_arraylist(selectedCategory);
     }
     public void fill_arraylist(String selectedCategory) {
-        DBHelper dbHelper = new DBHelper(this);
-        ArrayList<Questions> questions = null;
-
-        //checks the language to fill with the right table the arraylist and also set the selected_category_tv with the right language category name
-        switch (selectedCategory) {
-            case DBContract.NationalTable.TABLE_NAME:
-                if (language.equals("English")) {
-                    questions = (ArrayList<Questions>) dbHelper.getAllNational();
-                    selected_category_tv.setText(DBContract.NationalTable.TABLE_NAME);
-                }else {
-                    questions = (ArrayList<Questions>) dbHelper.getAllGreekNational();
+        FirebaseDBHelper dbHelper = new FirebaseDBHelper();
+        String categoryKey = selectedCategory;
+        if (language.equals("English")) {
+            selected_category_tv.setText(categoryKey);
+        } else {
+            switch (categoryKey) {
+                case "National":
                     selected_category_tv.setText(DBContract.GreekNationalTable.TABLE_NAME);
-                }
-                break;
-            case DBContract.ClubsTable.TABLE_NAME:
-                if (language.equals("English")) {
-                    questions = (ArrayList<Questions>) dbHelper.getAllClubs();
-                    selected_category_tv.setText(DBContract.ClubsTable.TABLE_NAME);
-                }else {
-                    questions = (ArrayList<Questions>) dbHelper.getAllGreekClubs();
+                    break;
+                case "Clubs":
                     selected_category_tv.setText(DBContract.GreekClubsTable.TABLE_NAME);
-                }
-                break;
-            case DBContract.GeographyTable.TABLE_NAME:
-                if (language.equals("English")) {
-                    questions = (ArrayList<Questions>) dbHelper.getAllGeography();
-                    selected_category_tv.setText(DBContract.GeographyTable.TABLE_NAME);
-                }else {
-                    questions = (ArrayList<Questions>) dbHelper.getAllGreekGeography();
+                    break;
+                case "Geography":
                     selected_category_tv.setText(DBContract.GreekGeographyTable.TABLE_NAME);
-                }
-                break;
-            case DBContract.GeneralTable.TABLE_NAME:
-                if (language.equals("English")) {
-                    questions = (ArrayList<Questions>) dbHelper.getAllGeneral();
-                    selected_category_tv.setText(DBContract.GeneralTable.TABLE_NAME);
-                }else {
-                    questions = (ArrayList<Questions>) dbHelper.getAllGreekGeneral();
+                    break;
+                case "General":
                     selected_category_tv.setText(DBContract.GreekGeneralTable.TABLE_NAME);
-                }
-                break;
+                    break;
+            }
         }
-        Startgame(questions);
+
+        dbHelper.getQuestionsByCategory(categoryKey, new FirebaseDBHelper.QuestionsCallback() {
+            @Override
+            public void onQuestionsLoaded(List<Questions> qs) {
+                Startgame(new ArrayList<>(qs));
+            }
+
+            @Override
+            public void onError(DatabaseError error) {
+                Toast.makeText(MainGame.this, "Error loading questions", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void Startgame(ArrayList<Questions> questions) {
@@ -118,14 +109,14 @@ public class MainGame extends AppCompatActivity {
             return;
         }
 
-        DBHelper dbHelper = new DBHelper(this);
+        FirebaseDBHelper dbHelper = new FirebaseDBHelper();
         // Select a random question from the list
         Random random = new Random();
         Questions randomQuestion = questions.get(random.nextInt(questions.size()));
 
         // Update the displayed value to true in the database
         randomQuestion.setDisplayed(true);
-        dbHelper.updateQuestion(randomQuestion);
+        dbHelper.updateQuestionDisplayed(selectedCategory, randomQuestion);
 
         // Display the question
         question_tv.setText(randomQuestion.getQuestion());
