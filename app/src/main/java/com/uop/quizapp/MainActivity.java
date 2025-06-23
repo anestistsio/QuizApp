@@ -185,50 +185,48 @@ public class MainActivity extends AppCompatActivity{
                         click_sound.start();
                     }
                     Intent intent = new Intent(MainActivity.this, SelectCategory.class);
-                    //pass team names and scores and playing team to SelectedCategory.class
-                    intent.putExtra("team1Name", t1n);
-                    intent.putExtra("team2Name", t2n);
-                    intent.putExtra("team1Score", 0);
-                    intent.putExtra("team2Score", 0);
-                    intent.putExtra("score", score);
-                    //team1 starts by default
-                    intent.putExtra("playing_team", t1n);
-                    // passing initialized 0 values for correct answered counters for each category for each team
-                    intent.putExtra("team1NationalCorrectAnswers", team1NationalCorrectAnswers);
-                    intent.putExtra("team2NationalCorrectAnswers", team2NationalCorrectAnswers);
-                    intent.putExtra("team1ClubsCorrectAnswers", team1ClubsCorrectAnswers);
-                    intent.putExtra("team2ClubsCorrectAnswers", team2ClubsCorrectAnswers);
-                    intent.putExtra("team1GeographyCorrectAnswers", team1GeographyCorrectAnswers);
-                    intent.putExtra("team2GeographyCorrectAnswers", team2GeographyCorrectAnswers);
-                    intent.putExtra("team1GeneralCorrectAnswers", team1GeneralCorrectAnswers);
-                    intent.putExtra("team2GeneralCorrectAnswers", team2GeneralCorrectAnswers);
-                    //pass the time in seconds
-                    intent.putExtra("timeInSeconds",timeInSeconds);
-                    intent.putExtra("lastChance",lastChance);
-                    intent.putExtra("isMute",isMute);
+                    // Store the initial game state in RedisManager instead of using Intent extras
+                    RedisManager db = RedisManager.getInstance();
+                    db.put("team1Name", t1n);
+                    db.put("team2Name", t2n);
+                    db.put("team1Score", 0);
+                    db.put("team2Score", 0);
+                    db.put("score", score);
+                    db.put("playing_team", t1n); // team1 starts by default
+                    db.put("team1NationalCorrectAnswers", team1NationalCorrectAnswers);
+                    db.put("team2NationalCorrectAnswers", team2NationalCorrectAnswers);
+                    db.put("team1ClubsCorrectAnswers", team1ClubsCorrectAnswers);
+                    db.put("team2ClubsCorrectAnswers", team2ClubsCorrectAnswers);
+                    db.put("team1GeographyCorrectAnswers", team1GeographyCorrectAnswers);
+                    db.put("team2GeographyCorrectAnswers", team2GeographyCorrectAnswers);
+                    db.put("team1GeneralCorrectAnswers", team1GeneralCorrectAnswers);
+                    db.put("team2GeneralCorrectAnswers", team2GeneralCorrectAnswers);
+                    db.put("timeInSeconds", timeInSeconds);
+                    db.put("lastChance", lastChance);
+                    db.put("isMute", isMute);
                     //passing the images of the teams to SelectedCategory.class
                     if (team1bitmap != null){
                         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                         team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
                         team1byte = bytes.toByteArray();
-                        intent.putExtra("team1byte",team1byte);
+                        db.put("team1byte", team1byte);
                     }else {
-                        intent.putExtra("team1byte", (byte[]) null);
+                        db.put("team1byte", null);
                     }
                     if (team2bitmap != null){
                         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                         team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
                         team2byte = bytes.toByteArray();
-                        intent.putExtra("team2byte",team2byte);
+                        db.put("team2byte", team2byte);
                     }else {
-                        intent.putExtra("team2byte", (byte[]) null);
+                        db.put("team2byte", null);
                     }
                         //here we check if the user selected language from Settings.java
                         if (language == null){
                             //English is the default language
-                            intent.putExtra("selected_language","English");
+                            db.put("selected_language","English");
                         }else {
-                            intent.putExtra("selected_language", language);
+                            db.put("selected_language", language);
                         }
                     startActivity(intent);
                     finish();
@@ -311,23 +309,24 @@ public class MainActivity extends AppCompatActivity{
             click_sound.start();
         }
         Intent intent = new Intent(MainActivity.this,Settings.class);
-        intent.putExtra("selected_language", language);
-        intent.putExtra("timeInSeconds", timeInSeconds);
-        intent.putExtra("questionsPerCategory", score);
-        intent.putExtra("isMute",isMute);
-        intent.putExtra("t1_et",team1_et.getText().toString());
-        intent.putExtra("t2_et",team2_et.getText().toString());
+        RedisManager db = RedisManager.getInstance();
+        db.put("selected_language", language);
+        db.put("timeInSeconds", timeInSeconds);
+        db.put("questionsPerCategory", score);
+        db.put("isMute", isMute);
+        db.put("t1_et", team1_et.getText().toString());
+        db.put("t2_et", team2_et.getText().toString());
         if (team1bitmap != null){
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
             team1byte = bytes.toByteArray();
-            intent.putExtra("team1byte",team1byte);
+            db.put("team1byte", team1byte);
         }
         if (team2bitmap != null){
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
             team2byte = bytes.toByteArray();
-            intent.putExtra("team2byte",team2byte);
+            db.put("team2byte", team2byte);
         }
         startActivity(intent);
     }
