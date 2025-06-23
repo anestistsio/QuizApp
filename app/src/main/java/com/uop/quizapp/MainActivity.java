@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity{
     private ImageView team1_iv,team2_iv;
     private int id , timeInSeconds = 60;
     private boolean lastChance = true;
-    //4 questions per category by default
+    // 3 questions per category by default (total score = 12)
     private int score = 12;
     private boolean isMute = false;
     private boolean restart_boolean;
