@@ -39,7 +39,8 @@ public class GameOver extends AppCompatActivity {
     }
     private void initializing(){
         DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
-        isMute = db.get("isMute");
+        GameState gs = db.getGameState();
+        isMute = gs != null && gs.isMute;
         final MediaPlayer win_sound = MediaPlayer.create(this,R.raw.win_sound);
         if (!isMute) {
             win_sound.start();
@@ -51,16 +52,15 @@ public class GameOver extends AppCompatActivity {
         team2Score_tv = findViewById(R.id.team2Score_tv);
         ImageView winning_im = findViewById(R.id.winning_im);
 
-        t1n = db.get("team1Name");
-        t2n = db.get("team2Name");
-        t1s = db.get("team1Score");
-        t2s = db.get("team2Score");
-        team1byte = db.get("team1byte");
-        team2byte = db.get("team2byte");
-        //getting selected_language from SelectCategory.java
-        language = db.get("selected_language");
-        score = db.get("score");
-        timeInSeconds = db.get("timeInSeconds");
+        t1n = gs.team1Name;
+        t2n = gs.team2Name;
+        t1s = gs.team1Score;
+        t2s = gs.team2Score;
+        team1byte = gs.team1byte;
+        team2byte = gs.team2byte;
+        language = gs.selectedLanguage;
+        score = gs.score;
+        timeInSeconds = gs.timeInSeconds;
         //getting the winning team's image
         byte[] winning_byte = db.get("winning_byte");
         if (winning_byte != null) {
@@ -119,22 +119,21 @@ public class GameOver extends AppCompatActivity {
         Intent intent = new Intent(GameOver.this, MainActivity.class);
         DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
         db.put("restart_boolean", true);
-        db.put("selected_language", language);
-        db.put("timeInSeconds", timeInSeconds);
-        db.put("score", score);
-        db.put("isMute", isMute);
-        if(t1n.equals("Ομάδα 1") || t1n.equals("Team 1")){
-
-        }else {
-            db.put("t1n", t1n);
+        GameState gs = db.getGameState();
+        if (gs != null) {
+            db.put("selected_language", gs.selectedLanguage);
+            db.put("timeInSeconds", gs.timeInSeconds);
+            db.put("score", gs.score);
+            db.put("isMute", gs.isMute);
+            if(!gs.team1Name.equals("Ομάδα 1") && !gs.team1Name.equals("Team 1")){
+                db.put("t1n", gs.team1Name);
+            }
+            if(!gs.team2Name.equals("Ομάδα 2") && !gs.team2Name.equals("Team 2")){
+                db.put("t2n", gs.team2Name);
+            }
+            db.put("team1byte", gs.team1byte);
+            db.put("team2byte", gs.team2byte);
         }
-        if(t2n.equals("Ομάδα 2") || t2n.equals("Team 2")){
-
-        }else {
-            db.put("t2n", t2n);
-        }
-        db.put("team1byte", team1byte);
-        db.put("team2byte", team2byte);
         startActivity(intent);
         finish();
     }

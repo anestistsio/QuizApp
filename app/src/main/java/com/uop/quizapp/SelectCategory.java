@@ -22,16 +22,9 @@ import java.io.ByteArrayOutputStream;
 
 public class SelectCategory extends AppCompatActivity {
     private TextView  teamplay_tv,team1_name_tv,team2_name_tv,team1_score_tv,team2_score_tv, team1_geography, team1_general, team1_national, team1_clubs, team2_geography, team2_general, team2_national, team2_clubs;
-    private String selectedCategory,playing_team,t1n,t2n,language;//t1n = team1name and t1s = team2score
-    private int t1s,t2s,timeInSeconds;
-    private int team1NationalCorrectAnswers;
-    private int team2NationalCorrectAnswers;
-    private int team1ClubsCorrectAnswers;
-    private int team2ClubsCorrectAnswers;
-    private int team1GeographyCorrectAnswers;
-    private int team2GeographyCorrectAnswers;
-    private int team1GeneralCorrectAnswers;
-    private int team2GeneralCorrectAnswers;
+    private String selectedCategory,language;
+    private GameState gs;
+    private int timeInSeconds;
     private Bitmap team1bitmap,team2bitmap;
     private byte[] team1byte;
     private byte[] team2byte;
@@ -88,42 +81,24 @@ public class SelectCategory extends AppCompatActivity {
         //pass selected category to MainGame.class
         Intent intent = new Intent(SelectCategory.this, MainGame.class);
         DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
-        db.put("selectedCategory", selectedCategory);
-        db.put("playing_team", playing_team);
-        db.put("team1Name", t1n);
-        db.put("team2Name", t2n);
-        db.put("team1Score", t1s);
-        db.put("team2Score", t2s);
-        db.put("score", score);
-        db.put("lastChance", lastChance);
-        db.put("team1NationalCorrectAnswers", team1NationalCorrectAnswers);
-        db.put("team2NationalCorrectAnswers", team2NationalCorrectAnswers);
-        db.put("team1ClubsCorrectAnswers", team1ClubsCorrectAnswers);
-        db.put("team2ClubsCorrectAnswers", team2ClubsCorrectAnswers);
-        db.put("team1GeographyCorrectAnswers", team1GeographyCorrectAnswers);
-        db.put("team2GeographyCorrectAnswers", team2GeographyCorrectAnswers);
-        db.put("team1GeneralCorrectAnswers", team1GeneralCorrectAnswers);
-        db.put("team2GeneralCorrectAnswers", team2GeneralCorrectAnswers);
-        db.put("selected_language", language);
-        db.put("isMute", isMute);
-        db.put("timeInSeconds", timeInSeconds);
-        //passing the images to MainGame.class
-        if (team1bitmap != null){
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
-            byte[] team1byte = bytes.toByteArray();
-            db.put("team1byte", team1byte);
-        }else {
-            db.put("team1byte", null);
+        gs = db.getGameState();
+        if (gs != null) {
+            gs.selectedCategory = selectedCategory;
         }
-
-        if (team2bitmap != null){
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
-            byte[] team2byte = bytes.toByteArray();
-            db.put("team2byte", team2byte);
-        }else {
-            db.put("team2byte", null);
+        db.setGameState(gs);
+        //passing the images to MainGame.class
+        if (gs != null) {
+            if (team1bitmap != null){
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
+                gs.team1byte = bytes.toByteArray();
+            }
+            if (team2bitmap != null){
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
+                gs.team2byte = bytes.toByteArray();
+            }
+            db.setGameState(gs);
         }
 
 
@@ -162,48 +137,34 @@ public class SelectCategory extends AppCompatActivity {
 
         //take the team names and scores and playing team from RedisManager
         DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
-        t1n = db.get("team1Name");
-        t2n = db.get("team2Name");
-        t1s = db.get("team1Score");
-        t2s = db.get("team2Score");
-        score = db.get("score");
-        playing_team = db.get("playing_team");
-        lastChance = db.get("lastChance");
-        //retrieving the values for correct answered counters for each category for each team
-        team1NationalCorrectAnswers =  db.get("team1NationalCorrectAnswers");
-        team2NationalCorrectAnswers =  db.get("team2NationalCorrectAnswers");
-        team1ClubsCorrectAnswers =  db.get("team1ClubsCorrectAnswers");
-        team2ClubsCorrectAnswers =  db.get("team2ClubsCorrectAnswers");
-        team1GeographyCorrectAnswers =  db.get("team1GeographyCorrectAnswers");
-        team2GeographyCorrectAnswers =  db.get("team2GeographyCorrectAnswers");
-        team1GeneralCorrectAnswers =  db.get("team1GeneralCorrectAnswers");
-        team2GeneralCorrectAnswers =  db.get("team2GeneralCorrectAnswers");
+        gs = db.getGameState();
+        score = gs.score;
+        lastChance = gs.lastChance;
 
         //set the score to the score board
 
-        team1_geography.setText(team1GeographyCorrectAnswers + "/" + score/4);
-        team1_general.setText(team1GeneralCorrectAnswers + "/" + score/4);
-        team1_national.setText(team1NationalCorrectAnswers + "/" + score/4);
-        team1_clubs.setText(team1ClubsCorrectAnswers + "/" + score/4);
-        team2_geography.setText(team2GeographyCorrectAnswers + "/" + score/4);
-        team2_general.setText(team2GeneralCorrectAnswers + "/" + score/4);
-        team2_national.setText(team2NationalCorrectAnswers + "/" + score/4);
-        team2_clubs.setText(team2ClubsCorrectAnswers + "/" + score/4);
+        team1_geography.setText(gs.team1GeographyCorrectAnswers + "/" + score/4);
+        team1_general.setText(gs.team1GeneralCorrectAnswers + "/" + score/4);
+        team1_national.setText(gs.team1NationalCorrectAnswers + "/" + score/4);
+        team1_clubs.setText(gs.team1ClubsCorrectAnswers + "/" + score/4);
+        team2_geography.setText(gs.team2GeographyCorrectAnswers + "/" + score/4);
+        team2_general.setText(gs.team2GeneralCorrectAnswers + "/" + score/4);
+        team2_national.setText(gs.team2NationalCorrectAnswers + "/" + score/4);
+        team2_clubs.setText(gs.team2ClubsCorrectAnswers + "/" + score/4);
 
         //getting the selected_language from MainActivity.java or from MainGame.java
-        language = db.get("selected_language");
-        isMute = db.get("isMute");
-        //getting the time in seconds
-        timeInSeconds = db.get("timeInSeconds");
+        language = gs.selectedLanguage;
+        isMute = gs.isMute;
+        timeInSeconds = gs.timeInSeconds;
         //getting the images for two teams
-        team1byte = db.get("team1byte");
+        team1byte = gs.team1byte;
         if (team1byte != null) {
             team1bitmap = BitmapFactory.decodeByteArray(team1byte, 0, team1byte.length);
             team1_im.setImageBitmap(team1bitmap);
         }else {
             team1_im.setImageDrawable(getResources().getDrawable(R.drawable.user_im));
         }
-        team2byte = db.get("team2byte");
+        team2byte = gs.team2byte;
         if (team2byte != null) {
             team2bitmap = BitmapFactory.decodeByteArray(team2byte, 0, team2byte.length);
             team2_im.setImageBitmap(team2bitmap);
@@ -212,7 +173,7 @@ public class SelectCategory extends AppCompatActivity {
         }
 
         //checks which team is playing to put the right image in the playing_team_im
-        if (playing_team.equals(t1n)){
+        if (gs.playingTeam.equals(gs.team1Name)){
             if (team1byte != null) {
                 playing_team_im.setImageBitmap(team1bitmap);
             }else {
@@ -226,37 +187,37 @@ public class SelectCategory extends AppCompatActivity {
             }
         }
         //checks if any team answered all  questions from any category and if yes it disables the button
-        if (playing_team.equals(t1n)){
-            if (team1NationalCorrectAnswers >= score/4){
+        if (gs.playingTeam.equals(gs.team1Name)){
+            if (gs.team1NationalCorrectAnswers >= score/4){
                 national_bt.setClickable(false);
                 national_bt.setImageDrawable(getResources().getDrawable(R.drawable.national_icon_disabled));
             }
-            if (team1ClubsCorrectAnswers >= score/4) {
+            if (gs.team1ClubsCorrectAnswers >= score/4) {
                 clubs_bt.setClickable(false);
                 clubs_bt.setImageDrawable(getResources().getDrawable(R.drawable.clubs_icon_disabled));
             }
-            if (team1GeographyCorrectAnswers >= score/4) {
+            if (gs.team1GeographyCorrectAnswers >= score/4) {
                 geography_bt.setClickable(false);
                 geography_bt.setImageDrawable(getResources().getDrawable(R.drawable.geography_icon_disabled));
             }
-            if (team1GeneralCorrectAnswers >= score/4) {
+            if (gs.team1GeneralCorrectAnswers >= score/4) {
                 general_bt.setClickable(false);
                 general_bt.setImageDrawable(getResources().getDrawable(R.drawable.general_icon_disabled));
             }
         }else {
-            if (team2NationalCorrectAnswers >= score/4){
+            if (gs.team2NationalCorrectAnswers >= score/4){
                 national_bt.setClickable(false);
                 national_bt.setImageDrawable(getResources().getDrawable(R.drawable.national_icon_disabled));
             }
-            if (team2ClubsCorrectAnswers >= score/4) {
+            if (gs.team2ClubsCorrectAnswers >= score/4) {
                 clubs_bt.setClickable(false);
                 clubs_bt.setImageDrawable(getResources().getDrawable(R.drawable.clubs_icon_disabled));
             }
-            if (team2GeographyCorrectAnswers >= score/4) {
+            if (gs.team2GeographyCorrectAnswers >= score/4) {
                 geography_bt.setClickable(false);
                 geography_bt.setImageDrawable(getResources().getDrawable(R.drawable.geography_icon_disabled));
             }
-            if (team2GeneralCorrectAnswers >= score/4) {
+            if (gs.team2GeneralCorrectAnswers >= score/4) {
                 general_bt.setClickable(false);
                 general_bt.setImageDrawable(getResources().getDrawable(R.drawable.general_icon_disabled));
             }
@@ -272,18 +233,18 @@ public class SelectCategory extends AppCompatActivity {
             national_tv.setText("Εθνικές");
 
         }
-        teamplay_tv.setText(playing_team);
-        team1_name_tv.setText(t1n);
-        team2_name_tv.setText(t2n);
-        team1_score_tv.setText(String.valueOf(t1s));
-        team2_score_tv.setText(String.valueOf(t2s));
+        teamplay_tv.setText(gs.playingTeam);
+        team1_name_tv.setText(gs.team1Name);
+        team2_name_tv.setText(gs.team2Name);
+        team1_score_tv.setText(String.valueOf(gs.team1Score));
+        team2_score_tv.setText(String.valueOf(gs.team2Score));
 
         // if team 1 reach first the score the team 2 has one last chance
-        if (t1s >= score && lastChance){
+        if (gs.team1Score >= score && lastChance){
             lastChance = false;
-        } else if (t2s >= score) {
+        } else if (gs.team2Score >= score) {
             GameEnd();
-        } else if (t1s >= score) {
+        } else if (gs.team1Score >= score) {
             GameEnd();
         }
 
@@ -330,18 +291,13 @@ public class SelectCategory extends AppCompatActivity {
     private void GameEnd(){
         Intent intent = new Intent(SelectCategory.this, GameOver.class);
         DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
-        db.put("team1Name", t1n);
-        db.put("team2Name", t2n);
-        db.put("team1Score", t1s);
-        db.put("team2Score", t2s);
-        db.put("selected_language", language);
-        db.put("isMute", isMute);
-        db.put("score", score);
-        db.put("timeInSeconds", timeInSeconds);
-        db.put("team1byte", team1byte);
-        db.put("team2byte", team2byte);
+        gs = db.getGameState();
+        if (gs == null) {
+            gs = new GameState();
+        }
+        db.setGameState(gs);
         //passing the winning team image
-        if (t1s > t2s){
+        if (gs.team1Score > gs.team2Score){
             if (team1bitmap != null){
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
@@ -350,7 +306,7 @@ public class SelectCategory extends AppCompatActivity {
             }else {
                 db.put("winning_byte", null);
             }
-        } else if (t1s == t2s) {
+        } else if (gs.team1Score == gs.team2Score) {
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.draw);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);

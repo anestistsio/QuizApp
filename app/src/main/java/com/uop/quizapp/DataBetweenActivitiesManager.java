@@ -25,4 +25,12 @@ public class DataBetweenActivitiesManager {
     public synchronized void clear() {
         store.clear();
     }
+
+    public synchronized GameState getGameState() {
+        return (GameState) store.get("gameState");
+    }
+
+    public synchronized void setGameState(GameState gameState) {
+        store.put("gameState", gameState);
+    }
 }

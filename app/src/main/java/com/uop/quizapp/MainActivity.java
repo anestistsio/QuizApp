@@ -41,14 +41,6 @@ public class MainActivity extends AppCompatActivity{
     private byte[] team1byte,team2byte;
     private EditText team1_et,team2_et;
     private String t1n,t2n,language; //team 1 name and team 2 name
-    private int team1NationalCorrectAnswers = 0;
-    private int team2NationalCorrectAnswers = 0;
-    private int team1ClubsCorrectAnswers = 0;
-    private int team2ClubsCorrectAnswers = 0;
-    private int team1GeographyCorrectAnswers = 0;
-    private int team2GeographyCorrectAnswers = 0;
-    private int team1GeneralCorrectAnswers = 0;
-    private int team2GeneralCorrectAnswers = 0;
     private Bitmap team1bitmap,team2bitmap,bitmap;
     private ImageView team1_iv,team2_iv;
     private int id , timeInSeconds = 60;
@@ -184,49 +176,39 @@ public class MainActivity extends AppCompatActivity{
                         click_sound.start();
                     }
                     Intent intent = new Intent(MainActivity.this, SelectCategory.class);
-                    // Store the initial game state in RedisManager instead of using Intent extras
                     DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
-                    db.put("team1Name", t1n);
-                    db.put("team2Name", t2n);
-                    db.put("team1Score", 0);
-                    db.put("team2Score", 0);
-                    db.put("score", score);
-                    db.put("playing_team", t1n); // team1 starts by default
-                    db.put("team1NationalCorrectAnswers", team1NationalCorrectAnswers);
-                    db.put("team2NationalCorrectAnswers", team2NationalCorrectAnswers);
-                    db.put("team1ClubsCorrectAnswers", team1ClubsCorrectAnswers);
-                    db.put("team2ClubsCorrectAnswers", team2ClubsCorrectAnswers);
-                    db.put("team1GeographyCorrectAnswers", team1GeographyCorrectAnswers);
-                    db.put("team2GeographyCorrectAnswers", team2GeographyCorrectAnswers);
-                    db.put("team1GeneralCorrectAnswers", team1GeneralCorrectAnswers);
-                    db.put("team2GeneralCorrectAnswers", team2GeneralCorrectAnswers);
-                    db.put("timeInSeconds", timeInSeconds);
-                    db.put("lastChance", lastChance);
-                    db.put("isMute", isMute);
-                    //passing the images of the teams to SelectedCategory.class
+                    GameState gs = new GameState();
+                    gs.team1Name = t1n;
+                    gs.team2Name = t2n;
+                    gs.team1Score = 0;
+                    gs.team2Score = 0;
+                    gs.score = score;
+                    gs.playingTeam = t1n;
+                    gs.team1NationalCorrectAnswers = 0;
+                    gs.team2NationalCorrectAnswers = 0;
+                    gs.team1ClubsCorrectAnswers = 0;
+                    gs.team2ClubsCorrectAnswers = 0;
+                    gs.team1GeographyCorrectAnswers = 0;
+                    gs.team2GeographyCorrectAnswers = 0;
+                    gs.team1GeneralCorrectAnswers = 0;
+                    gs.team2GeneralCorrectAnswers = 0;
+                    gs.timeInSeconds = timeInSeconds;
+                    gs.lastChance = lastChance;
+                    gs.isMute = isMute;
                     if (team1bitmap != null){
                         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                         team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
                         team1byte = bytes.toByteArray();
-                        db.put("team1byte", team1byte);
-                    }else {
-                        db.put("team1byte", null);
+                        gs.team1byte = team1byte;
                     }
                     if (team2bitmap != null){
                         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                         team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
                         team2byte = bytes.toByteArray();
-                        db.put("team2byte", team2byte);
-                    }else {
-                        db.put("team2byte", null);
+                        gs.team2byte = team2byte;
                     }
-                        //here we check if the user selected language from Settings.java
-                        if (language == null){
-                            //English is the default language
-                            db.put("selected_language","English");
-                        }else {
-                            db.put("selected_language", language);
-                        }
+                    gs.selectedLanguage = (language == null) ? "English" : language;
+                    db.setGameState(gs);
                     startActivity(intent);
                     finish();
             }
@@ -309,23 +291,29 @@ public class MainActivity extends AppCompatActivity{
         }
         Intent intent = new Intent(MainActivity.this,Settings.class);
         DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
-        db.put("selected_language", language);
-        db.put("timeInSeconds", timeInSeconds);
-        db.put("questionsPerCategory", score);
-        db.put("isMute", isMute);
+        GameState gs = db.getGameState();
+        if (gs != null) {
+            gs.selectedLanguage = language;
+            gs.timeInSeconds = timeInSeconds;
+            gs.score = score;
+            gs.isMute = isMute;
+        }
         db.put("t1_et", team1_et.getText().toString());
         db.put("t2_et", team2_et.getText().toString());
-        if (team1bitmap != null){
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
-            team1byte = bytes.toByteArray();
-            db.put("team1byte", team1byte);
-        }
-        if (team2bitmap != null){
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
-            team2byte = bytes.toByteArray();
-            db.put("team2byte", team2byte);
+        if (gs != null) {
+            if (team1bitmap != null){
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
+                team1byte = bytes.toByteArray();
+                gs.team1byte = team1byte;
+            }
+            if (team2bitmap != null){
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
+                team2byte = bytes.toByteArray();
+                gs.team2byte = team2byte;
+            }
+            db.setGameState(gs);
         }
         startActivity(intent);
     }
