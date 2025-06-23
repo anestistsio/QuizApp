@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.uop.quizapp.Category;
+
 import java.io.ByteArrayOutputStream;
 
 public class SelectCategory extends AppCompatActivity {
@@ -67,20 +69,19 @@ public class SelectCategory extends AppCompatActivity {
         //initialize click sound
         final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
         //check which button user clicked
-        //DBContract category = new DBContract();
         switch (view.getId())
         {
             case R.id.national_bt:
-                selectedCategory = DBContract.NationalTable.TABLE_NAME;
+                selectedCategory = Category.NATIONAL;
                 break;
             case R.id.general_bt:
-                selectedCategory = DBContract.GeneralTable.TABLE_NAME;
+                selectedCategory = Category.GENERAL;
                 break;
             case R.id.clubs_bt:
-                selectedCategory = DBContract.ClubsTable.TABLE_NAME;
+                selectedCategory = Category.CLUBS;
                 break;
             case R.id.geography_bt:
-                selectedCategory= DBContract.GeographyTable.TABLE_NAME;
+                selectedCategory = Category.GEOGRAPHY;
                 break;
         }
         if (!isMute) {
