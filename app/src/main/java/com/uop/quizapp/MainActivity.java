@@ -33,6 +33,7 @@ import androidx.core.content.ContextCompat;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.uop.quizapp.FirebaseDBHelper;
 
 import java.io.ByteArrayOutputStream;
 
@@ -74,8 +75,8 @@ public class MainActivity extends AppCompatActivity{
 
     }
     private void initializing(){
-        //reset all the displayed values to false in DB
-        DBHelper dbHelper = new DBHelper(this);
+        //reset all the displayed values to false in Firebase DB
+        FirebaseDBHelper dbHelper = new FirebaseDBHelper();
         dbHelper.resetAllDisplayedValues();
 
         team1_et = findViewById(R.id.team1_et);

@@ -18,3 +18,33 @@ smartphones, tablets, wearables, televisions and other technological
 media.
 
 Link : https://drive.google.com/file/d/1GJWAkX12505LVzpWwwmJjMPMocFVHsO6/view?usp=drive_link
+
+## Firebase Realtime Database Setup
+
+This project can store quiz questions in Firebase Realtime Database instead of the local SQLite database.
+
+1. [Create a Firebase project](https://console.firebase.google.com/), enable *Realtime Database*, and choose the location `europe-west1`.
+2. Download the updated `google-services.json` file and place it under `app/` (this repository already includes an example configured for `quizapp-41598`).
+3. In the Firebase console open **Realtime Database → Rules** and, for development, allow read/write access:
+
+```json
+{
+  "rules": {
+    ".read": true,
+    ".write": true
+  }
+}
+```
+
+   Restrict these rules before releasing the app.
+4. Run Gradle sync so the `firebase-database` dependency is resolved.
+5. Use the migration script to upload the existing questions:
+
+```bash
+python scripts/firebase_migrate.py --auth YOUR_DATABASE_SECRET
+```
+
+Replace `YOUR_DATABASE_SECRET` with an auth token or remove the option if your rules are public.
+
+The questions will be uploaded under `questions/<CATEGORY>/<ID>` in the database specified by the `firebase_url` in `google-services.json`.
+
