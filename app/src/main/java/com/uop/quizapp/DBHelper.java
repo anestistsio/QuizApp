@@ -124,325 +124,114 @@ public class DBHelper extends SQLiteOpenHelper {
         // Recreate the tables and repopulate them
         onCreate(db);
     }
-    //this 4 methods called in fill-//-Table and they are adding the the rows in the tables
-    private void addNational(Questions national_questions) {
+    // Generic insertion method used by all categories
+    private void addQuestionToTable(Questions question, String tableName, String columnQuestion, String columnAnswer, String columnId, String columnDisplayed) {
         ContentValues cv = new ContentValues();
-        cv.put(NationalTable.COLUMN_QUESTION, national_questions.getQuestion());
-        cv.put(NationalTable.COLUMN_ANSWER, national_questions.getAnswer());
-        cv.put(NationalTable.COLUMN_ID, national_questions.get_id());
-        cv.put(NationalTable.COLUMN_DISPLAYED, false);
-        db.insert(NationalTable.TABLE_NAME, null, cv);
+        cv.put(columnQuestion, question.getQuestion());
+        cv.put(columnAnswer, question.getAnswer());
+        cv.put(columnId, question.get_id());
+        cv.put(columnDisplayed, false);
+        db.insert(tableName, null, cv);
         cv.clear();
     }
 
-    private void addGeneral(Questions general_questions) {
-        ContentValues cv = new ContentValues();
-        cv.put(GeneralTable.COLUMN_QUESTION, general_questions.getQuestion());
-        cv.put(GeneralTable.COLUMN_ANSWER, general_questions.getAnswer());
-        cv.put(GeneralTable.COLUMN_ID, general_questions.get_id());
-        cv.put(GeneralTable.COLUMN_DISPLAYED, false);
-        db.insert(GeneralTable.TABLE_NAME, null, cv);
-        cv.clear();
+    //these 8 methods are kept for backwards compatibility
+    private void addNational(Questions q) {
+        addQuestionToTable(q, NationalTable.TABLE_NAME, NationalTable.COLUMN_QUESTION,
+                NationalTable.COLUMN_ANSWER, NationalTable.COLUMN_ID, NationalTable.COLUMN_DISPLAYED);
     }
 
-    private void addGeography(Questions geography_questions) {
-        ContentValues cv = new ContentValues();
-        cv.put(GeographyTable.COLUMN_QUESTION, geography_questions.getQuestion());
-        cv.put(GeographyTable.COLUMN_ANSWER, geography_questions.getAnswer());
-        cv.put(GeographyTable.COLUMN_ID, geography_questions.get_id());
-        cv.put(GeographyTable.COLUMN_DISPLAYED, false);
-        db.insert(GeographyTable.TABLE_NAME, null, cv);
-        cv.clear();
+    private void addGeneral(Questions q) {
+        addQuestionToTable(q, GeneralTable.TABLE_NAME, GeneralTable.COLUMN_QUESTION,
+                GeneralTable.COLUMN_ANSWER, GeneralTable.COLUMN_ID, GeneralTable.COLUMN_DISPLAYED);
     }
 
-    private void addClubs(Questions clubs_questions) {
-        ContentValues cv = new ContentValues();
-        cv.put(ClubsTable.COLUMN_QUESTION, clubs_questions.getQuestion());
-        cv.put(ClubsTable.COLUMN_ANSWER, clubs_questions.getAnswer());
-        cv.put(ClubsTable.COLUMN_ID, clubs_questions.get_id());
-        cv.put(ClubsTable.COLUMN_DISPLAYED, false);
-        db.insert(ClubsTable.TABLE_NAME, null, cv);
-        cv.clear();
-    }
-    //this 4 methods called in fill Greek -//-Table and they are adding the the rows in the tables
-    private void addGreekNational(Questions greek_national_questions) {
-        ContentValues cv = new ContentValues();
-        cv.put(GreekNationalTable.COLUMN_QUESTION, greek_national_questions.getQuestion());
-        cv.put(GreekNationalTable.COLUMN_ANSWER, greek_national_questions.getAnswer());
-        cv.put(GreekNationalTable.COLUMN_ID, greek_national_questions.get_id());
-        cv.put(GreekNationalTable.COLUMN_DISPLAYED, false);
-        db.insert(GreekNationalTable.TABLE_NAME, null, cv);
-        cv.clear();
+    private void addGeography(Questions q) {
+        addQuestionToTable(q, GeographyTable.TABLE_NAME, GeographyTable.COLUMN_QUESTION,
+                GeographyTable.COLUMN_ANSWER, GeographyTable.COLUMN_ID, GeographyTable.COLUMN_DISPLAYED);
     }
 
-    private void addGreekGeneral(Questions greek_general_questions) {
-        ContentValues cv = new ContentValues();
-        cv.put(GreekGeneralTable.COLUMN_QUESTION, greek_general_questions.getQuestion());
-        cv.put(GreekGeneralTable.COLUMN_ANSWER, greek_general_questions.getAnswer());
-        cv.put(GreekGeneralTable.COLUMN_ID, greek_general_questions.get_id());
-        cv.put(GreekGeneralTable.COLUMN_DISPLAYED, false);
-        db.insert(GreekGeneralTable.TABLE_NAME, null, cv);
-        cv.clear();
+    private void addClubs(Questions q) {
+        addQuestionToTable(q, ClubsTable.TABLE_NAME, ClubsTable.COLUMN_QUESTION,
+                ClubsTable.COLUMN_ANSWER, ClubsTable.COLUMN_ID, ClubsTable.COLUMN_DISPLAYED);
     }
 
-    private void addGreekGeography(Questions greek_geography_questions) {
-        ContentValues cv = new ContentValues();
-        cv.put(GreekGeographyTable.COLUMN_QUESTION, greek_geography_questions.getQuestion());
-        cv.put(GreekGeographyTable.COLUMN_ANSWER, greek_geography_questions.getAnswer());
-        cv.put(GreekGeographyTable.COLUMN_ID, greek_geography_questions.get_id());
-        cv.put(GreekGeographyTable.COLUMN_DISPLAYED, false);
-        db.insert(GreekGeographyTable.TABLE_NAME, null, cv);
-        cv.clear();
+    private void addGreekNational(Questions q) {
+        addQuestionToTable(q, GreekNationalTable.TABLE_NAME, GreekNationalTable.COLUMN_QUESTION,
+                GreekNationalTable.COLUMN_ANSWER, GreekNationalTable.COLUMN_ID, GreekNationalTable.COLUMN_DISPLAYED);
     }
 
-    private void addGreekClubs(Questions greek_clubs_questions) {
-        ContentValues cv = new ContentValues();
-        cv.put(GreekClubsTable.COLUMN_QUESTION, greek_clubs_questions.getQuestion());
-        cv.put(GreekClubsTable.COLUMN_ANSWER, greek_clubs_questions.getAnswer());
-        cv.put(GreekClubsTable.COLUMN_ID, greek_clubs_questions.get_id());
-        cv.put(GreekClubsTable.COLUMN_DISPLAYED, false);
-        db.insert(GreekClubsTable.TABLE_NAME, null, cv);
-        cv.clear();
+    private void addGreekGeneral(Questions q) {
+        addQuestionToTable(q, GreekGeneralTable.TABLE_NAME, GreekGeneralTable.COLUMN_QUESTION,
+                GreekGeneralTable.COLUMN_ANSWER, GreekGeneralTable.COLUMN_ID, GreekGeneralTable.COLUMN_DISPLAYED);
     }
-//these 8 methods are called in MainGame.fill_arraylist method to return the filled up arrays from each category for both languages
-    public List<Questions> getAllNational() {
-        ArrayList<Questions> nationalList = new ArrayList<>();
 
+    private void addGreekGeography(Questions q) {
+        addQuestionToTable(q, GreekGeographyTable.TABLE_NAME, GreekGeographyTable.COLUMN_QUESTION,
+                GreekGeographyTable.COLUMN_ANSWER, GreekGeographyTable.COLUMN_ID, GreekGeographyTable.COLUMN_DISPLAYED);
+    }
+
+    private void addGreekClubs(Questions q) {
+        addQuestionToTable(q, GreekClubsTable.TABLE_NAME, GreekClubsTable.COLUMN_QUESTION,
+                GreekClubsTable.COLUMN_ANSWER, GreekClubsTable.COLUMN_ID, GreekClubsTable.COLUMN_DISPLAYED);
+    }
+//these methods return questions for each category
+    private List<Questions> getQuestionsFromTable(String tableName) {
+        ArrayList<Questions> list = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(
-                NationalTable.TABLE_NAME,
+                tableName,
                 new String[]{"id", "question", "answer", "displayed"},
-                "displayed = 0",  // Fetch only questions where displayed is false
+                "displayed = 0",
                 null,
                 null,
                 null,
                 null
         );
-
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                 String question = cursor.getString(cursor.getColumnIndexOrThrow("question"));
                 String answer = cursor.getString(cursor.getColumnIndexOrThrow("answer"));
                 boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
-
-                Questions q = new Questions(id,question, answer, displayed);
-                nationalList.add(q);
+                list.add(new Questions(id, question, answer, displayed));
             } while (cursor.moveToNext());
         }
-
         cursor.close();
-        return nationalList;
+        return list;
+    }
+
+    public List<Questions> getAllNational() {
+        return getQuestionsFromTable(NationalTable.TABLE_NAME);
     }
 
     public List<Questions> getAllClubs() {
-        ArrayList<Questions> clubsList = new ArrayList<>();
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.query(
-                ClubsTable.TABLE_NAME,
-                new String[]{"id", "question", "answer", "displayed"},
-                "displayed = 0",  // Fetch only questions where displayed is false
-                null,
-                null,
-                null,
-                null
-        );
-
-        if (cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                String question = cursor.getString(cursor.getColumnIndexOrThrow("question"));
-                String answer = cursor.getString(cursor.getColumnIndexOrThrow("answer"));
-                boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
-
-                Questions q = new Questions(id,question, answer, displayed);
-                clubsList.add(q);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        return clubsList;
+        return getQuestionsFromTable(ClubsTable.TABLE_NAME);
     }
 
     public List<Questions> getAllGeneral() {
-        ArrayList<Questions> generalList = new ArrayList<>();
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.query(
-                GeneralTable.TABLE_NAME,
-                new String[]{"id", "question", "answer", "displayed"},
-                "displayed = 0",  // Fetch only questions where displayed is false
-                null,
-                null,
-                null,
-                null
-        );
-
-        if (cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                String question = cursor.getString(cursor.getColumnIndexOrThrow("question"));
-                String answer = cursor.getString(cursor.getColumnIndexOrThrow("answer"));
-                boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
-
-                Questions q = new Questions(id,question, answer, displayed);
-                generalList.add(q);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        return generalList;
+        return getQuestionsFromTable(GeneralTable.TABLE_NAME);
     }
 
     public List<Questions> getAllGeography() {
-        ArrayList<Questions> geographyList = new ArrayList<>();
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.query(
-                GeographyTable.TABLE_NAME,
-                new String[]{"id", "question", "answer", "displayed"},
-                "displayed = 0",  // Fetch only questions where displayed is false
-                null,
-                null,
-                null,
-                null
-        );
-
-        if (cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                String question = cursor.getString(cursor.getColumnIndexOrThrow("question"));
-                String answer = cursor.getString(cursor.getColumnIndexOrThrow("answer"));
-                boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
-
-                Questions q = new Questions(id,question, answer, displayed);
-                geographyList.add(q);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        return geographyList;
+        return getQuestionsFromTable(GeographyTable.TABLE_NAME);
     }
+
     //Greek
     public List<Questions> getAllGreekNational() {
-        ArrayList<Questions> GreekNationalList = new ArrayList<>();
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.query(
-                GreekNationalTable.TABLE_NAME,
-                new String[]{"id", "question", "answer", "displayed"},
-                "displayed = 0",  // Fetch only questions where displayed is false
-                null,
-                null,
-                null,
-                null
-        );
-
-        if (cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                String question = cursor.getString(cursor.getColumnIndexOrThrow("question"));
-                String answer = cursor.getString(cursor.getColumnIndexOrThrow("answer"));
-                boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
-
-                Questions q = new Questions(id,question, answer, displayed);
-                GreekNationalList.add(q);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        return GreekNationalList;
+        return getQuestionsFromTable(GreekNationalTable.TABLE_NAME);
     }
 
     public List<Questions> getAllGreekClubs() {
-        ArrayList<Questions> GreekClubsList = new ArrayList<>();
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.query(
-                GreekClubsTable.TABLE_NAME,
-                new String[]{"id", "question", "answer", "displayed"},
-                "displayed = 0",  // Fetch only questions where displayed is false
-                null,
-                null,
-                null,
-                null
-        );
-
-        if (cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                String question = cursor.getString(cursor.getColumnIndexOrThrow("question"));
-                String answer = cursor.getString(cursor.getColumnIndexOrThrow("answer"));
-                boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
-
-                Questions q = new Questions(id,question, answer, displayed);
-                GreekClubsList.add(q);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        return GreekClubsList;
+        return getQuestionsFromTable(GreekClubsTable.TABLE_NAME);
     }
 
     public List<Questions> getAllGreekGeneral() {
-        ArrayList<Questions> GreekGeneralList = new ArrayList<>();
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.query(
-                GreekGeneralTable.TABLE_NAME,
-                new String[]{"id", "question", "answer", "displayed"},
-                "displayed = 0",  // Fetch only questions where displayed is false
-                null,
-                null,
-                null,
-                null
-        );
-
-        if (cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                String question = cursor.getString(cursor.getColumnIndexOrThrow("question"));
-                String answer = cursor.getString(cursor.getColumnIndexOrThrow("answer"));
-                boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
-
-                Questions q = new Questions(id,question, answer, displayed);
-                GreekGeneralList.add(q);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        return GreekGeneralList;
+        return getQuestionsFromTable(GreekGeneralTable.TABLE_NAME);
     }
 
     public List<Questions> getAllGreekGeography() {
-        ArrayList<Questions> GreekGeographyList = new ArrayList<>();
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.query(
-                GreekGeographyTable.TABLE_NAME,
-                new String[]{"id", "question", "answer", "displayed"},
-                "displayed = 0",  // Fetch only questions where displayed is false
-                null,
-                null,
-                null,
-                null
-        );
-
-        if (cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                String question = cursor.getString(cursor.getColumnIndexOrThrow("question"));
-                String answer = cursor.getString(cursor.getColumnIndexOrThrow("answer"));
-                boolean displayed = cursor.getInt(cursor.getColumnIndexOrThrow("displayed")) == 1;
-
-                Questions q = new Questions(id,question, answer, displayed);
-                GreekGeographyList.add(q);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        return GreekGeographyList;
+        return getQuestionsFromTable(GreekGeographyTable.TABLE_NAME);
     }
 
     public void updateQuestion(Questions question) {
@@ -515,10 +304,10 @@ public class DBHelper extends SQLiteOpenHelper {
         db.update(GreekClubsTable.TABLE_NAME, values, null, null);
         db.close();
     }
-    // fill all the tables with questions from txt files
-    private void fillGeneralTable(){
+    // Generic loader used by the individual fill methods
+    private void loadFromAsset(String fileName, java.util.function.Consumer<Questions> adder) {
         try {
-            InputStream inputStream = context.getAssets().open("GeneralTable.txt");
+            InputStream inputStream = context.getAssets().open(fileName);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
             String line;
@@ -531,193 +320,46 @@ public class DBHelper extends SQLiteOpenHelper {
                 boolean displayed = Boolean.parseBoolean(parts[3]);
 
                 Questions q = new Questions(id, question, answer, displayed);
-                addGeneral(q);
+                adder.accept(q);
             }
 
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    // fill all the tables with questions from txt files
+    private void fillGeneralTable(){
+        loadFromAsset("GeneralTable.txt", this::addGeneral);
     }
 
     private void fillNationalTable(){
-
-        try {
-            InputStream inputStream = context.getAssets().open("NationalTable.txt");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split("\\|");
-
-                int id = Integer.parseInt(parts[0]);
-                String question = parts[1];
-                String answer = parts[2];
-                boolean displayed = Boolean.parseBoolean(parts[3]);
-
-                Questions q = new Questions(id, question, answer, displayed);
-                addNational(q);
-            }
-
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        loadFromAsset("NationalTable.txt", this::addNational);
     }
 
     private void fillClubsTable(){
-
-        try {
-            InputStream inputStream = context.getAssets().open("ClubsTable.txt");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split("\\|");
-
-                int id = Integer.parseInt(parts[0]);
-                String question = parts[1];
-                String answer = parts[2];
-                boolean displayed = Boolean.parseBoolean(parts[3]);
-
-                Questions q = new Questions(id, question, answer, displayed);
-                addClubs(q);
-            }
-
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        loadFromAsset("ClubsTable.txt", this::addClubs);
     }
+
     private void fillGeographyTable(){
-
-        try {
-            InputStream inputStream = context.getAssets().open("GeographyTable.txt");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split("\\|");
-
-                int id = Integer.parseInt(parts[0]);
-                String question = parts[1];
-                String answer = parts[2];
-                boolean displayed = Boolean.parseBoolean(parts[3]);
-
-                Questions q = new Questions(id, question, answer, displayed);
-                addGeography(q);
-            }
-
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        loadFromAsset("GeographyTable.txt", this::addGeography);
     }
 
     private void fillGreekGeneralTable() {
-        try {
-            InputStream inputStream = context.getAssets().open("GreekGeneralTable.txt");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split("\\|");
-
-                int id = Integer.parseInt(parts[0]);
-                String question = parts[1];
-                String answer = parts[2];
-                boolean displayed = Boolean.parseBoolean(parts[3]);
-
-                Questions q = new Questions(id, question, answer, displayed);
-                addGreekGeneral(q);
-            }
-
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        loadFromAsset("GreekGeneralTable.txt", this::addGreekGeneral);
     }
 
-
-
     private void fillGreekNationalTable(){
-
-        try {
-            InputStream inputStream = context.getAssets().open("GreekNationalTable.txt");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split("\\|");
-
-                int id = Integer.parseInt(parts[0]);
-                String question = parts[1];
-                String answer = parts[2];
-                boolean displayed = Boolean.parseBoolean(parts[3]);
-
-                Questions q = new Questions(id, question, answer, displayed);
-                addGreekNational(q);
-            }
-
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        loadFromAsset("GreekNationalTable.txt", this::addGreekNational);
     }
 
     private void fillGreekClubsTable(){
-
-        try {
-            InputStream inputStream = context.getAssets().open("GreekClubsTable.txt");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split("\\|");
-
-                int id = Integer.parseInt(parts[0]);
-                String question = parts[1];
-                String answer = parts[2];
-                boolean displayed = Boolean.parseBoolean(parts[3]);
-
-                Questions q = new Questions(id, question, answer, displayed);
-                addGreekClubs(q);
-            }
-
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        loadFromAsset("GreekClubsTable.txt", this::addGreekClubs);
     }
+
     private void fillGreekGeographyTable(){
-        try {
-            InputStream inputStream = context.getAssets().open("GreekGeographyTable.txt");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split("\\|");
-
-                int id = Integer.parseInt(parts[0]);
-                String question = parts[1];
-                String answer = parts[2];
-                boolean displayed = Boolean.parseBoolean(parts[3]);
-
-                Questions q = new Questions(id, question, answer, displayed);
-                addGreekGeography(q);
-            }
-
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
+        loadFromAsset("GreekGeographyTable.txt", this::addGreekGeography);
     }
 
 
