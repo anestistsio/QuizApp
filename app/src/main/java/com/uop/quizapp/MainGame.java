@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import com.uop.quizapp.FirebaseDBHelper;
+import com.uop.quizapp.Category;
 import com.google.firebase.database.DatabaseError;
 
 public class MainGame extends AppCompatActivity {
@@ -69,17 +70,17 @@ public class MainGame extends AppCompatActivity {
             selected_category_tv.setText(categoryKey);
         } else {
             switch (categoryKey) {
-                case "National":
-                    selected_category_tv.setText(DBContract.GreekNationalTable.TABLE_NAME);
+                case Category.NATIONAL:
+                    selected_category_tv.setText(Category.GREEK_NATIONAL);
                     break;
-                case "Clubs":
-                    selected_category_tv.setText(DBContract.GreekClubsTable.TABLE_NAME);
+                case Category.CLUBS:
+                    selected_category_tv.setText(Category.GREEK_CLUBS);
                     break;
-                case "Geography":
-                    selected_category_tv.setText(DBContract.GreekGeographyTable.TABLE_NAME);
+                case Category.GEOGRAPHY:
+                    selected_category_tv.setText(Category.GREEK_GEOGRAPHY);
                     break;
-                case "General":
-                    selected_category_tv.setText(DBContract.GreekGeneralTable.TABLE_NAME);
+                case Category.GENERAL:
+                    selected_category_tv.setText(Category.GREEK_GENERAL);
                     break;
             }
         }
@@ -183,32 +184,32 @@ public class MainGame extends AppCompatActivity {
             if (playing_team.equals(t1n)) {
                 t1s++;
                 switch (selectedCategory) {
-                    case DBContract.NationalTable.TABLE_NAME:
+                    case Category.NATIONAL:
                         team1NationalCorrectAnswers++;
                         break;
-                    case DBContract.ClubsTable.TABLE_NAME:
+                    case Category.CLUBS:
                         team1ClubsCorrectAnswers++;
                         break;
-                    case DBContract.GeographyTable.TABLE_NAME:
+                    case Category.GEOGRAPHY:
                         team1GeographyCorrectAnswers++;
                         break;
-                    case DBContract.GeneralTable.TABLE_NAME:
+                    case Category.GENERAL:
                         team1GeneralCorrectAnswers++;
                         break;
                 }
             } else {
                 t2s++;
                 switch (selectedCategory) {
-                    case DBContract.NationalTable.TABLE_NAME:
+                    case Category.NATIONAL:
                         team2NationalCorrectAnswers++;
                         break;
-                    case DBContract.ClubsTable.TABLE_NAME:
+                    case Category.CLUBS:
                         team2ClubsCorrectAnswers++;
                         break;
-                    case DBContract.GeographyTable.TABLE_NAME:
+                    case Category.GEOGRAPHY:
                         team2GeographyCorrectAnswers++;
                         break;
-                    case DBContract.GeneralTable.TABLE_NAME:
+                    case Category.GENERAL:
                         team2GeneralCorrectAnswers++;
                         break;
                 }
