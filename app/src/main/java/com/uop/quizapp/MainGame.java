@@ -34,13 +34,12 @@ public class MainGame extends AppCompatActivity {
     private TextView question_tv, selected_category_tv, answer_tv, answeris_tv, timer_tv,changing_team_tv;
     private ImageButton correct_bt, incorrect_bt,changing_team_bt;
     private Button show_hide_bt;
-    private String which_button, playing_team, t1n, t2n, selectedCategory,language;
-    private int t1s, t2s, team1NationalCorrectAnswers, team2NationalCorrectAnswers, team1ClubsCorrectAnswers, team2ClubsCorrectAnswers, team1GeographyCorrectAnswers, team2GeographyCorrectAnswers, team1GeneralCorrectAnswers, team2GeneralCorrectAnswers;
+    private String which_button, selectedCategory,language;
+    private GameState gs;
     Bitmap team2bitmap, team1bitmap;
     //this answers_is_boolean checks if question ended to prevent startTimer.onFinish run
     private boolean answers_is_boolean = true;
     private int  timeInSeconds;
-    private boolean lastChance;
     private int score;
     private View changing_team_layout,top;
     private boolean is_ok_pressed = false;
@@ -143,11 +142,11 @@ public class MainGame extends AppCompatActivity {
             if (time_int < 10000) {
                 ticking_sound.stop();
             }
-            if (t2s < score - 1) {
-                lastChance = true;
+            if (gs.team2Score < gs.score - 1) {
+                gs.lastChance = true;
             }
             //checks if team 1 finished all the questions and change to team 2 for a last chance
-            if (t1s >= score -1 && lastChance && playing_team.equals(t1n)){
+            if (gs.team1Score >= gs.score -1 && gs.lastChance && gs.playingTeam.equals(gs.team1Name)){
                 changing_team_layout.setVisibility(View.VISIBLE);
                 question_tv.setVisibility(View.GONE);
                 selected_category_tv.setVisibility(View.GONE);
@@ -159,13 +158,13 @@ public class MainGame extends AppCompatActivity {
 
                 changing_team_layout.setBackground(getDrawable(R.drawable.red_card));
                 if (!language.equals("English")) {
-                    if (playing_team.equals("Ομάδα 1") || playing_team.equals("Ομάδα 2")) {
-                        changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατί η : " + playing_team + " τελείωσε ");
+                    if (gs.playingTeam.equals("Ομάδα 1") || gs.playingTeam.equals("Ομάδα 2")) {
+                        changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατί η : " + gs.playingTeam + " τελείωσε ");
                     }else {
-                        changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατί η ομάδα : " + playing_team + " τελείωσε ");
+                        changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατί η ομάδα : " + gs.playingTeam + " τελείωσε ");
                     }
                 } else {
-                        changing_team_tv.setText("The phone is changing hands because : " + playing_team + " finished");
+                        changing_team_tv.setText("The phone is changing hands because : " + gs.playingTeam + " finished");
                 }
 
             }
@@ -181,36 +180,36 @@ public class MainGame extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            if (playing_team.equals(t1n)) {
-                t1s++;
+            if (gs.playingTeam.equals(gs.team1Name)) {
+                gs.team1Score++;
                 switch (selectedCategory) {
                     case Category.NATIONAL:
-                        team1NationalCorrectAnswers++;
+                        gs.team1NationalCorrectAnswers++;
                         break;
                     case Category.CLUBS:
-                        team1ClubsCorrectAnswers++;
+                        gs.team1ClubsCorrectAnswers++;
                         break;
                     case Category.GEOGRAPHY:
-                        team1GeographyCorrectAnswers++;
+                        gs.team1GeographyCorrectAnswers++;
                         break;
                     case Category.GENERAL:
-                        team1GeneralCorrectAnswers++;
+                        gs.team1GeneralCorrectAnswers++;
                         break;
                 }
             } else {
-                t2s++;
+                gs.team2Score++;
                 switch (selectedCategory) {
                     case Category.NATIONAL:
-                        team2NationalCorrectAnswers++;
+                        gs.team2NationalCorrectAnswers++;
                         break;
                     case Category.CLUBS:
-                        team2ClubsCorrectAnswers++;
+                        gs.team2ClubsCorrectAnswers++;
                         break;
                     case Category.GEOGRAPHY:
-                        team2GeographyCorrectAnswers++;
+                        gs.team2GeographyCorrectAnswers++;
                         break;
                     case Category.GENERAL:
-                        team2GeneralCorrectAnswers++;
+                        gs.team2GeneralCorrectAnswers++;
                         break;
                 }
             }
@@ -226,8 +225,8 @@ public class MainGame extends AppCompatActivity {
             count.cancel();
 
             //checks if team 2 lost in last chance
-            if (!(t1s >= score && lastChance)){
-                if (t1s != score) {
+            if (!(gs.team1Score >= gs.score && gs.lastChance)){
+                if (gs.team1Score != gs.score) {
                     changing_team_layout.setVisibility(View.VISIBLE);
                     question_tv.setVisibility(View.GONE);
                     selected_category_tv.setVisibility(View.GONE);
@@ -239,64 +238,46 @@ public class MainGame extends AppCompatActivity {
 
                     changing_team_layout.setBackground(getDrawable(R.drawable.yellow_card));
                     if (!language.equals("English")) {
-                        if (playing_team.equals("Ομάδα 1") || playing_team.equals("Ομάδα 2")) {
-                            changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατί η : " + playing_team + " έχασε ");
+                        if (gs.playingTeam.equals("Ομάδα 1") || gs.playingTeam.equals("Ομάδα 2")) {
+                            changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατί η : " + gs.playingTeam + " έχασε ");
                         }else {
-                            changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατί η ομάδα : " + playing_team + " έχασε ");
+                            changing_team_tv.setText("Το κινητό αλλάζει χέρια γιατί η ομάδα : " + gs.playingTeam + " έχασε ");
                         }
                     } else {
-                        changing_team_tv.setText("the phone now is changing hands because : " + playing_team.toUpperCase() + " lost");
+                        changing_team_tv.setText("the phone now is changing hands because : " + gs.playingTeam.toUpperCase() + " lost");
                     }
                 }
             }
 
             //initialize the playing_team
-            if (playing_team.equals(t1n)) {
-                playing_team = t2n;
+            if (gs.playingTeam.equals(gs.team1Name)) {
+                gs.playingTeam = gs.team2Name;
             } else {
-                playing_team = t1n;
+                gs.playingTeam = gs.team1Name;
             }
         }
         //check if team 1 reached first the 12
-        if (t1s == score) {
-            playing_team = t2n;
+        if (gs.team1Score == gs.score) {
+            gs.playingTeam = gs.team2Name;
         }
         DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
-        db.put("playing_team", playing_team);
-        db.put("team1Name", t1n);
-        db.put("team2Name", t2n);
-        db.put("team1Score", t1s);
-        db.put("team2Score", t2s);
-        db.put("score", score);
-        db.put("lastChance", lastChance);
-        db.put("team1NationalCorrectAnswers", team1NationalCorrectAnswers);
-        db.put("team2NationalCorrectAnswers", team2NationalCorrectAnswers);
-        db.put("team1ClubsCorrectAnswers", team1ClubsCorrectAnswers);
-        db.put("team2ClubsCorrectAnswers", team2ClubsCorrectAnswers);
-        db.put("team1GeographyCorrectAnswers", team1GeographyCorrectAnswers);
-        db.put("team2GeographyCorrectAnswers", team2GeographyCorrectAnswers);
-        db.put("team1GeneralCorrectAnswers", team1GeneralCorrectAnswers);
-        db.put("team2GeneralCorrectAnswers", team2GeneralCorrectAnswers);
-        db.put("selected_language", language);
-        db.put("isMute", isMute);
-        db.put("timeInSeconds", timeInSeconds);
+        db.setGameState(gs);
         //passing the images back to SelectedCategory.class
         if (team1bitmap != null) {
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-            byte[] team1byte = bytes.toByteArray();
-            db.put("team1byte", team1byte);
+            gs.team1byte = bytes.toByteArray();
         } else {
-            db.put("team1byte", null);
+            gs.team1byte = null;
         }
         if (team2bitmap != null) {
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-            byte[] team2byte = bytes.toByteArray();
-            db.put("team2byte", team2byte);
+            gs.team2byte = bytes.toByteArray();
         } else {
-            db.put("team2byte", null);
+            gs.team2byte = null;
         }
+        db.setGameState(gs);
         //we set visible this layout when the user clicks the incorrect button
         if (changing_team_layout.getVisibility() == View.VISIBLE){
             final MediaPlayer click_sound = MediaPlayer.create(this, R.raw.click_sound);
@@ -335,35 +316,15 @@ public class MainGame extends AppCompatActivity {
 
         //pass selected category from SelectCategory.class to MainGame.class
         DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
-        selectedCategory = db.get("selectedCategory");
-
-        //playing team ,score and team names are
-        playing_team = db.get("playing_team");
-        t1n = db.get("team1Name");
-        t2n = db.get("team2Name");
-        t1s = db.get("team1Score");
-        t2s = db.get("team2Score");
-        score = db.get("score");
-        lastChance = db.get("lastChance");
-
-        //retrieving the values for correct answered counters for each category for each team
-        team1NationalCorrectAnswers = db.get("team1NationalCorrectAnswers");
-        team2NationalCorrectAnswers = db.get("team2NationalCorrectAnswers");
-        team1ClubsCorrectAnswers = db.get("team1ClubsCorrectAnswers");
-        team2ClubsCorrectAnswers = db.get("team2ClubsCorrectAnswers");
-        team1GeographyCorrectAnswers = db.get("team1GeographyCorrectAnswers");
-        team2GeographyCorrectAnswers = db.get("team2GeographyCorrectAnswers");
-        team1GeneralCorrectAnswers = db.get("team1GeneralCorrectAnswers");
-        team2GeneralCorrectAnswers = db.get("team2GeneralCorrectAnswers");
-        //getting the selected_language from SelectCategory.java
-        language = db.get("selected_language");
-        isMute = db.get("isMute");
-        //getting the time in seconds
-        timeInSeconds = db.get("timeInSeconds");
-        if (playing_team.equals(t1n)) {
-            playing_team_tv.setText(t1n);
+        gs = db.getGameState();
+        selectedCategory = gs.selectedCategory;
+        language = gs.selectedLanguage;
+        isMute = gs.isMute;
+        timeInSeconds = gs.timeInSeconds;
+        if (gs.playingTeam.equals(gs.team1Name)) {
+            playing_team_tv.setText(gs.team1Name);
         }else {
-            playing_team_tv.setText(t2n);
+            playing_team_tv.setText(gs.team2Name);
         }
         if (!language.equals("English")) {
             answeris_tv.setText("Σωστή απάντηση");
@@ -372,16 +333,16 @@ public class MainGame extends AppCompatActivity {
             show_hide_bt.setText("show");
         }
         //getting the images for the teams
-        byte[] team1byte = db.get("team1byte");
+        byte[] team1byte = gs.team1byte;
         if (team1byte != null) {
             team1bitmap = BitmapFactory.decodeByteArray(team1byte, 0, team1byte.length);
         }
-        byte[] team2byte = db.get("team2byte");
+        byte[] team2byte = gs.team2byte;
         if (team2byte != null) {
             team2bitmap = BitmapFactory.decodeByteArray(team2byte, 0, team2byte.length);
 
         }
-        if (playing_team.equals(t1n)) {
+        if (gs.playingTeam.equals(gs.team1Name)) {
             if (team1bitmap != null) {
                 playing_team_image.setImageBitmap(team1bitmap);
             } else {
