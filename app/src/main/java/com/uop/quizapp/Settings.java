@@ -204,10 +204,18 @@ public class Settings extends AppCompatActivity {
         db.put("t2_et", t2_et);
         if (team1byte != null){
             db.put("team1byte", team1byte);
+            intent.putExtra("team1byte", team1byte);
         }
         if (team2byte != null){
             db.put("team2byte", team2byte);
+            intent.putExtra("team2byte", team2byte);
         }
+        intent.putExtra("selected_language", language);
+        intent.putExtra("timeInSeconds", timeInSeconds);
+        intent.putExtra("questionsPerCategory", questionsPerCategory);
+        intent.putExtra("isMute", isMute);
+        intent.putExtra("t1_et", t1_et);
+        intent.putExtra("t2_et", t2_et);
         startActivity(intent);
         finish();
     }
@@ -224,10 +232,18 @@ public class Settings extends AppCompatActivity {
         db.put("t2_et", t2_et);
         if (team1byte != null){
             db.put("team1byte", team1byte);
+            intent.putExtra("team1byte", team1byte);
         }
         if (team2byte != null){
             db.put("team2byte", team2byte);
+            intent.putExtra("team2byte", team2byte);
         }
+        intent.putExtra("selected_language", preselected_language);
+        intent.putExtra("timeInSeconds", preselected_timeInSeconds);
+        intent.putExtra("questionsPerCategory", preselected_questionsPerCategory);
+        intent.putExtra("isMute", preselected_isMute);
+        intent.putExtra("t1_et", t1_et);
+        intent.putExtra("t2_et", t2_et);
         startActivity(intent);
         finish();
     }
@@ -249,10 +265,18 @@ public class Settings extends AppCompatActivity {
         db2.put("t2_et", t2_et);
         if (team1byte != null){
             db2.put("team1byte", team1byte);
+            intent.putExtra("team1byte", team1byte);
         }
         if (team2byte != null){
             db2.put("team2byte", team2byte);
+            intent.putExtra("team2byte", team2byte);
         }
+        intent.putExtra("selected_language", preselected_language);
+        intent.putExtra("timeInSeconds", preselected_timeInSeconds);
+        intent.putExtra("questionsPerCategory", preselected_questionsPerCategory);
+        intent.putExtra("isMute", preselected_isMute);
+        intent.putExtra("t1_et", t1_et);
+        intent.putExtra("t2_et", t2_et);
         startActivity(intent);
         finish();
     }
