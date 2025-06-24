@@ -1,6 +1,7 @@
 package com.uop.quizapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -38,6 +39,7 @@ public class SelectCategory extends AppCompatActivity {
     ImageButton clubs_bt;
     private boolean isMute;
     private TextView general_tv,geography_tv,national_tv,clubs_tv;
+    private com.uop.quizapp.viewmodels.SelectCategoryViewModel viewModel;
 
 
 
@@ -50,6 +52,7 @@ public class SelectCategory extends AppCompatActivity {
         setContentView(R.layout.activity_select_category);
         //set orientation portrait locked
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        viewModel = new ViewModelProvider(this).get(com.uop.quizapp.viewmodels.SelectCategoryViewModel.class);
         // call this method to initialize the start values
         // and check if any team wins or if any team answers 3 correct questions of any category
         initializing();
@@ -82,26 +85,8 @@ public class SelectCategory extends AppCompatActivity {
         Intent intent = new Intent(SelectCategory.this, MainGame.class);
         DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
         gs = db.getGameState();
-        if (gs != null) {
-            gs.selectedCategory = selectedCategory;
-        }
+        gs = viewModel.updateCategory(gs, selectedCategory, team1bitmap, team2bitmap);
         db.setGameState(gs);
-        //passing the images to MainGame.class
-        if (gs != null) {
-            if (team1bitmap != null){
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
-                gs.team1byte = bytes.toByteArray();
-            }
-            if (team2bitmap != null){
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
-                gs.team2byte = bytes.toByteArray();
-            }
-            db.setGameState(gs);
-        }
-
-
         startActivity(intent);
     }
 
