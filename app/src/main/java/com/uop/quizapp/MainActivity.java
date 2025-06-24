@@ -276,16 +276,20 @@ public class MainActivity extends AppCompatActivity{
         SoundUtils.play(this, R.raw.click_sound, isMute);
         Intent intent = new Intent(MainActivity.this,Settings.class);
         ActivityDataStore db = ActivityDataStore.getInstance();
+        // Persist the currently selected options so Settings can display them
+        db.put("selected_language", language);
+        db.put("timeInSeconds", timeInSeconds);
+        db.put("questionsPerCategory", score / 4);
+        db.put("isMute", isMute);
+        db.put("t1_et", team1_et.getText().toString());
+        db.put("t2_et", team2_et.getText().toString());
+
         GameState gs = db.getGameState();
         if (gs != null) {
             gs.selectedLanguage = language;
             gs.timeInSeconds = timeInSeconds;
             gs.score = score;
             gs.isMute = isMute;
-        }
-        db.put("t1_et", team1_et.getText().toString());
-        db.put("t2_et", team2_et.getText().toString());
-        if (gs != null) {
             if (team1bitmap != null){
                 gs.team1byte = BitmapUtils.toByteArray(team1bitmap);
             }

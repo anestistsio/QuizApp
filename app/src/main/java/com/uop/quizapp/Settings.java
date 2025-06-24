@@ -58,10 +58,31 @@ public class Settings extends AppCompatActivity {
 
 
         ActivityDataStore db = ActivityDataStore.getInstance();
-        questionsPerCategory = ((Integer) db.get("questionsPerCategory")) /4;
-        timeInSeconds = db.get("timeInSeconds");
-        language = db.get("selected_language");
-        isMute = db.get("isMute");
+        Integer qpcObj = db.get("questionsPerCategory");
+        if (qpcObj != null) {
+            questionsPerCategory = qpcObj;
+        } else {
+            Integer scoreObj = db.get("score");
+            if (scoreObj != null) {
+                questionsPerCategory = scoreObj / 4;
+            }
+        }
+
+        Integer timeObj = db.get("timeInSeconds");
+        if (timeObj != null) {
+            timeInSeconds = timeObj;
+        }
+
+        String langObj = db.get("selected_language");
+        if (langObj != null) {
+            language = langObj;
+        }
+
+        Boolean muteObj = db.get("isMute");
+        if (muteObj != null) {
+            isMute = muteObj;
+        }
+
         t1_et = db.get("t1_et");
         t2_et = db.get("t2_et");
 
