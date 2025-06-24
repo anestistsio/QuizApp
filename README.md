@@ -19,8 +19,8 @@ The project is written in Java using Android Studio and Gradle. Important compon
 * **MainGame** – displays questions, handles the countdown timer and determines whether answers are correct.
 * **GameOver** – shows the final result and offers rematch or share options.
 * **FirebaseDBHelper** – communicates with Firebase Realtime Database to load questions and mark them as shown.
-* **GameState** – a serializable object used by `DataBetweenActivitiesManager` to pass the current game state between activities.
-* **FMS** – Firebase Messaging Service used for push notifications.
+* **GameState** – a serializable object used by `ActivityDataStore` to pass the current game state between activities.
+* **NotificationService** – Firebase Messaging Service used for push notifications.
 
 The assets folder contains text files with sample questions that can be uploaded to Firebase using the `scripts/firebase_migrate.py` helper.
 

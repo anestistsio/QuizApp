@@ -9,8 +9,14 @@ import com.uop.quizapp.GameState;
 
 import java.io.ByteArrayOutputStream;
 
+/**
+ * Helper ViewModel for preparing game state when a category is chosen.
+ */
 public class SelectCategoryViewModel extends ViewModel {
-    public GameState updateCategory(GameState gs, String selectedCategory, Bitmap team1bitmap, Bitmap team2bitmap) {
+    /**
+     * Update the {@link GameState} with the selected category and optional team images.
+     */
+    public GameState applySelectedCategory(GameState gs, String selectedCategory, Bitmap team1bitmap, Bitmap team2bitmap) {
         if (gs == null) {
             gs = new GameState();
         }

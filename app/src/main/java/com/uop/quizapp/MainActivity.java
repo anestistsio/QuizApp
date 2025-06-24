@@ -34,6 +34,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.uop.quizapp.ActivityDataStore;
 
 import java.io.ByteArrayOutputStream;
 
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity{
 
         initializing();
         createNotificationChannel();
-        firebase_initialization();
+        initializeFirebaseMessaging();
 
 
     }
@@ -148,7 +149,10 @@ public class MainActivity extends AppCompatActivity{
             }
         }
     }
-        public void select_category(View view) {
+        /**
+         * Validate team names and navigate to category selection.
+         */
+        public void openCategorySelection(View view) {
             final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
             //Check if both team names entered
             t1n = team1_et.getText().toString();
@@ -179,7 +183,7 @@ public class MainActivity extends AppCompatActivity{
                         click_sound.start();
                     }
                     Intent intent = new Intent(MainActivity.this, SelectCategory.class);
-                    DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
+                    ActivityDataStore db = ActivityDataStore.getInstance();
                     GameState gs = viewModel.createInitialGameState(t1n, t2n, isMute, score, timeInSeconds, team1bitmap, team2bitmap, language, lastChance);
                     db.setGameState(gs);
                     startActivity(intent);
@@ -189,7 +193,10 @@ public class MainActivity extends AppCompatActivity{
 
 
     //with this methods we ask for permission to open the camera and we also take the picture and assign it to the image views
-    public void TakePicture(View view){
+    /**
+     * Launch the camera to capture a team photo.
+     */
+    public void captureTeamImage(View view){
 
         if (ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED){
@@ -242,8 +249,10 @@ public class MainActivity extends AppCompatActivity{
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
     }
-    //this method initialize firebase cloud messaging
-    private void firebase_initialization() {
+    /**
+     * Subscribe to FCM topic so the device can receive notifications.
+     */
+    private void initializeFirebaseMessaging() {
         FirebaseMessaging.getInstance().subscribeToTopic("news")
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -256,14 +265,16 @@ public class MainActivity extends AppCompatActivity{
                     }
                 });
     }
-    //this method goes to Settings activity
-    public void settings(View view){
+    /**
+     * Open the settings screen, preserving the current state.
+     */
+    public void openSettings(View view){
         final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
         if (!isMute) {
             click_sound.start();
         }
         Intent intent = new Intent(MainActivity.this,Settings.class);
-        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
+        ActivityDataStore db = ActivityDataStore.getInstance();
         GameState gs = db.getGameState();
         if (gs != null) {
             gs.selectedLanguage = language;
@@ -290,7 +301,10 @@ public class MainActivity extends AppCompatActivity{
         }
         startActivity(intent);
     }
-    public void shareMain(View view) {
+    /**
+     * Share a link to the app using an implicit intent.
+     */
+    public void shareApp(View view) {
         final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
         if (!isMute) {
             click_sound.start();

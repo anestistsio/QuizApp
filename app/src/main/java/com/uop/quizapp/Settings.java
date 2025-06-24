@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import com.uop.quizapp.ActivityDataStore;
 
 public class Settings extends AppCompatActivity {
 
@@ -56,7 +57,7 @@ public class Settings extends AppCompatActivity {
         mute_bt = findViewById(R.id.mute_bt);
 
 
-        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
+        ActivityDataStore db = ActivityDataStore.getInstance();
         questionsPerCategory = ((Integer) db.get("questionsPerCategory")) /4;
         timeInSeconds = db.get("timeInSeconds");
         language = db.get("selected_language");
@@ -142,7 +143,10 @@ public class Settings extends AppCompatActivity {
 
     }
 
-    public void language_select(View view) {
+    /**
+     * Toggle between English and Greek language options.
+     */
+    public void toggleLanguage(View view) {
         if (language_tv.getText().equals("EN")) {
             language_bt.setImageResource(R.drawable.greek);
             language_tv.setText("ΕΛ");
@@ -161,13 +165,16 @@ public class Settings extends AppCompatActivity {
         }
     }
 
-    public void save(View view) {
+    /**
+     * Persist the user's selections and return to the main screen.
+     */
+    public void saveSettings(View view) {
         final MediaPlayer click_sound = MediaPlayer.create(this, R.raw.click_sound);
         if (!isMute) {
             click_sound.start();
         }
         Intent intent = new Intent(Settings.this, MainActivity.class);
-        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
+        ActivityDataStore db = ActivityDataStore.getInstance();
         db.put("selected_language", language);
         db.put("timeInSeconds", timeInSeconds);
         db.put("questionsPerCategory", questionsPerCategory);
@@ -187,7 +194,7 @@ public class Settings extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(Settings.this, MainActivity.class);
-        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
+        ActivityDataStore db = ActivityDataStore.getInstance();
         db.put("selected_language", preselected_language);
         db.put("timeInSeconds", preselected_timeInSeconds);
         db.put("questionsPerCategory", preselected_questionsPerCategory);
@@ -203,13 +210,16 @@ public class Settings extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    public void Back(View view){
+    /**
+     * Discard changes and navigate back to the main screen.
+     */
+    public void discardChanges(View view){
         final MediaPlayer click_sound = MediaPlayer.create(this, R.raw.click_sound);
         if (!isMute) {
             click_sound.start();
         }
         Intent intent = new Intent(Settings.this, MainActivity.class);
-        DataBetweenActivitiesManager db2 = DataBetweenActivitiesManager.getInstance();
+        ActivityDataStore db2 = ActivityDataStore.getInstance();
         db2.put("selected_language", preselected_language);
         db2.put("timeInSeconds", preselected_timeInSeconds);
         db2.put("questionsPerCategory", preselected_questionsPerCategory);
@@ -225,7 +235,10 @@ public class Settings extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    public void mute(View view) {
+    /**
+     * Toggle sound effects on or off.
+     */
+    public void toggleMute(View view) {
         if (!isMute) {
             mute_bt.setImageDrawable(getResources().getDrawable(R.drawable.mute));
             isMute = true;
