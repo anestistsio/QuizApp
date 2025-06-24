@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity{
         //reset all the displayed values to false in the data source
         QuestionRepository repository = new FirebaseQuestionRepository();
         repository.resetAllDisplayedValues();
+        ActivityDataStore db = ActivityDataStore.getInstance();
 
         team1_et = findViewById(R.id.team1_et);
         team2_et = findViewById(R.id.team2_et);
@@ -88,32 +89,58 @@ public class MainActivity extends AppCompatActivity{
 
 
         //if the user finish one game and press restart we retrieve all his settings
-        restart_boolean = getIntent().getBooleanExtra("restart_boolean",false);
+        restart_boolean = getIntent().getBooleanExtra("restart_boolean", false);
+        if (!restart_boolean) {
+            Boolean restartObj = db.get("restart_boolean");
+            if (restartObj != null) {
+                restart_boolean = restartObj;
+            }
+        }
+
         if (restart_boolean) {
             language = getIntent().getStringExtra("selected_language");
+            if (language == null) {
+                language = db.get("selected_language");
+            }
             t1n = getIntent().getStringExtra("t1n");
+            if (t1n == null) {
+                t1n = db.get("t1n");
+            }
             t2n = getIntent().getStringExtra("t2n");
+            if (t2n == null) {
+                t2n = db.get("t2n");
+            }
             team1_et.setText(t1n);
             team2_et.setText(t2n);
-            if (!language.equals("English")) {
+            if (language != null && !language.equals("English")) {
                 team1_et.setHint("Όνομα Ομάδας 1");
                 team2_et.setHint("Όνομα Ομάδας 2");
             }
-            isMute = getIntent().getExtras().getBoolean("isMute");
-            score = getIntent().getExtras().getInt("score");
-            timeInSeconds = getIntent().getExtras().getInt("timeInSeconds");
-            Bundle ex = getIntent().getExtras();
-            team1byte = ex.getByteArray("team1byte");
+            if (getIntent().getExtras() != null) {
+                isMute = getIntent().getExtras().getBoolean("isMute", isMute);
+                score = getIntent().getExtras().getInt("score", score);
+                timeInSeconds = getIntent().getExtras().getInt("timeInSeconds", timeInSeconds);
+                Bundle ex = getIntent().getExtras();
+                team1byte = ex.getByteArray("team1byte");
+                team2byte = ex.getByteArray("team2byte");
+            } else {
+                Boolean muteObj = db.get("isMute");
+                if (muteObj != null) isMute = muteObj;
+                Integer scoreObj = db.get("score");
+                if (scoreObj != null) score = scoreObj;
+                Integer timeObj = db.get("timeInSeconds");
+                if (timeObj != null) timeInSeconds = timeObj;
+                team1byte = db.get("team1byte");
+                team2byte = db.get("team2byte");
+            }
             if (team1byte != null) {
                 team1bitmap = BitmapUtils.fromByteArray(team1byte);
                 team1_iv.setImageBitmap(team1bitmap);
             }
-            team2byte = ex.getByteArray("team2byte");
             if (team2byte != null) {
                 team2bitmap = BitmapUtils.fromByteArray(team2byte);
                 team2_iv.setImageBitmap(team2bitmap);
             }
-
         }
 
 
@@ -152,7 +179,42 @@ public class MainActivity extends AppCompatActivity{
 
 
             } else {
-                language = "English";
+                language = db.get("selected_language");
+                if (language != null) {
+                    Boolean muteObj = db.get("isMute");
+                    if (muteObj != null) isMute = muteObj;
+                    Integer qpc = db.get("questionsPerCategory");
+                    Integer scoreObj = db.get("score");
+                    if (qpc != null) {
+                        score = qpc * 4;
+                    } else if (scoreObj != null) {
+                        score = scoreObj;
+                    }
+                    Integer timeObj = db.get("timeInSeconds");
+                    if (timeObj != null) timeInSeconds = timeObj;
+                    if (language.equals("Ελληνικά")) {
+                        team1_et.setHint("Όνομα Ομάδας 1");
+                        team2_et.setHint("Όνομα Ομάδας 2");
+                    }
+                    String name1 = db.get("t1_et");
+                    if (name1 == null) name1 = db.get("t1n");
+                    if (name1 != null) team1_et.setText(name1);
+                    String name2 = db.get("t2_et");
+                    if (name2 == null) name2 = db.get("t2n");
+                    if (name2 != null) team2_et.setText(name2);
+                    team1byte = db.get("team1byte");
+                    team2byte = db.get("team2byte");
+                    if (team1byte != null) {
+                        team1bitmap = BitmapUtils.fromByteArray(team1byte);
+                        team1_iv.setImageBitmap(team1bitmap);
+                    }
+                    if (team2byte != null) {
+                        team2bitmap = BitmapUtils.fromByteArray(team2byte);
+                        team2_iv.setImageBitmap(team2bitmap);
+                    }
+                } else {
+                    language = "English";
+                }
             }
         }
     }
@@ -276,16 +338,20 @@ public class MainActivity extends AppCompatActivity{
         SoundUtils.play(this, R.raw.click_sound, isMute);
         Intent intent = new Intent(MainActivity.this,Settings.class);
         ActivityDataStore db = ActivityDataStore.getInstance();
+        // Persist the currently selected options so Settings can display them
+        db.put("selected_language", language);
+        db.put("timeInSeconds", timeInSeconds);
+        db.put("questionsPerCategory", score / 4);
+        db.put("isMute", isMute);
+        db.put("t1_et", team1_et.getText().toString());
+        db.put("t2_et", team2_et.getText().toString());
+
         GameState gs = db.getGameState();
         if (gs != null) {
             gs.selectedLanguage = language;
             gs.timeInSeconds = timeInSeconds;
             gs.score = score;
             gs.isMute = isMute;
-        }
-        db.put("t1_et", team1_et.getText().toString());
-        db.put("t2_et", team2_et.getText().toString());
-        if (gs != null) {
             if (team1bitmap != null){
                 gs.team1byte = BitmapUtils.toByteArray(team1bitmap);
             }

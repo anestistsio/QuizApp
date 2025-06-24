@@ -58,10 +58,31 @@ public class Settings extends AppCompatActivity {
 
 
         ActivityDataStore db = ActivityDataStore.getInstance();
-        questionsPerCategory = ((Integer) db.get("questionsPerCategory")) /4;
-        timeInSeconds = db.get("timeInSeconds");
-        language = db.get("selected_language");
-        isMute = db.get("isMute");
+        Integer qpcObj = db.get("questionsPerCategory");
+        if (qpcObj != null) {
+            questionsPerCategory = qpcObj;
+        } else {
+            Integer scoreObj = db.get("score");
+            if (scoreObj != null) {
+                questionsPerCategory = scoreObj / 4;
+            }
+        }
+
+        Integer timeObj = db.get("timeInSeconds");
+        if (timeObj != null) {
+            timeInSeconds = timeObj;
+        }
+
+        String langObj = db.get("selected_language");
+        if (langObj != null) {
+            language = langObj;
+        }
+
+        Boolean muteObj = db.get("isMute");
+        if (muteObj != null) {
+            isMute = muteObj;
+        }
+
         t1_et = db.get("t1_et");
         t2_et = db.get("t2_et");
 
@@ -183,10 +204,18 @@ public class Settings extends AppCompatActivity {
         db.put("t2_et", t2_et);
         if (team1byte != null){
             db.put("team1byte", team1byte);
+            intent.putExtra("team1byte", team1byte);
         }
         if (team2byte != null){
             db.put("team2byte", team2byte);
+            intent.putExtra("team2byte", team2byte);
         }
+        intent.putExtra("selected_language", language);
+        intent.putExtra("timeInSeconds", timeInSeconds);
+        intent.putExtra("questionsPerCategory", questionsPerCategory);
+        intent.putExtra("isMute", isMute);
+        intent.putExtra("t1_et", t1_et);
+        intent.putExtra("t2_et", t2_et);
         startActivity(intent);
         finish();
     }
@@ -203,10 +232,18 @@ public class Settings extends AppCompatActivity {
         db.put("t2_et", t2_et);
         if (team1byte != null){
             db.put("team1byte", team1byte);
+            intent.putExtra("team1byte", team1byte);
         }
         if (team2byte != null){
             db.put("team2byte", team2byte);
+            intent.putExtra("team2byte", team2byte);
         }
+        intent.putExtra("selected_language", preselected_language);
+        intent.putExtra("timeInSeconds", preselected_timeInSeconds);
+        intent.putExtra("questionsPerCategory", preselected_questionsPerCategory);
+        intent.putExtra("isMute", preselected_isMute);
+        intent.putExtra("t1_et", t1_et);
+        intent.putExtra("t2_et", t2_et);
         startActivity(intent);
         finish();
     }
@@ -228,10 +265,18 @@ public class Settings extends AppCompatActivity {
         db2.put("t2_et", t2_et);
         if (team1byte != null){
             db2.put("team1byte", team1byte);
+            intent.putExtra("team1byte", team1byte);
         }
         if (team2byte != null){
             db2.put("team2byte", team2byte);
+            intent.putExtra("team2byte", team2byte);
         }
+        intent.putExtra("selected_language", preselected_language);
+        intent.putExtra("timeInSeconds", preselected_timeInSeconds);
+        intent.putExtra("questionsPerCategory", preselected_questionsPerCategory);
+        intent.putExtra("isMute", preselected_isMute);
+        intent.putExtra("t1_et", t1_et);
+        intent.putExtra("t2_et", t2_et);
         startActivity(intent);
         finish();
     }
