@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.uop.quizapp.ActivityDataStore;
 
 import java.io.ByteArrayOutputStream;
 
@@ -58,8 +59,10 @@ public class SelectCategory extends AppCompatActivity {
         initializing();
 
     }
-    //by clicking any of image buttons this starts this method
-    public void Startgame(View view) {
+    /**
+     * Start the quiz using the category button that was pressed.
+     */
+    public void startGame(View view) {
         //initialize click sound
         final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
         //check which button user clicked
@@ -83,9 +86,9 @@ public class SelectCategory extends AppCompatActivity {
         }
         //pass selected category to MainGame.class
         Intent intent = new Intent(SelectCategory.this, MainGame.class);
-        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
+        ActivityDataStore db = ActivityDataStore.getInstance();
         gs = db.getGameState();
-        gs = viewModel.updateCategory(gs, selectedCategory, team1bitmap, team2bitmap);
+        gs = viewModel.applySelectedCategory(gs, selectedCategory, team1bitmap, team2bitmap);
         db.setGameState(gs);
         startActivity(intent);
     }
@@ -121,7 +124,7 @@ public class SelectCategory extends AppCompatActivity {
 
 
         //take the team names and scores and playing team from RedisManager
-        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
+        ActivityDataStore db = ActivityDataStore.getInstance();
         gs = db.getGameState();
         score = gs.score;
         lastChance = gs.lastChance;
@@ -255,7 +258,10 @@ public class SelectCategory extends AppCompatActivity {
             }
         }, 1000);
     }
-    public void Score(View view){
+    /**
+     * Display the score overlay and disable category buttons.
+     */
+    public void showScoreOverlay(View view){
         score_layout.setVisibility(View.VISIBLE);
         geography_bt.setClickable(false);
         general_bt.setClickable(false);
@@ -265,7 +271,10 @@ public class SelectCategory extends AppCompatActivity {
 
 
     }
-    public void ReturnFromScore(View view){
+    /**
+     * Hide the score overlay and re-enable category buttons.
+     */
+    public void hideScoreOverlay(View view){
         score_layout.setVisibility(View.GONE);
         geography_bt.setClickable(true);
         general_bt.setClickable(true);
@@ -275,7 +284,7 @@ public class SelectCategory extends AppCompatActivity {
     }
     private void GameEnd(){
         Intent intent = new Intent(SelectCategory.this, GameOver.class);
-        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
+        ActivityDataStore db = ActivityDataStore.getInstance();
         gs = db.getGameState();
         if (gs == null) {
             gs = new GameState();

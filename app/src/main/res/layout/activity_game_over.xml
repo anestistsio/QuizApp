@@ -134,7 +134,7 @@
         android:layout_marginStart="@dimen/margin_30dp"
         android:layout_marginTop="@dimen/margin_10dp"
         android:background="#00FFFFFF"
-        android:onClick="restart"
+        android:onClick="restartGame"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/restart_bt" />
 
@@ -147,7 +147,7 @@
         android:layout_marginTop="@dimen/margin_15dp"
         android:layout_marginEnd="@dimen/margin_30dp"
         android:background="#00FFFFFF"
-        android:onClick="exit"
+        android:onClick="closeGame"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/exit_bt" />
 
@@ -161,7 +161,7 @@
         android:layout_marginBottom="@dimen/margin_30dp"
         android:background="#00FFFFFF"
         android:scaleType="fitCenter"
-        android:onClick="shareGameOver"
+        android:onClick="shareResults"
         app:srcCompat="@drawable/share_bt" />
 
     <ImageView

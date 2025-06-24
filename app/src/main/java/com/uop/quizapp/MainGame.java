@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.uop.quizapp.ActivityDataStore;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -60,9 +61,12 @@ public class MainGame extends AppCompatActivity {
         initializing();
         viewModel = new ViewModelProvider(this).get(com.uop.quizapp.viewmodels.MainGameViewModel.class);
         //this method takes the questions straight from DB and fills an arraylist for the chosen category
-        fill_arraylist(selectedCategory);
+        loadQuestionsForCategory(selectedCategory);
     }
-    public void fill_arraylist(String selectedCategory) {
+    /**
+     * Load a question for the given category and start the game.
+     */
+    public void loadQuestionsForCategory(String selectedCategory) {
         String categoryKey = selectedCategory;
         if (language.equals("English")) {
             selected_category_tv.setText(categoryKey);
@@ -88,7 +92,7 @@ public class MainGame extends AppCompatActivity {
             public void onLoaded(Questions question) {
                 ArrayList<Questions> list = new ArrayList<>();
                 list.add(question);
-                Startgame(list);
+                startGameWithQuestions(list);
             }
 
             @Override
@@ -98,7 +102,10 @@ public class MainGame extends AppCompatActivity {
         });
     }
 
-    public void Startgame(ArrayList<Questions> questions) {
+    /**
+     * Begin the question round with the provided list of questions.
+     */
+    public void startGameWithQuestions(ArrayList<Questions> questions) {
         startTimer();
         if (questions.isEmpty()) {
             // Handle the case where the list is empty
@@ -116,8 +123,10 @@ public class MainGame extends AppCompatActivity {
         answer_tv.setText(randomQuestion.getAnswer());
     }
 
-    //questions_end method starts when either correct or incorrect button is clicked
-    public void question_end(View view) {
+    /**
+     * Handle the player's answer and update scores accordingly.
+     */
+    public void handleAnswer(View view) {
         //turing answers_is_boolean to false because we don't want onFinish run
         answers_is_boolean = false;
 
@@ -253,7 +262,7 @@ public class MainGame extends AppCompatActivity {
         if (gs.team1Score == gs.score) {
             gs.playingTeam = gs.team2Name;
         }
-        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
+        ActivityDataStore db = ActivityDataStore.getInstance();
         db.setGameState(gs);
         //passing the images back to SelectedCategory.class
         if (team1bitmap != null) {
@@ -308,7 +317,7 @@ public class MainGame extends AppCompatActivity {
         TextView playing_team_tv = findViewById(R.id.playing_team_tv);
 
         //pass selected category from SelectCategory.class to MainGame.class
-        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
+        ActivityDataStore db = ActivityDataStore.getInstance();
         gs = db.getGameState();
         selectedCategory = gs.selectedCategory;
         language = gs.selectedLanguage;
@@ -351,8 +360,10 @@ public class MainGame extends AppCompatActivity {
         }
     }
 
-    // this method is called by the show_hide_bt
-    public void ShowHide(View view) {
+    /**
+     * Toggle visibility of the answer text and control buttons.
+     */
+    public void toggleAnswer(View view) {
         if (answer_tv.getVisibility() == View.GONE) {
             answer_tv.setVisibility(View.VISIBLE);
             correct_bt.setVisibility(View.VISIBLE);
@@ -418,7 +429,7 @@ public class MainGame extends AppCompatActivity {
                             ticking_sound.stop();
                         }
                     }
-                    question_end(incorrect_bt);
+                    handleAnswer(incorrect_bt);
                 }
 
             }

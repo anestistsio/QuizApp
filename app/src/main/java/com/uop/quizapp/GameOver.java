@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.uop.quizapp.ActivityDataStore;
 
 public class GameOver extends AppCompatActivity {
     private TextView winning_tv,team1Name_tv,team2Name_tv,team1Score_tv,team2Score_tv;
@@ -38,7 +39,7 @@ public class GameOver extends AppCompatActivity {
 
     }
     private void initializing(){
-        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
+        ActivityDataStore db = ActivityDataStore.getInstance();
         GameState gs = db.getGameState();
         isMute = gs != null && gs.isMute;
         final MediaPlayer win_sound = MediaPlayer.create(this,R.raw.win_sound);
@@ -101,7 +102,10 @@ public class GameOver extends AppCompatActivity {
 
     }
 
-    public void exit(View view) {
+    /**
+     * Exit the app after the game is over.
+     */
+    public void closeGame(View view) {
         //initialize click sound
         final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
         if (!isMute) {
@@ -110,14 +114,17 @@ public class GameOver extends AppCompatActivity {
         finishAffinity();
         finish();
     }
-    public void restart(View view) {
+    /**
+     * Start a new game using the previously selected options.
+     */
+    public void restartGame(View view) {
         //initialize click sound
         final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
         if (!isMute) {
             click_sound.start();
         }
         Intent intent = new Intent(GameOver.this, MainActivity.class);
-        DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
+        ActivityDataStore db = ActivityDataStore.getInstance();
         db.put("restart_boolean", true);
         GameState gs = db.getGameState();
         if (gs != null) {
@@ -137,7 +144,10 @@ public class GameOver extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    public void shareGameOver(View view) {
+    /**
+     * Share final results using an implicit send intent.
+     */
+    public void shareResults(View view) {
         final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
         if (!isMute) {
             click_sound.start();
