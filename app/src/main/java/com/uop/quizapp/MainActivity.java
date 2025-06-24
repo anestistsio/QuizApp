@@ -36,7 +36,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.uop.quizapp.ActivityDataStore;
 
-import java.io.ByteArrayOutputStream;
+
+import com.uop.quizapp.util.BitmapUtils;
+import com.uop.quizapp.util.SoundUtils;
+import com.uop.quizapp.util.DoubleBackPressExitHandler;
 
 public class MainActivity extends AppCompatActivity{
     private static final String CHANNEL_ID = "myFirebaseChannel";
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity{
     private int score = 12;
     private boolean isMute = false;
     private boolean restart_boolean;
+    private DoubleBackPressExitHandler backPressExitHandler;
     private com.uop.quizapp.viewmodels.MainViewModel viewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         //set orientation portrait locked
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        backPressExitHandler = new DoubleBackPressExitHandler(this);
         viewModel = new ViewModelProvider(this).get(com.uop.quizapp.viewmodels.MainViewModel.class);
 
         initializing();
@@ -98,12 +103,12 @@ public class MainActivity extends AppCompatActivity{
             Bundle ex = getIntent().getExtras();
             team1byte = ex.getByteArray("team1byte");
             if (team1byte != null) {
-                team1bitmap = BitmapFactory.decodeByteArray(team1byte, 0, team1byte.length);
+                team1bitmap = BitmapUtils.fromByteArray(team1byte);
                 team1_iv.setImageBitmap(team1bitmap);
             }
             team2byte = ex.getByteArray("team2byte");
             if (team2byte != null) {
-                team2bitmap = BitmapFactory.decodeByteArray(team2byte, 0, team2byte.length);
+                team2bitmap = BitmapUtils.fromByteArray(team2byte);
                 team2_iv.setImageBitmap(team2bitmap);
             }
 
@@ -135,11 +140,11 @@ public class MainActivity extends AppCompatActivity{
                 team1byte = ex.getByteArray("team1byte");
                 team2byte = ex.getByteArray("team2byte");
                 if (team1byte != null) {
-                        team1bitmap = BitmapFactory.decodeByteArray(team1byte, 0, team1byte.length);
+                        team1bitmap = BitmapUtils.fromByteArray(team1byte);
                         team1_iv.setImageBitmap(team1bitmap);
                 }
                 if (team2byte != null) {
-                    team2bitmap = BitmapFactory.decodeByteArray(team2byte, 0, team2byte.length);
+                    team2bitmap = BitmapUtils.fromByteArray(team2byte);
                     team2_iv.setImageBitmap(team2bitmap);
                 }
 
@@ -153,7 +158,6 @@ public class MainActivity extends AppCompatActivity{
          * Validate team names and navigate to category selection.
          */
         public void openCategorySelection(View view) {
-            final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
             //Check if both team names entered
             t1n = team1_et.getText().toString();
             t2n = team2_et.getText().toString();
@@ -179,9 +183,7 @@ public class MainActivity extends AppCompatActivity{
                     Toast.makeText(MainActivity.this,"Please enter different team names", Toast.LENGTH_SHORT).show();
                 }
             }else{
-                    if (!isMute) {
-                        click_sound.start();
-                    }
+                    SoundUtils.play(this, R.raw.click_sound, isMute);
                     Intent intent = new Intent(MainActivity.this, SelectCategory.class);
                     ActivityDataStore db = ActivityDataStore.getInstance();
                     GameState gs = viewModel.createInitialGameState(t1n, t2n, isMute, score, timeInSeconds, team1bitmap, team2bitmap, language, lastChance);
@@ -269,10 +271,7 @@ public class MainActivity extends AppCompatActivity{
      * Open the settings screen, preserving the current state.
      */
     public void openSettings(View view){
-        final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
-        if (!isMute) {
-            click_sound.start();
-        }
+        SoundUtils.play(this, R.raw.click_sound, isMute);
         Intent intent = new Intent(MainActivity.this,Settings.class);
         ActivityDataStore db = ActivityDataStore.getInstance();
         GameState gs = db.getGameState();
@@ -286,16 +285,10 @@ public class MainActivity extends AppCompatActivity{
         db.put("t2_et", team2_et.getText().toString());
         if (gs != null) {
             if (team1bitmap != null){
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
-                team1byte = bytes.toByteArray();
-                gs.team1byte = team1byte;
+                gs.team1byte = BitmapUtils.toByteArray(team1bitmap);
             }
             if (team2bitmap != null){
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
-                team2byte = bytes.toByteArray();
-                gs.team2byte = team2byte;
+                gs.team2byte = BitmapUtils.toByteArray(team2bitmap);
             }
             db.setGameState(gs);
         }
@@ -305,10 +298,7 @@ public class MainActivity extends AppCompatActivity{
      * Share a link to the app using an implicit intent.
      */
     public void shareApp(View view) {
-        final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
-        if (!isMute) {
-            click_sound.start();
-        }
+        SoundUtils.play(this, R.raw.click_sound, isMute);
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         String subject = "Download this app";
@@ -318,27 +308,12 @@ public class MainActivity extends AppCompatActivity{
         startActivity(Intent.createChooser(intent, "Share using"));
     }
 
-
-    boolean doubleBackToExitPressedOnce = false;
-
     @Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
+        if (backPressExitHandler.onBackPressed()) {
             finishAndRemoveTask();
             this.finishAffinity();
-
         }
-        if(!doubleBackToExitPressedOnce) {
-            this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Please click BACK twice to exit", Toast.LENGTH_SHORT).show();
-        }
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 1000);
     }
     //this method hides the soft keyboard when you touch anywhere else
     @Override

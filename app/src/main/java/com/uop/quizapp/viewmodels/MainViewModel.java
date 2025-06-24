@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.uop.quizapp.GameState;
 
-import java.io.ByteArrayOutputStream;
+import com.uop.quizapp.util.BitmapUtils;
 
 public class MainViewModel extends ViewModel {
     public GameState createInitialGameState(String team1Name,
@@ -38,14 +38,10 @@ public class MainViewModel extends ViewModel {
         gs.lastChance = lastChance;
         gs.isMute = isMute;
         if (team1bitmap != null) {
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            team1bitmap.compress(CompressFormat.JPEG, 100, bytes);
-            gs.team1byte = bytes.toByteArray();
+            gs.team1byte = BitmapUtils.toByteArray(team1bitmap);
         }
         if (team2bitmap != null) {
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            team2bitmap.compress(CompressFormat.JPEG, 100, bytes);
-            gs.team2byte = bytes.toByteArray();
+            gs.team2byte = BitmapUtils.toByteArray(team2bitmap);
         }
         gs.selectedLanguage = language == null ? "English" : language;
         return gs;
