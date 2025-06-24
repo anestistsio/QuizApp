@@ -29,6 +29,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity{
     private int score = 12;
     private boolean isMute = false;
     private boolean restart_boolean;
+    private com.uop.quizapp.viewmodels.MainViewModel viewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         //set orientation portrait locked
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        viewModel = new ViewModelProvider(this).get(com.uop.quizapp.viewmodels.MainViewModel.class);
 
         initializing();
         createNotificationChannel();
@@ -177,37 +180,7 @@ public class MainActivity extends AppCompatActivity{
                     }
                     Intent intent = new Intent(MainActivity.this, SelectCategory.class);
                     DataBetweenActivitiesManager db = DataBetweenActivitiesManager.getInstance();
-                    GameState gs = new GameState();
-                    gs.team1Name = t1n;
-                    gs.team2Name = t2n;
-                    gs.team1Score = 0;
-                    gs.team2Score = 0;
-                    gs.score = score;
-                    gs.playingTeam = t1n;
-                    gs.team1NationalCorrectAnswers = 0;
-                    gs.team2NationalCorrectAnswers = 0;
-                    gs.team1ClubsCorrectAnswers = 0;
-                    gs.team2ClubsCorrectAnswers = 0;
-                    gs.team1GeographyCorrectAnswers = 0;
-                    gs.team2GeographyCorrectAnswers = 0;
-                    gs.team1GeneralCorrectAnswers = 0;
-                    gs.team2GeneralCorrectAnswers = 0;
-                    gs.timeInSeconds = timeInSeconds;
-                    gs.lastChance = lastChance;
-                    gs.isMute = isMute;
-                    if (team1bitmap != null){
-                        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                        team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
-                        team1byte = bytes.toByteArray();
-                        gs.team1byte = team1byte;
-                    }
-                    if (team2bitmap != null){
-                        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                        team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
-                        team2byte = bytes.toByteArray();
-                        gs.team2byte = team2byte;
-                    }
-                    gs.selectedLanguage = (language == null) ? "English" : language;
+                    GameState gs = viewModel.createInitialGameState(t1n, t2n, isMute, score, timeInSeconds, team1bitmap, team2bitmap, language, lastChance);
                     db.setGameState(gs);
                     startActivity(intent);
                     finish();

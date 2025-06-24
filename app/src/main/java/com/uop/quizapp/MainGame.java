@@ -20,14 +20,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import com.google.firebase.database.DatabaseError;
 
 public class MainGame extends AppCompatActivity {
 
@@ -47,6 +45,7 @@ public class MainGame extends AppCompatActivity {
     private boolean isMute;
     private long time_int;
     MediaPlayer ticking_sound;
+    private com.uop.quizapp.viewmodels.MainGameViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +58,11 @@ public class MainGame extends AppCompatActivity {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         // call this method to initialize the start values
         initializing();
+        viewModel = new ViewModelProvider(this).get(com.uop.quizapp.viewmodels.MainGameViewModel.class);
         //this method takes the questions straight from DB and fills an arraylist for the chosen category
         fill_arraylist(selectedCategory);
     }
     public void fill_arraylist(String selectedCategory) {
-        FirebaseDBHelper dbHelper = new FirebaseDBHelper();
         String categoryKey = selectedCategory;
         if (language.equals("English")) {
             selected_category_tv.setText(categoryKey);
@@ -84,14 +83,16 @@ public class MainGame extends AppCompatActivity {
             }
         }
 
-        dbHelper.getQuestionsByCategory(categoryKey, new FirebaseDBHelper.QuestionsCallback() {
+        viewModel.loadRandomQuestion(categoryKey, new com.uop.quizapp.viewmodels.MainGameViewModel.QuestionCallback() {
             @Override
-            public void onQuestionsLoaded(List<Questions> qs) {
-                Startgame(new ArrayList<>(qs));
+            public void onLoaded(Questions question) {
+                ArrayList<Questions> list = new ArrayList<>();
+                list.add(question);
+                Startgame(list);
             }
 
             @Override
-            public void onError(DatabaseError error) {
+            public void onError() {
                 Toast.makeText(MainGame.this, "Error loading questions", Toast.LENGTH_SHORT).show();
             }
         });
@@ -109,15 +110,7 @@ public class MainGame extends AppCompatActivity {
             return;
         }
 
-        FirebaseDBHelper dbHelper = new FirebaseDBHelper();
-        // Select a random question from the list
-        Random random = new Random();
-        Questions randomQuestion = questions.get(random.nextInt(questions.size()));
-
-        // Update the displayed value to true in the database
-        randomQuestion.setDisplayed(true);
-        dbHelper.updateQuestionDisplayed(selectedCategory, randomQuestion);
-
+        Questions randomQuestion = questions.get(0);
         // Display the question
         question_tv.setText(randomQuestion.getQuestion());
         answer_tv.setText(randomQuestion.getAnswer());
