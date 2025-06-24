@@ -1,50 +1,46 @@
 # QuizApp
-ABSTRACT
 
-In this thesis, which was carried out at the Department of Electrical and
-Computer Engineering (ECE) of the University of Peloponnese, which
-belongs to the School of Engineering based in Patras, an Android
-application was developed with the aim of conducting a group Quiz on
-football knowledge. In this app, two teams are pitted against each other
-in a challenging Quiz, aiming to achieve victory. It is necessary to have at
-least two (2) people to start the Quiz. At the conclusion of the Quiz, only
-one winning team emerges, but knowledge and fun are always shared
-among all participants.
-The reasons that led us to choose this topic are the lack of a two-team
-football Quiz Android application in the Greek market, along with our
-great interest in the Android platform whose development has been rapid
-in recent years and covers a very large part of the market for
-smartphones, tablets, wearables, televisions and other technological
-media.
+QuizApp is a team-based football trivia game built for Android devices. Two teams compete to answer questions from four categories: National Teams, Clubs, Geography and General football knowledge. The app currently supports local multiplayer on a single device.
 
-Link : https://drive.google.com/file/d/1GJWAkX12505LVzpWwwmJjMPMocFVHsO6/view?usp=drive_link
+## Gameplay Overview
+* Two teams enter their names and optionally choose team images.
+* Teams take turns selecting a category. Each question is timed.
+* Correct answers earn a point. The first team to reach the configured score wins.
+* Scores per category are tracked so you can see each team's strengths.
+* At the end of the match a summary screen displays the winner and full statistics.
 
-## Firebase Realtime Database Setup
+The question database resides in Firebase Realtime Database. Each question has a `displayed` flag which is set to `true` once used so that questions are not repeated in a single game. A helper class resets these flags at game start.
 
-This project can store quiz questions in Firebase Realtime Database instead of the local SQLite database.
+## Architecture
+The project is written in Java using Android Studio and Gradle. Important components include:
 
-1. [Create a Firebase project](https://console.firebase.google.com/), enable *Realtime Database*, and choose the location `europe-west1`.
-2. Download the updated `google-services.json` file and place it under `app/` (this repository already includes an example configured for `quizapp-41598`).
-3. In the Firebase console open **Realtime Database → Rules** and, for development, allow read/write access:
+* **MainActivity** – entry screen where team names, language and images are chosen.
+* **SelectCategory** – lets the playing team pick a quiz category and view current scores.
+* **MainGame** – displays questions, handles the countdown timer and determines whether answers are correct.
+* **GameOver** – shows the final result and offers rematch or share options.
+* **FirebaseDBHelper** – communicates with Firebase Realtime Database to load questions and mark them as shown.
+* **GameState** – a serializable object used by `DataBetweenActivitiesManager` to pass the current game state between activities.
+* **FMS** – Firebase Messaging Service used for push notifications.
 
-```json
-{
-  "rules": {
-    ".read": true,
-    ".write": true
-  }
-}
-```
+The assets folder contains text files with sample questions that can be uploaded to Firebase using the `scripts/firebase_migrate.py` helper.
 
-   Restrict these rules before releasing the app.
-4. Run Gradle sync so the `firebase-database` dependency is resolved.
-5. Use the migration script to upload the existing questions:
+## Future Roadmap
+The application started as an offline trivia experience but it is designed to be expanded. Upcoming milestones include:
 
-```bash
-python scripts/firebase_migrate.py --auth YOUR_DATABASE_SECRET
-```
+1. **Online Multiplayer** – allow teams on different devices to play against each other over the internet. Firebase Realtime Database or Firestore can keep game state in sync.
+2. **Authentication** – integrate Firebase Authentication with Google Sign-In so players can create profiles and preserve their stats across devices.
+3. **Improved Messaging** – replace the current basic FCM implementation with a more reliable real-time communication channel for turn notifications and lobby chat.
+4. **Topic Expansion** – add more categories and support downloadable question packs so quizzes stay fresh.
+5. **Leverage Free Firebase Features** – such as Remote Config for updating rules without publishing a new app and Analytics to understand user engagement.
 
-Replace `YOUR_DATABASE_SECRET` with an auth token or remove the option if your rules are public.
+## Building the Project
+1. Install Android Studio and ensure the Android SDK is available.
+2. Clone this repository and open it in Android Studio.
+3. Place your `google-services.json` file under `app/` and run Gradle sync so Firebase dependencies are resolved.
+4. Connect a device or start an emulator and press **Run**.
 
-The questions will be uploaded under `questions/<CATEGORY>/<ID>` in the database specified by the `firebase_url` in `google-services.json`.
+The project uses Gradle. Unit tests can be executed with `./gradlew test` (note: on some systems additional Java setup may be required).
+
+## Contributing
+Pull requests are welcome! Open an issue first to discuss major changes. For new features please also include documentation updates so other developers can quickly understand the workflow.
 
