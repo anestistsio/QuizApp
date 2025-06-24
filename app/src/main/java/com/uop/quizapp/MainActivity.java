@@ -35,6 +35,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.uop.quizapp.ActivityDataStore;
+import com.uop.quizapp.repository.FirebaseQuestionRepository;
+import com.uop.quizapp.repository.QuestionRepository;
 
 import java.io.ByteArrayOutputStream;
 
@@ -70,9 +72,9 @@ public class MainActivity extends AppCompatActivity{
 
     }
     private void initializing(){
-        //reset all the displayed values to false in Firebase DB
-        FirebaseDBHelper dbHelper = new FirebaseDBHelper();
-        dbHelper.resetAllDisplayedValues();
+        //reset all the displayed values to false in the data source
+        QuestionRepository repository = new FirebaseQuestionRepository();
+        repository.resetAllDisplayedValues();
 
         team1_et = findViewById(R.id.team1_et);
         team2_et = findViewById(R.id.team2_et);

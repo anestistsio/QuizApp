@@ -1,26 +1,28 @@
-package com.uop.quizapp;
+package com.uop.quizapp.repository;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.uop.quizapp.Questions;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FirebaseDBHelper {
+/**
+ * Firebase-backed implementation of {@link QuestionRepository}.
+ */
+public class FirebaseQuestionRepository implements QuestionRepository {
     private final DatabaseReference rootRef;
 
-    public FirebaseDBHelper() {
-        rootRef = FirebaseDatabase.getInstance("https://quizapp-41598-default-rtdb.europe-west1.firebasedatabase.app").getReference();
+    public FirebaseQuestionRepository() {
+        rootRef = FirebaseDatabase
+                .getInstance("https://quizapp-41598-default-rtdb.europe-west1.firebasedatabase.app")
+                .getReference();
     }
 
-    public interface QuestionsCallback {
-        void onQuestionsLoaded(List<Questions> questions);
-        void onError(DatabaseError error);
-    }
-
+    @Override
     public void getQuestionsByCategory(String category, QuestionsCallback callback) {
         rootRef.child("questions").child(category)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -36,17 +38,19 @@ public class FirebaseDBHelper {
 
                     @Override
                     public void onCancelled(DatabaseError error) {
-                        callback.onError(error);
+                        callback.onError(error.toException());
                     }
                 });
     }
 
+    @Override
     public void updateQuestionDisplayed(String category, Questions question) {
         rootRef.child("questions").child(category)
                 .child(String.valueOf(question.get_id()))
                 .child("displayed").setValue(question.getDisplayed());
     }
 
+    @Override
     public void resetAllDisplayedValues() {
         rootRef.child("questions").get().addOnSuccessListener(snapshot -> {
             for (DataSnapshot cat : snapshot.getChildren()) {
