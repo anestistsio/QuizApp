@@ -5,11 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.uop.quizapp.ActivityDataStore;
+import com.uop.quizapp.util.BitmapUtils;
+import com.uop.quizapp.util.SoundUtils;
+import com.uop.quizapp.util.DoubleBackPressExitHandler;
 
 public class GameOver extends AppCompatActivity {
     private TextView winning_tv,team1Name_tv,team2Name_tv,team1Score_tv,team2Score_tv;
@@ -25,6 +24,7 @@ public class GameOver extends AppCompatActivity {
     private boolean isMute;
     byte[] team1byte;
     byte[] team2byte;
+    private DoubleBackPressExitHandler backPressExitHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +34,7 @@ public class GameOver extends AppCompatActivity {
         setContentView(R.layout.activity_game_over);
         //set orientation portrait locked
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        backPressExitHandler = new DoubleBackPressExitHandler(this);
         // call this method to initialize the start values
         initializing();
 
@@ -42,10 +43,7 @@ public class GameOver extends AppCompatActivity {
         ActivityDataStore db = ActivityDataStore.getInstance();
         GameState gs = db.getGameState();
         isMute = gs != null && gs.isMute;
-        final MediaPlayer win_sound = MediaPlayer.create(this,R.raw.win_sound);
-        if (!isMute) {
-            win_sound.start();
-        }
+        SoundUtils.play(this, R.raw.win_sound, isMute);
         winning_tv = findViewById(R.id.winning_tv);
         team1Name_tv = findViewById(R.id.team1Name_tv);
         team2Name_tv = findViewById(R.id.team2Name_tv);
@@ -65,7 +63,7 @@ public class GameOver extends AppCompatActivity {
         //getting the winning team's image
         byte[] winning_byte = db.get("winning_byte");
         if (winning_byte != null) {
-            Bitmap winning_image = BitmapFactory.decodeByteArray(winning_byte, 0, winning_byte.length);
+            Bitmap winning_image = BitmapUtils.fromByteArray(winning_byte);
             winning_im.setImageBitmap(winning_image);
         }else {
             winning_im.setImageDrawable(getResources().getDrawable(R.drawable.user_im));
@@ -107,10 +105,7 @@ public class GameOver extends AppCompatActivity {
      */
     public void closeGame(View view) {
         //initialize click sound
-        final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
-        if (!isMute) {
-            click_sound.start();
-        }
+        SoundUtils.play(this, R.raw.click_sound, isMute);
         finishAffinity();
         finish();
     }
@@ -119,10 +114,7 @@ public class GameOver extends AppCompatActivity {
      */
     public void restartGame(View view) {
         //initialize click sound
-        final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
-        if (!isMute) {
-            click_sound.start();
-        }
+        SoundUtils.play(this, R.raw.click_sound, isMute);
         Intent intent = new Intent(GameOver.this, MainActivity.class);
         ActivityDataStore db = ActivityDataStore.getInstance();
         db.put("restart_boolean", true);
@@ -148,10 +140,7 @@ public class GameOver extends AppCompatActivity {
      * Share final results using an implicit send intent.
      */
     public void shareResults(View view) {
-        final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
-        if (!isMute) {
-            click_sound.start();
-        }
+        SoundUtils.play(this, R.raw.click_sound, isMute);
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         String subject = "Download this app";
@@ -160,25 +149,11 @@ public class GameOver extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_TEXT, body);
         startActivity(Intent.createChooser(intent, "Share using"));
     }
-    boolean doubleBackToExitPressedOnce = false;
-
     @Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
+        if (backPressExitHandler.onBackPressed()) {
             finishAndRemoveTask();
             this.finishAffinity();
-
         }
-
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK twice to exit", Toast.LENGTH_SHORT).show();
-
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 1000);
     }
 }

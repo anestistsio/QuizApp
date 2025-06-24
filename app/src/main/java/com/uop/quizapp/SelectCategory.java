@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -20,7 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.uop.quizapp.ActivityDataStore;
 
-import java.io.ByteArrayOutputStream;
+
+import com.uop.quizapp.util.BitmapUtils;
+import com.uop.quizapp.util.SoundUtils;
+import com.uop.quizapp.util.DoubleBackPressExitHandler;
 
 public class SelectCategory extends AppCompatActivity {
     private TextView  teamplay_tv,team1_name_tv,team2_name_tv,team1_score_tv,team2_score_tv, team1_geography, team1_general, team1_national, team1_clubs, team2_geography, team2_general, team2_national, team2_clubs;
@@ -40,6 +42,7 @@ public class SelectCategory extends AppCompatActivity {
     ImageButton clubs_bt;
     private boolean isMute;
     private TextView general_tv,geography_tv,national_tv,clubs_tv;
+    private DoubleBackPressExitHandler backPressExitHandler;
     private com.uop.quizapp.viewmodels.SelectCategoryViewModel viewModel;
 
 
@@ -53,6 +56,7 @@ public class SelectCategory extends AppCompatActivity {
         setContentView(R.layout.activity_select_category);
         //set orientation portrait locked
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        backPressExitHandler = new DoubleBackPressExitHandler(this);
         viewModel = new ViewModelProvider(this).get(com.uop.quizapp.viewmodels.SelectCategoryViewModel.class);
         // call this method to initialize the start values
         // and check if any team wins or if any team answers 3 correct questions of any category
@@ -63,8 +67,6 @@ public class SelectCategory extends AppCompatActivity {
      * Start the quiz using the category button that was pressed.
      */
     public void startGame(View view) {
-        //initialize click sound
-        final MediaPlayer click_sound = MediaPlayer.create(this,R.raw.click_sound);
         //check which button user clicked
         switch (view.getId())
         {
@@ -81,9 +83,7 @@ public class SelectCategory extends AppCompatActivity {
                 selectedCategory = Category.GEOGRAPHY;
                 break;
         }
-        if (!isMute) {
-            click_sound.start();
-        }
+        SoundUtils.play(this, R.raw.click_sound, isMute);
         //pass selected category to MainGame.class
         Intent intent = new Intent(SelectCategory.this, MainGame.class);
         ActivityDataStore db = ActivityDataStore.getInstance();
@@ -147,14 +147,14 @@ public class SelectCategory extends AppCompatActivity {
         //getting the images for two teams
         team1byte = gs.team1byte;
         if (team1byte != null) {
-            team1bitmap = BitmapFactory.decodeByteArray(team1byte, 0, team1byte.length);
+            team1bitmap = BitmapUtils.fromByteArray(team1byte);
             team1_im.setImageBitmap(team1bitmap);
         }else {
             team1_im.setImageDrawable(getResources().getDrawable(R.drawable.user_im));
         }
         team2byte = gs.team2byte;
         if (team2byte != null) {
-            team2bitmap = BitmapFactory.decodeByteArray(team2byte, 0, team2byte.length);
+            team2bitmap = BitmapUtils.fromByteArray(team2byte);
             team2_im.setImageBitmap(team2bitmap);
         }else {
             team2_im.setImageDrawable(getResources().getDrawable(R.drawable.user_im));
@@ -237,26 +237,12 @@ public class SelectCategory extends AppCompatActivity {
         }
 
     }
-    boolean doubleBackToExitPressedOnce = false;
-
     @Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
+        if (backPressExitHandler.onBackPressed()) {
             finishAndRemoveTask();
             this.finishAffinity();
-
         }
-
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK twice to exit", Toast.LENGTH_SHORT).show();
-
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 1000);
     }
     /**
      * Display the score overlay and disable category buttons.
@@ -293,26 +279,17 @@ public class SelectCategory extends AppCompatActivity {
         //passing the winning team image
         if (gs.team1Score > gs.team2Score){
             if (team1bitmap != null){
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
-                team1byte = bytes.toByteArray();
-                db.put("winning_byte", team1byte);
+                db.put("winning_byte", BitmapUtils.toByteArray(team1bitmap));
             }else {
                 db.put("winning_byte", null);
             }
         } else if (gs.team1Score == gs.team2Score) {
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.draw);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
-            team1byte = bytes.toByteArray();
-            db.put("winning_byte", team1byte);
+            db.put("winning_byte", BitmapUtils.toByteArray(bitmap));
 
         } else {
             if (team2bitmap != null){
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100,bytes);
-                team2byte = bytes.toByteArray();
-                db.put("winning_byte", team2byte);
+                db.put("winning_byte", BitmapUtils.toByteArray(team2bitmap));
             }else {
                 db.put("winning_byte", null);
             }

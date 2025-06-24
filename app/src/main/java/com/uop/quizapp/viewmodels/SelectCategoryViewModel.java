@@ -6,8 +6,7 @@ import android.graphics.Bitmap.CompressFormat;
 import androidx.lifecycle.ViewModel;
 
 import com.uop.quizapp.GameState;
-
-import java.io.ByteArrayOutputStream;
+import com.uop.quizapp.util.BitmapUtils;
 
 /**
  * Helper ViewModel for preparing game state when a category is chosen.
@@ -22,14 +21,10 @@ public class SelectCategoryViewModel extends ViewModel {
         }
         gs.selectedCategory = selectedCategory;
         if (team1bitmap != null) {
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            team1bitmap.compress(CompressFormat.JPEG, 100, bytes);
-            gs.team1byte = bytes.toByteArray();
+            gs.team1byte = BitmapUtils.toByteArray(team1bitmap);
         }
         if (team2bitmap != null) {
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            team2bitmap.compress(CompressFormat.JPEG, 100, bytes);
-            gs.team2byte = bytes.toByteArray();
+            gs.team2byte = BitmapUtils.toByteArray(team2bitmap);
         }
         return gs;
     }

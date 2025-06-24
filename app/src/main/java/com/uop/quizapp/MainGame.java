@@ -8,8 +8,6 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -23,7 +21,9 @@ import com.uop.quizapp.ActivityDataStore;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.io.ByteArrayOutputStream;
+import com.uop.quizapp.util.BitmapUtils;
+import com.uop.quizapp.util.SoundUtils;
+import com.uop.quizapp.util.DoubleBackPressExitHandler;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -47,6 +47,7 @@ public class MainGame extends AppCompatActivity {
     private long time_int;
     MediaPlayer ticking_sound;
     private com.uop.quizapp.viewmodels.MainGameViewModel viewModel;
+    private DoubleBackPressExitHandler backPressExitHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class MainGame extends AppCompatActivity {
         setContentView(R.layout.activity_main_game);
         //set orientation portrait locked
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        backPressExitHandler = new DoubleBackPressExitHandler(this);
         // call this method to initialize the start values
         initializing();
         viewModel = new ViewModelProvider(this).get(com.uop.quizapp.viewmodels.MainGameViewModel.class);
@@ -134,8 +136,6 @@ public class MainGame extends AppCompatActivity {
         incorrect_bt.setVisibility(View.GONE);
         correct_bt.setVisibility(View.GONE);
         //initialize correct and incorrect sounds
-         MediaPlayer correct_sound = MediaPlayer.create(this, R.raw.correct_sound);
-         MediaPlayer incorrect_sound = MediaPlayer.create(this, R.raw.incorrect_sound);
 
         //checks which button is clicked (correct or incorrect)
         which_button = String.valueOf(view.getId());
@@ -171,9 +171,7 @@ public class MainGame extends AppCompatActivity {
 
             }
             //if correct button clicked then raise the score to the winning team and play correct_sound
-            if (!isMute) {
-                correct_sound.start();
-            }
+            SoundUtils.play(this, R.raw.correct_sound, isMute);
             count.cancel();
             //wait 0.5 s to play sound properly
             try {
@@ -221,9 +219,7 @@ public class MainGame extends AppCompatActivity {
             if (time_int < 10000) {
                 ticking_sound.stop();
             }
-            if (!isMute) {
-                incorrect_sound.start();
-            }
+            SoundUtils.play(this, R.raw.incorrect_sound, isMute);
             count.cancel();
 
             //checks if team 2 lost in last chance
@@ -266,30 +262,23 @@ public class MainGame extends AppCompatActivity {
         db.setGameState(gs);
         //passing the images back to SelectedCategory.class
         if (team1bitmap != null) {
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            team1bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-            gs.team1byte = bytes.toByteArray();
+            gs.team1byte = BitmapUtils.toByteArray(team1bitmap);
         } else {
             gs.team1byte = null;
         }
         if (team2bitmap != null) {
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            team2bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-            gs.team2byte = bytes.toByteArray();
+            gs.team2byte = BitmapUtils.toByteArray(team2bitmap);
         } else {
             gs.team2byte = null;
         }
         db.setGameState(gs);
         //we set visible this layout when the user clicks the incorrect button
         if (changing_team_layout.getVisibility() == View.VISIBLE){
-            final MediaPlayer click_sound = MediaPlayer.create(this, R.raw.click_sound);
             //if the user clicks ok we pass in SelectedCategory.java
             changing_team_bt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!isMute) {
-                        click_sound.start();
-                    }
+                    SoundUtils.play(MainGame.this, R.raw.click_sound, isMute);
                     startActivity(intent);
                 }
             });
@@ -337,11 +326,11 @@ public class MainGame extends AppCompatActivity {
         //getting the images for the teams
         byte[] team1byte = gs.team1byte;
         if (team1byte != null) {
-            team1bitmap = BitmapFactory.decodeByteArray(team1byte, 0, team1byte.length);
+            team1bitmap = BitmapUtils.fromByteArray(team1byte);
         }
         byte[] team2byte = gs.team2byte;
         if (team2byte != null) {
-            team2bitmap = BitmapFactory.decodeByteArray(team2byte, 0, team2byte.length);
+            team2bitmap = BitmapUtils.fromByteArray(team2byte);
 
         }
         if (gs.playingTeam.equals(gs.team1Name)) {
@@ -436,27 +425,13 @@ public class MainGame extends AppCompatActivity {
         };
         count.start();
     }
-    boolean doubleBackToExitPressedOnce = false;
-
     @Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
+        if (backPressExitHandler.onBackPressed()) {
             count.cancel();
             finishAndRemoveTask();
             this.finishAffinity();
-
         }
-
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK twice to exit", Toast.LENGTH_SHORT).show();
-
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 1000);
     }
     @Override
     protected void onStop()
