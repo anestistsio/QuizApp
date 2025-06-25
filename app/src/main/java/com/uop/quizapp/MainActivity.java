@@ -35,6 +35,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.uop.quizapp.ActivityDataStore;
+import com.uop.quizapp.Category;
+import com.uop.quizapp.Questions;
 import com.uop.quizapp.repository.FirebaseQuestionRepository;
 import com.uop.quizapp.repository.QuestionRepository;
 
@@ -77,7 +79,7 @@ public class MainActivity extends AppCompatActivity{
 
     }
     private void initializing(){
-        //reset all the displayed values to false in the data source
+        //reset all the displayed values to false
         QuestionRepository repository = new FirebaseQuestionRepository();
         repository.resetAllDisplayedValues();
         ActivityDataStore db = ActivityDataStore.getInstance();
@@ -217,6 +219,8 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
         }
+        // pre-fetch questions now that score is final
+        prefetchQuestions(repository);
     }
         /**
          * Validate team names and navigate to category selection.
@@ -374,6 +378,37 @@ public class MainActivity extends AppCompatActivity{
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT, body);
         startActivity(Intent.createChooser(intent, "Share using"));
+    }
+
+    /**
+     * Preload a subset of questions for all categories to speed up gameplay.
+     */
+    private void prefetchQuestions(QuestionRepository repository) {
+        int perCategory = score / 4;
+        String[] categories = {
+                Category.NATIONAL,
+                Category.CLUBS,
+                Category.GEOGRAPHY,
+                Category.GENERAL
+        };
+        ActivityDataStore db = ActivityDataStore.getInstance();
+        for (String cat : categories) {
+            repository.getQuestionsByCategory(cat, new QuestionRepository.QuestionsCallback() {
+                @Override
+                public void onQuestionsLoaded(java.util.List<Questions> qs) {
+                    java.util.Collections.shuffle(qs);
+                    if (qs.size() > perCategory) {
+                        qs = new java.util.ArrayList<>(qs.subList(0, perCategory));
+                    }
+                    db.putQuestions(cat, qs);
+                }
+
+                @Override
+                public void onError(Exception error) {
+                    // ignore for prefetch
+                }
+            });
+        }
     }
 
     @Override

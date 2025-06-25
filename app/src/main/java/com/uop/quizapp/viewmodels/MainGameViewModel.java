@@ -46,4 +46,11 @@ public class MainGameViewModel extends ViewModel {
             }
         });
     }
+
+    /**
+     * Persist the displayed state of a question.
+     */
+    public void markQuestionDisplayed(String categoryKey, Questions question) {
+        repository.updateQuestionDisplayed(categoryKey, question);
+    }
 }

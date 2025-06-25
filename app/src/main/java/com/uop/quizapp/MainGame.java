@@ -62,7 +62,7 @@ public class MainGame extends AppCompatActivity {
         // call this method to initialize the start values
         initializing();
         viewModel = new ViewModelProvider(this).get(com.uop.quizapp.viewmodels.MainGameViewModel.class);
-        //this method takes the questions straight from DB and fills an arraylist for the chosen category
+        //load a question for the chosen category from the pre-fetched store
         loadQuestionsForCategory(selectedCategory);
     }
     /**
@@ -89,19 +89,31 @@ public class MainGame extends AppCompatActivity {
             }
         }
 
-        viewModel.loadRandomQuestion(categoryKey, new com.uop.quizapp.viewmodels.MainGameViewModel.QuestionCallback() {
-            @Override
-            public void onLoaded(Questions question) {
-                ArrayList<Questions> list = new ArrayList<>();
-                list.add(question);
-                startGameWithQuestions(list);
-            }
+        ActivityDataStore db = ActivityDataStore.getInstance();
+        java.util.List<Questions> cached = db.getQuestions(categoryKey);
+        if (cached != null && !cached.isEmpty()) {
+            Questions q = cached.remove(0);
+            q.setDisplayed(true);
+            db.putQuestions(categoryKey, cached);
+            viewModel.markQuestionDisplayed(categoryKey, q);
+            ArrayList<Questions> list = new ArrayList<>();
+            list.add(q);
+            startGameWithQuestions(list);
+        } else {
+            viewModel.loadRandomQuestion(categoryKey, new com.uop.quizapp.viewmodels.MainGameViewModel.QuestionCallback() {
+                @Override
+                public void onLoaded(Questions question) {
+                    ArrayList<Questions> list = new ArrayList<>();
+                    list.add(question);
+                    startGameWithQuestions(list);
+                }
 
-            @Override
-            public void onError() {
-                Toast.makeText(MainGame.this, "Error loading questions", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onError() {
+                    Toast.makeText(MainGame.this, "Error loading questions", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     /**
