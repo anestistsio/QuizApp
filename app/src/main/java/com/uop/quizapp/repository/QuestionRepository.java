@@ -14,8 +14,4 @@ public interface QuestionRepository {
     }
 
     void getQuestionsByCategory(String category, QuestionsCallback callback);
-
-    void updateQuestionDisplayed(String category, Questions question);
-
-    void resetAllDisplayedValues();
 }

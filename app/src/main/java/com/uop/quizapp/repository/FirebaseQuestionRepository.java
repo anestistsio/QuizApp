@@ -42,22 +42,4 @@ public class FirebaseQuestionRepository implements QuestionRepository {
                     }
                 });
     }
-
-    @Override
-    public void updateQuestionDisplayed(String category, Questions question) {
-        rootRef.child("questions").child(category)
-                .child(String.valueOf(question.get_id()))
-                .child("displayed").setValue(question.getDisplayed());
-    }
-
-    @Override
-    public void resetAllDisplayedValues() {
-        rootRef.child("questions").get().addOnSuccessListener(snapshot -> {
-            for (DataSnapshot cat : snapshot.getChildren()) {
-                for (DataSnapshot q : cat.getChildren()) {
-                    q.getRef().child("displayed").setValue(false);
-                }
-            }
-        });
-    }
 }

@@ -1,6 +1,8 @@
 package com.uop.quizapp;
 
 import java.io.Serializable;
+import java.util.Map;
+import java.util.Set;
 
 public class GameState implements Serializable {
     public String team1Name;
@@ -24,4 +26,6 @@ public class GameState implements Serializable {
     public byte[] team1byte;
     public byte[] team2byte;
     public String selectedCategory;
+    // Tracks the questions shown for each category in the current session
+    public Map<String, Set<Integer>> displayedQuestionIds;
 }
