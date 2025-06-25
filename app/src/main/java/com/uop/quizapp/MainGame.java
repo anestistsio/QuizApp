@@ -215,14 +215,33 @@ public class MainGame extends AppCompatActivity {
             }
             // incorrect button clicked
         } else {
-            //if the incorrect button clicked then change playing team and play incorrect sound
+            // If the incorrect button was clicked
             if (time_int < 10000) {
                 ticking_sound.stop();
             }
             SoundUtils.play(this, R.raw.incorrect_sound, isMute);
             count.cancel();
 
-            //checks if team 2 lost in last chance
+            // When team 2 loses during their last chance the game should end
+            if (gs.team1Score >= gs.score && gs.lastChance && gs.playingTeam.equals(gs.team2Name)) {
+                gs.lastChance = false;
+                ActivityDataStore db = ActivityDataStore.getInstance();
+                if (team1bitmap != null) {
+                    gs.team1byte = BitmapUtils.toByteArray(team1bitmap);
+                } else {
+                    gs.team1byte = null;
+                }
+                if (team2bitmap != null) {
+                    gs.team2byte = BitmapUtils.toByteArray(team2bitmap);
+                } else {
+                    gs.team2byte = null;
+                }
+                db.setGameState(gs);
+                startActivity(intent);
+                return;
+            }
+
+            //checks if team 2 lost in a normal round
             if (!(gs.team1Score >= gs.score && gs.lastChance)){
                 if (gs.team1Score != gs.score) {
                     changing_team_layout.setVisibility(View.VISIBLE);
