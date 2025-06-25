@@ -24,4 +24,14 @@ public class GameState implements Serializable {
     public byte[] team1byte;
     public byte[] team2byte;
     public String selectedCategory;
+
+    /**
+     * Track the ids of questions shown during the current match per category.
+     * Keys are the category names and values are sets of question ids already
+     * presented for that category. This avoids repeating questions even when
+     * multiple devices are playing simultaneously without modifying the remote
+     * database.
+     */
+    public java.util.Map<String, java.util.Set<Integer>> displayedQuestionIdsByCategory =
+            new java.util.HashMap<>();
 }

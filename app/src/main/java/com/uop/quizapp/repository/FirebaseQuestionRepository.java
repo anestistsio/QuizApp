@@ -45,19 +45,14 @@ public class FirebaseQuestionRepository implements QuestionRepository {
 
     @Override
     public void updateQuestionDisplayed(String category, Questions question) {
-        rootRef.child("questions").child(category)
-                .child(String.valueOf(question.get_id()))
-                .child("displayed").setValue(question.getDisplayed());
+        // Previously this method marked the question as displayed in Firebase.
+        // With multi-user games this caused conflicts, so it is now a no-op.
     }
 
     @Override
     public void resetAllDisplayedValues() {
-        rootRef.child("questions").get().addOnSuccessListener(snapshot -> {
-            for (DataSnapshot cat : snapshot.getChildren()) {
-                for (DataSnapshot q : cat.getChildren()) {
-                    q.getRef().child("displayed").setValue(false);
-                }
-            }
-        });
+        // Resetting flags in the remote database is no longer required when
+        // displayed questions are tracked locally. This method intentionally
+        // performs no action to avoid overwriting data for other players.
     }
 }
