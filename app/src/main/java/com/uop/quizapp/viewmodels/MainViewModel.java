@@ -6,6 +6,7 @@ import android.graphics.Bitmap.CompressFormat;
 import androidx.lifecycle.ViewModel;
 
 import com.uop.quizapp.GameState;
+import java.util.HashMap;
 
 import com.uop.quizapp.util.BitmapUtils;
 
@@ -44,6 +45,7 @@ public class MainViewModel extends ViewModel {
             gs.team2byte = BitmapUtils.toByteArray(team2bitmap);
         }
         gs.selectedLanguage = language == null ? "English" : language;
+        gs.displayedQuestionIds = new HashMap<>();
         return gs;
     }
 }
