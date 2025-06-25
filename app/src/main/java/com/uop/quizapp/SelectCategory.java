@@ -88,6 +88,10 @@ public class SelectCategory extends AppCompatActivity {
         Intent intent = new Intent(SelectCategory.this, MainGame.class);
         ActivityDataStore db = ActivityDataStore.getInstance();
         gs = db.getGameState();
+        if (gs == null) {
+            Toast.makeText(this, "Game state lost", Toast.LENGTH_SHORT).show();
+            return;
+        }
         gs = viewModel.applySelectedCategory(gs, selectedCategory, team1bitmap, team2bitmap);
         db.setGameState(gs);
         startActivity(intent);
@@ -126,6 +130,11 @@ public class SelectCategory extends AppCompatActivity {
         //take the team names and scores and playing team from RedisManager
         ActivityDataStore db = ActivityDataStore.getInstance();
         gs = db.getGameState();
+        if (gs == null) {
+            Toast.makeText(this, "Game state lost", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
         score = gs.score;
         lastChance = gs.lastChance;
 

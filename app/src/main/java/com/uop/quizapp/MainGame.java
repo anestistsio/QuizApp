@@ -141,7 +141,7 @@ public class MainGame extends AppCompatActivity {
         which_button = String.valueOf(view.getId());
         Intent intent = new Intent(MainGame.this, SelectCategory.class);
         if (which_button.equals(String.valueOf(correct_bt.getId()))) {
-            if (time_int < 10000) {
+            if (time_int < 10000 && ticking_sound != null) {
                 ticking_sound.stop();
             }
             if (gs.team2Score < gs.score - 1) {
@@ -216,7 +216,7 @@ public class MainGame extends AppCompatActivity {
             // incorrect button clicked
         } else {
             // If the incorrect button was clicked
-            if (time_int < 10000) {
+            if (time_int < 10000 && ticking_sound != null) {
                 ticking_sound.stop();
             }
             SoundUtils.play(this, R.raw.incorrect_sound, isMute);
@@ -327,6 +327,11 @@ public class MainGame extends AppCompatActivity {
         //pass selected category from SelectCategory.class to MainGame.class
         ActivityDataStore db = ActivityDataStore.getInstance();
         gs = db.getGameState();
+        if (gs == null) {
+            Toast.makeText(this, "Game state lost", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
         selectedCategory = gs.selectedCategory;
         language = gs.selectedLanguage;
         isMute = gs.isMute;
