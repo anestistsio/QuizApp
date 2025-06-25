@@ -227,9 +227,11 @@ public class SelectCategory extends AppCompatActivity {
         team1_score_tv.setText(String.valueOf(gs.team1Score));
         team2_score_tv.setText(String.valueOf(gs.team2Score));
 
-        // if team 1 reach first the score the team 2 has one last chance
+        // if team 1 reached the target score the second team gets only one chance
         if (gs.team1Score >= score && lastChance){
             lastChance = false;
+            gs.lastChance = false;
+            db.setGameState(gs);
         } else if (gs.team2Score >= score) {
             GameEnd();
         } else if (gs.team1Score >= score) {
