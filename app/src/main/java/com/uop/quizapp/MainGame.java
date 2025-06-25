@@ -190,7 +190,9 @@ public class MainGame extends AppCompatActivity {
             }
             //if correct button clicked then raise the score to the winning team and play correct_sound
             SoundUtils.play(this, R.raw.correct_sound, isMute);
-            count.cancel();
+            if (count != null) {
+                count.cancel();
+            }
             //wait 0.5 s to play sound properly
             try {
                 Thread.sleep(600);
@@ -238,7 +240,9 @@ public class MainGame extends AppCompatActivity {
                 ticking_sound.stop();
             }
             SoundUtils.play(this, R.raw.incorrect_sound, isMute);
-            count.cancel();
+            if (count != null) {
+                count.cancel();
+            }
 
             // When team 2 loses during their last chance the game should end
             if (gs.team1Score >= gs.score && gs.lastChance && gs.playingTeam.equals(gs.team2Name)) {
@@ -466,7 +470,9 @@ public class MainGame extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (backPressExitHandler.onBackPressed()) {
-            count.cancel();
+            if (count != null) {
+                count.cancel();
+            }
             finishAndRemoveTask();
             this.finishAffinity();
         }
@@ -475,7 +481,9 @@ public class MainGame extends AppCompatActivity {
     protected void onStop()
     {
         super.onStop();
-        count.cancel();
+        if (count != null) {
+            count.cancel();
+        }
     }
 
 }
