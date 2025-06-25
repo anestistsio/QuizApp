@@ -9,7 +9,7 @@ QuizApp is a team-based football trivia game built for Android devices. Two team
 * Scores per category are tracked so you can see each team's strengths.
 * At the end of the match a summary screen displays the winner and full statistics.
 
-The question database resides in Firebase Realtime Database. Each question has a `displayed` flag which is set to `true` once used so that questions are not repeated in a single game. A helper class resets these flags at game start.
+The question database resides in Firebase Realtime Database. Question reuse is avoided by keeping track of question ids in memory for the current match. This prevents conflicts when multiple devices play at the same time without modifying the remote data.
 
 ## Architecture
 The project is written in Java using Android Studio and Gradle. Important components include:

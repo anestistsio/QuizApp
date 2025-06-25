@@ -16,6 +16,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ProgressBar;
+import android.os.Handler;
+import android.os.Looper;
 import com.uop.quizapp.ActivityDataStore;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,6 +49,7 @@ public class MainGame extends AppCompatActivity {
     private boolean isMute;
     private long time_int;
     MediaPlayer ticking_sound;
+    private ProgressBar loading_pb;
     private com.uop.quizapp.viewmodels.MainGameViewModel viewModel;
     private DoubleBackPressExitHandler backPressExitHandler;
 
@@ -89,9 +93,16 @@ public class MainGame extends AppCompatActivity {
             }
         }
 
-        viewModel.loadRandomQuestion(categoryKey, new com.uop.quizapp.viewmodels.MainGameViewModel.QuestionCallback() {
+        loading_pb.setVisibility(View.VISIBLE);
+        question_tv.setVisibility(View.INVISIBLE);
+        show_hide_bt.setVisibility(View.INVISIBLE);
+        answer_tv.setVisibility(View.GONE);
+        answeris_tv.setVisibility(View.GONE);
+        viewModel.loadRandomQuestion(categoryKey, gs.displayedQuestionIds, new com.uop.quizapp.viewmodels.MainGameViewModel.QuestionCallback() {
             @Override
             public void onLoaded(Questions question) {
+                gs.displayedQuestionIds.add(question.get_id());
+                ActivityDataStore.getInstance().setGameState(gs);
                 ArrayList<Questions> list = new ArrayList<>();
                 list.add(question);
                 startGameWithQuestions(list);
@@ -100,6 +111,7 @@ public class MainGame extends AppCompatActivity {
             @Override
             public void onError() {
                 Toast.makeText(MainGame.this, "Error loading questions", Toast.LENGTH_SHORT).show();
+                loading_pb.setVisibility(View.GONE);
             }
         });
     }
@@ -108,7 +120,10 @@ public class MainGame extends AppCompatActivity {
      * Begin the question round with the provided list of questions.
      */
     public void startGameWithQuestions(ArrayList<Questions> questions) {
-        startTimer();
+        loading_pb.setVisibility(View.GONE);
+        question_tv.setVisibility(View.VISIBLE);
+        show_hide_bt.setVisibility(View.VISIBLE);
+
         if (questions.isEmpty()) {
             // Handle the case where the list is empty
             if (!language.equals("English")){
@@ -120,9 +135,12 @@ public class MainGame extends AppCompatActivity {
         }
 
         Questions randomQuestion = questions.get(0);
-        // Display the question
-        question_tv.setText(randomQuestion.getQuestion());
-        answer_tv.setText(randomQuestion.getAnswer());
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            startTimer();
+            // Display the question
+            question_tv.setText(randomQuestion.getQuestion());
+            answer_tv.setText(randomQuestion.getAnswer());
+        }, 300);
     }
 
     /**
@@ -172,7 +190,9 @@ public class MainGame extends AppCompatActivity {
             }
             //if correct button clicked then raise the score to the winning team and play correct_sound
             SoundUtils.play(this, R.raw.correct_sound, isMute);
-            count.cancel();
+            if (count != null) {
+                count.cancel();
+            }
             //wait 0.5 s to play sound properly
             try {
                 Thread.sleep(600);
@@ -220,7 +240,9 @@ public class MainGame extends AppCompatActivity {
                 ticking_sound.stop();
             }
             SoundUtils.play(this, R.raw.incorrect_sound, isMute);
-            count.cancel();
+            if (count != null) {
+                count.cancel();
+            }
 
             // When team 2 loses during their last chance the game should end
             if (gs.team1Score >= gs.score && gs.lastChance && gs.playingTeam.equals(gs.team2Name)) {
@@ -322,6 +344,7 @@ public class MainGame extends AppCompatActivity {
         changing_team_tv = findViewById(R.id.changing_team_tv);
         changing_team_layout = findViewById(R.id.changing_team_layout);
         top = findViewById(R.id.top);
+        loading_pb = findViewById(R.id.loading_pb);
         TextView playing_team_tv = findViewById(R.id.playing_team_tv);
 
         //pass selected category from SelectCategory.class to MainGame.class
@@ -447,7 +470,9 @@ public class MainGame extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (backPressExitHandler.onBackPressed()) {
-            count.cancel();
+            if (count != null) {
+                count.cancel();
+            }
             finishAndRemoveTask();
             this.finishAffinity();
         }
@@ -456,7 +481,9 @@ public class MainGame extends AppCompatActivity {
     protected void onStop()
     {
         super.onStop();
-        count.cancel();
+        if (count != null) {
+            count.cancel();
+        }
     }
 
 }
