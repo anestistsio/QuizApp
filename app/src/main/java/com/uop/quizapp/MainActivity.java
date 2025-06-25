@@ -10,8 +10,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.provider.MediaStore;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,8 +33,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.uop.quizapp.ActivityDataStore;
-import com.uop.quizapp.repository.FirebaseQuestionRepository;
-import com.uop.quizapp.repository.QuestionRepository;
+import com.uop.quizapp.GameState;
 
 
 import com.uop.quizapp.util.BitmapUtils;
@@ -77,10 +74,13 @@ public class MainActivity extends AppCompatActivity{
 
     }
     private void initializing(){
-        //reset all the displayed values to false in the data source
-        QuestionRepository repository = new FirebaseQuestionRepository();
-        repository.resetAllDisplayedValues();
+        // reset stored question ids for a new game
         ActivityDataStore db = ActivityDataStore.getInstance();
+        GameState existing = db.getGameState();
+        if (existing != null && existing.displayedQuestionIds != null) {
+            existing.displayedQuestionIds.clear();
+            db.setGameState(existing);
+        }
 
         team1_et = findViewById(R.id.team1_et);
         team2_et = findViewById(R.id.team2_et);

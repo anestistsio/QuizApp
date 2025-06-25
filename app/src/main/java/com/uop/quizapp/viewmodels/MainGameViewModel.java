@@ -8,6 +8,8 @@ import com.uop.quizapp.repository.QuestionRepository;
 
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
+import java.util.ArrayList;
 
 public class MainGameViewModel extends ViewModel {
     private final QuestionRepository repository;
@@ -25,7 +27,9 @@ public class MainGameViewModel extends ViewModel {
         void onError();
     }
 
-    public void loadRandomQuestion(String categoryKey, QuestionCallback callback) {
+    public void loadRandomQuestion(String categoryKey,
+                                  java.util.Set<Integer> usedIds,
+                                  QuestionCallback callback) {
         repository.getQuestionsByCategory(categoryKey, new QuestionRepository.QuestionsCallback() {
             @Override
             public void onQuestionsLoaded(List<Questions> qs) {
@@ -33,10 +37,18 @@ public class MainGameViewModel extends ViewModel {
                     callback.onError();
                     return;
                 }
+                List<Questions> available = new java.util.ArrayList<>();
+                for (Questions q : qs) {
+                    if (!usedIds.contains(q.get_id())) {
+                        available.add(q);
+                    }
+                }
+                if (available.isEmpty()) {
+                    callback.onError();
+                    return;
+                }
                 Random random = new Random();
-                Questions randomQuestion = qs.get(random.nextInt(qs.size()));
-                randomQuestion.setDisplayed(true);
-                repository.updateQuestionDisplayed(categoryKey, randomQuestion);
+                Questions randomQuestion = available.get(random.nextInt(available.size()));
                 callback.onLoaded(randomQuestion);
             }
 
