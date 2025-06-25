@@ -42,6 +42,8 @@ import com.uop.quizapp.util.DoubleBackPressExitHandler;
 
 public class MainActivity extends AppCompatActivity{
     private static final String CHANNEL_ID = "myFirebaseChannel";
+    private static final int CAMERA_PERMISSION_REQUEST = 101;
+    private static final int IMAGE_CAPTURE_REQUEST = 100;
     private byte[] team1byte,team2byte;
     private EditText team1_et,team2_et;
     private String t1n,t2n,language; //team 1 name and team 2 name
@@ -263,25 +265,42 @@ public class MainActivity extends AppCompatActivity{
      * Launch the camera to capture a team photo.
      */
     public void captureTeamImage(View view){
-
-        if (ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(MainActivity.this , new String[]{
-                    Manifest.permission.CAMERA
-            },100);
+        id = view.getId();
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.CAMERA},
+                    CAMERA_PERMISSION_REQUEST);
+            return;
         }
+        dispatchTakePictureIntent();
+    }
+
+    private void dispatchTakePictureIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Launch the camera intent to capture an image
-        startActivityForResult(intent, 100,null);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, IMAGE_CAPTURE_REQUEST, null);
+        } else {
+            Toast.makeText(this, "Camera not available", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-        //we put the pressed button's id in this variable
-        id=view.getId();
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == CAMERA_PERMISSION_REQUEST) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                dispatchTakePictureIntent();
+            } else {
+                Toast.makeText(this, "Camera permission required", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == RESULT_OK){
+        if (requestCode == IMAGE_CAPTURE_REQUEST && resultCode == RESULT_OK){
             if (data != null) {
                 bitmap = (Bitmap) data.getExtras().get("data");
                 //we check which button is pressed to put the image to the right image view
@@ -297,8 +316,8 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
 
-        }else {
-            Toast.makeText(this, "PERMISSION DENIED", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Image capture failed", Toast.LENGTH_SHORT).show();
         }
     }
 
